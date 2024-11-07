@@ -11,7 +11,8 @@ guiRecord.py records and creates a file using internal mic.
 
 Documentation added to prototype files.
 
-gui2 updated with added documentation to play UI named file contained in root folder.
+gui2.py updated with added documentation to play UI named file contained in root folder.
 gui.py updated with added doc, user can now specify freq & time in UI.
 
+gui2.py works with a dropdown selector displaying all available .wav files in root folder
 

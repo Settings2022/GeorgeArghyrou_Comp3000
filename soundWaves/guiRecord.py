@@ -43,7 +43,7 @@ stream.stop_stream()
 stream.close()
 p.terminate()
 
-obj = wave.open('3000.wav', 'wb')
+obj = wave.open('tash.wav', 'wb')
 obj.setnchannels(CHANNELS)
 obj.setsampwidth(p.get_sample_size(FORMAT))
 obj.setframerate(RATE)

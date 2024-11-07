@@ -1,4 +1,3 @@
-import tkinter as tk
 """
 This script creates a Tkinter GUI application that allows users to load, display, and play sound waveforms from .wav files. 
 The waveform is plotted using Matplotlib and the sound is played using the winsound module.
@@ -26,6 +25,7 @@ Tkinter Widgets:
     ax (Axes): Matplotlib axes for the figure.
     canvas (FigureCanvasTkAgg): Canvas to embed the Matplotlib figure in the Tkinter window.
 """
+import tkinter as tk
 from tkinter import messagebox
 import numpy as np
 import matplotlib.pyplot as plt
@@ -36,6 +36,7 @@ from matplotlib.animation import FuncAnimation
 import time
 import wave
 import struct
+import os # for file selection
 
 # Initialize global variables
 t = np.array([])
@@ -43,6 +44,25 @@ waveform = np.array([])
 duration = 0
 start_time = 0
 ani = None
+
+# Function to get all .wav files in the 'soundWaves' folder
+def get_wav_files():
+    folder_path = "."  # Use the current directory 'soundWaves'
+    wav_files = [f for f in os.listdir(folder_path) if f.endswith('.wav')]
+    return wav_files
+
+# Get the list of .wav files
+wav_files = get_wav_files()
+if not wav_files:
+    wav_files = ["No .wav files found"]  # Display a message if no .wav files are available
+
+# Function to get the selected file path from the dropdown menu
+def get_selected_file_path():
+    return selected_file.get()  # Only returns the selected filename
+
+# Test function to show the selected file
+def show_selected_file():
+    print("Selected file path:", get_selected_file_path())
 
 def load_waveform(file_path):
     global t, waveform
@@ -67,7 +87,7 @@ def load_waveform(file_path):
 
 def display_waveform_from_file():    
     try:
-        file_path = file_path_entry.get()  # Get the file path from the entry
+        file_path = get_selected_file_path()  # Get the file path from the entry
 
         # Load waveform from the .wav file
         load_waveform(file_path)
@@ -89,7 +109,7 @@ def play_sound_and_plot_from_file():
     global start_time, ani
     
     try:
-        file_path = file_path_entry.get()  # Get the file path from the entry
+        file_path = get_selected_file_path()  # Get the file path from the entry
 
         # Load waveform from the .wav file
         load_waveform(file_path)
@@ -129,13 +149,22 @@ root = tk.Tk()
 root.geometry("2000x1600")  # Set the window size to 1000x800 pixels
 root.title("Sound Player")
 
-# Create and place the file path entry
-tk.Label(root, text="Enter file path:", font=("Helvetica", 20)).pack(pady=5)
-file_path_entry = tk.Entry(root, width=30, font=("Helvetica", 16))
-file_path_entry.pack(pady=5)
+# Variable to store the selected file
+selected_file = tk.StringVar(root)
+selected_file.set(wav_files[0])  # Set default value for the dropdown
+
+# Create and place the dropdown menu for file selection
+tk.Label(root, text="Select .wav file:", font=("Helvetica", 20)).pack(pady=5)
+file_dropdown = tk.OptionMenu(root, selected_file, *wav_files,)
+file_dropdown.config(width=20, height=2, font=("Helvetica", 20))
+file_dropdown.pack(pady=5)
+
+# Configure the dropdown menu to have larger text for the displayed list of files
+menu = root.nametowidget(file_dropdown.menuname)
+menu.config(font=("Helvetica", 20))
 
 # Create and place the play button
-play_button = tk.Button(root, text="Play Sound", command=play_sound_and_plot_from_file, width=20, height=2, font=("Helvetica", 16))
+play_button = tk.Button(root, text="Play Sound", command=play_sound_and_plot_from_file, width=20, height=2, font=("Helvetica", 20))
 play_button.pack(pady=20)
 
 # Create a frame to hold the plot and set up the figure and axis
