@@ -20,3 +20,13 @@ added guitar tuners in python.
 python_tuner
 pythonGuitarTuner
 both require much refinement.
+
+Key Changes to pythonGuitarTuner:
+Tuning Needle:
+The needle_canvas shows a green line that represents the tuning needle.
+The update_tuning_needle method calculates the shift in the needle position based on how far off 
+the detected frequency is from the target frequency, within a limited range for smooth visualization.
+Waveform Visualization:
+The waveform_canvas is used to display the waveform.
+The update_waveform method clears the previous waveform and draws a new one based on the 
+current audio data. The audio data is normalized and scaled for a consistent visual effect.

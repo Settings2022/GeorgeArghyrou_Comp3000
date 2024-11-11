@@ -1,7 +1,6 @@
 import numpy as np  # Importing the numpy library for numerical operations
 import pyaudio  # Importing the PyAudio library to access the audio stream
 
-
 # Constants
 CHUNK = 4096  # Number of samples per frame
 FORMAT = pyaudio.paInt16  # 16-bit audio format
