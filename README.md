@@ -16,3 +16,7 @@ gui.py updated with added doc, user can now specify freq & time in UI.
 
 gui2.py works with a dropdown selector displaying all available .wav files in root folder
 
+added guitar tuners in python.
+python_tuner
+pythonGuitarTuner
+both require much refinement.

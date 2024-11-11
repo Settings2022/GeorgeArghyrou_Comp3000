@@ -22,7 +22,7 @@ Variables:
     times: Array of time values corresponding to the audio signal.
 """
 
-obj = wave.open('testSound.wav','r')
+obj = wave.open('kathryn.wav','r')
 
 sample_freq = obj.getframerate()
 num_samples = obj.getnframes()

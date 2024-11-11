@@ -1,31 +1,40 @@
+
+import tkinter as tk
 """
-This script creates a Tkinter GUI application that allows users to load, display, and play sound waveforms from .wav files. 
-The waveform is plotted using Matplotlib and the sound is played using the winsound module.
+This script creates a Tkinter GUI application for playing and visualizing .wav sound files.
+It includes functionalities to load .wav files, display their waveforms, and play the sound
+while animating the waveform plot.
 Functions:
+    get_wav_files():
+        Retrieves all .wav files in the current directory.
+    get_selected_file_path():
+        Returns the selected file path from the dropdown menu.
+    show_selected_file():
+        Prints the selected file path for testing purposes.
     load_waveform(file_path):
-        Loads waveform data from a .wav file and returns the time and waveform arrays.
+        Loads waveform data from a specified .wav file.
     display_waveform_from_file():
-        Loads and displays the waveform from the file path specified in the entry widget.
+        Displays the waveform of the selected .wav file in the plot.
     play_sound_and_plot_from_file():
-        Loads the waveform, plays the sound, and animates the plot to match the sound duration.
+        Plays the sound of the selected .wav file and animates the waveform plot.
     update_plot(i):
-        Updates the plot incrementally based on the elapsed time since the sound started playing.
+        Updates the plot incrementally based on the elapsed time during sound playback.
 Global Variables:
-    t (numpy array): Time array for the waveform.
+    t (numpy array): Time values for the waveform.
     waveform (numpy array): Amplitude values of the waveform.
-    duration (int): Duration of the sound in seconds.
+    duration (int): Duration of the sound file.
     start_time (float): Start time of the sound playback.
     ani (FuncAnimation): Animation object for updating the plot.
-Tkinter Widgets:
-    root (Tk): The main window of the application.
-    file_path_entry (Entry): Entry widget for the user to input the file path.
-    play_button (Button): Button to start playing the sound and plotting the waveform.
+GUI Elements:
+    root (Tk): Main window of the application.
+    selected_file (StringVar): Variable to store the selected file.
+    file_dropdown (OptionMenu): Dropdown menu for file selection.
+    play_button (Button): Button to play the sound and animate the plot.
     plot_frame (Frame): Frame to hold the plot.
-    fig (Figure): Matplotlib figure for plotting the waveform.
-    ax (Axes): Matplotlib axes for the figure.
-    canvas (FigureCanvasTkAgg): Canvas to embed the Matplotlib figure in the Tkinter window.
+    fig (Figure): Matplotlib figure for plotting.
+    ax (Axes): Matplotlib axes for plotting.
+    canvas (FigureCanvasTkAgg): Canvas to embed the plot in the Tkinter window.
 """
-import tkinter as tk
 from tkinter import messagebox
 import numpy as np
 import matplotlib.pyplot as plt
