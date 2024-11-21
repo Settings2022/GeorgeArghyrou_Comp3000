@@ -30,3 +30,6 @@ Waveform Visualization:
 The waveform_canvas is used to display the waveform.
 The update_waveform method clears the previous waveform and draws a new one based on the 
 current audio data. The audio data is normalized and scaled for a consistent visual effect.
+
+Soundwaves interface created to access each function.
+
