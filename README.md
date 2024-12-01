@@ -34,3 +34,4 @@ current audio data. The audio data is normalized and scaled for a consistent vis
 Soundwaves interface created to access each function.
 
 Tabs added to frontPage.py for each gui.
+guiRecord.py user can set recording duration in seconds.

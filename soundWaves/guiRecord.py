@@ -14,14 +14,31 @@ FRAMES_PER_BUFFER = 3200
 FORMAT = pyaudio.paInt16
 CHANNELS = 1
 RATE = 44100
-RECORD_SECONDS = 5  # Default duration of the recording in seconds
 
 def guiRecord_main(parent_frame):
-    # Create a button that starts the recording process within the parent frame
-    start_button = tk.Button(parent_frame, text="Start Recording", font=("Helvetica", 16), command=lambda: start_recording(parent_frame))
+    # Create a label and entry field for the user to input the recording time
+    time_label = tk.Label(parent_frame, text="Enter recording duration in seconds:", font=("Helvetica", 12))
+    time_label.pack(pady=10)
+
+    time_entry = tk.Entry(parent_frame, font=("Helvetica", 12))
+    time_entry.pack(pady=10)
+    time_entry.insert(0, "5")  # Default value is 5 seconds
+
+    # Create a button that starts the recording process
+    start_button = tk.Button(parent_frame, text="Start Recording", font=("Helvetica", 16), command=lambda: start_recording(parent_frame, time_entry.get()))
     start_button.pack(pady=20)
 
-def start_recording(parent_frame):
+def start_recording(parent_frame, time_input):
+    try:
+        # Convert the user input to an integer (duration of the recording in seconds)
+        RECORD_SECONDS = int(time_input)
+        if RECORD_SECONDS <= 0:
+            raise ValueError("Duration must be a positive integer.")
+    except ValueError:
+        # If the user inputs an invalid value, show an error message
+        messagebox.showerror("Invalid Input", "Please enter a valid positive integer for the duration.")
+        return
+
     p = pyaudio.PyAudio()
 
     stream = p.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True, frames_per_buffer=FRAMES_PER_BUFFER)
@@ -77,4 +94,3 @@ def start_recording(parent_frame):
 
     # You can add additional behavior to hide the plot after completion if necessary
     plt.close(fig)
-
