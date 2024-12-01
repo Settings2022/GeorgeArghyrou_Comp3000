@@ -35,5 +35,5 @@ Soundwaves interface created to access each function.
 
 Tabs added to frontPage.py for each gui.
 guiRecord.py user can set recording duration in seconds.
-guiRecord.py user can enter an alphanumeric filename saved as .wav
-
+guiRecord.py user can enter an alphanumeric filename, saved as .wav
+guiRecord.py checks if filename already exists.

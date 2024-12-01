@@ -58,6 +58,11 @@ def start_recording(parent_frame, time_input, filename_input):
     # Add the .wav extension to the filename
     output_filename = os.path.join(os.getcwd(), filename_input + ".wav")
 
+    # Check if the file already exists
+    if os.path.exists(output_filename):
+        messagebox.showerror("File Exists", f"The file '{filename_input}.wav' already exists. Please choose a different filename.")
+        return
+
     p = pyaudio.PyAudio()
 
     stream = p.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True, frames_per_buffer=FRAMES_PER_BUFFER)
