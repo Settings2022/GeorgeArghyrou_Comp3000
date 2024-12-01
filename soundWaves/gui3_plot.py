@@ -5,13 +5,10 @@ import matplotlib.pyplot as plt
 import tkinter as tk
 from tkinter import ttk
 
-def gui3_plot_main():
-    # Create a tkinter window
-    root = tk.Tk()
-    root.title("Sound Waveform Plotter")
-
+# Function to initialize the waveform plotting GUI
+def gui3_plot_main(parent_frame):
     # Create a label for instructions
-    label = tk.Label(root, text="Select a WAV file to plot the waveform", font=("Helvetica", 14))
+    label = tk.Label(parent_frame, text="Select a WAV file to plot the waveform", font=("Helvetica", 14))
     label.pack(pady=20)
 
     # List all WAV files in the current directory
@@ -19,36 +16,37 @@ def gui3_plot_main():
 
     if wav_files:
         # Create a dropdown (Combobox) for selecting a WAV file
-        combo_box = ttk.Combobox(root, values=wav_files, font=("Helvetica", 14), state="readonly")
+        combo_box = ttk.Combobox(parent_frame, values=wav_files, font=("Helvetica", 14), state="readonly")
         combo_box.set("Select WAV File")  # Set default text
         combo_box.pack(pady=20)
 
         # Create a button to plot the waveform of the selected file
-        button = tk.Button(root, text="Plot Waveform", font=("Helvetica", 16), command=lambda: plot_waveform(root, combo_box.get()))
+        button = tk.Button(
+            parent_frame,
+            text="Plot Waveform",
+            font=("Helvetica", 16),
+            command=lambda: plot_waveform(combo_box.get())
+        )
         button.pack(pady=20)
     else:
         # If no WAV files are found in the current directory, show a message
-        no_files_label = tk.Label(root, text="No WAV files found in the current directory.", font=("Helvetica", 14), fg="red")
+        no_files_label = tk.Label(parent_frame, text="No WAV files found in the current directory.", font=("Helvetica", 14), fg="red")
         no_files_label.pack(pady=20)
 
-    # Run the tkinter main loop
-    root.mainloop()
+# Function to plot the waveform of the selected file
+def plot_waveform(selected_file):
+    if selected_file == "Select WAV File" or not selected_file:
+        return  # Ignore if no valid file is selected
 
-def plot_waveform(root, selected_file):
-    if selected_file:
+    try:
         # Process the selected WAV file
-        obj = wave.open(selected_file, 'r')
-
-        sample_freq = obj.getframerate()
-        num_samples = obj.getnframes()
-        signal_wave = obj.readframes(-1)
-
-        obj.close()
+        with wave.open(selected_file, 'r') as obj:
+            sample_freq = obj.getframerate()
+            num_samples = obj.getnframes()
+            signal_wave = obj.readframes(-1)
 
         t_audio = num_samples / sample_freq
-
         signal_array = np.frombuffer(signal_wave, dtype=np.int16)
-
         times = np.linspace(0, t_audio, len(signal_array))
 
         # Create the plot for the waveform
@@ -59,7 +57,11 @@ def plot_waveform(root, selected_file):
         plt.title('Sound Waveform')
         plt.grid()
 
-        plt.show()
+        # Display the plot in a non-blocking way
+        plt.show(block=False)
 
-        # After plotting, close the tkinter window
-        root.quit()
+    except Exception as e:
+        # Handle any errors and display a message if needed
+        error_message = f"An error occurred while processing the file: {e}"
+        print(error_message)
+        tk.messagebox.showerror("Error", error_message)

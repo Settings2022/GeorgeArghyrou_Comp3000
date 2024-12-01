@@ -14,27 +14,20 @@ FRAMES_PER_BUFFER = 3200
 FORMAT = pyaudio.paInt16
 CHANNELS = 1
 RATE = 44100
-RECORD_SECONDS = 10  # Define the duration of the recording in seconds
+RECORD_SECONDS = 5  # Default duration of the recording in seconds
 
-def guiRecord_main():
-    # Initialize tkinter window for GUI interaction
-    root = tk.Tk()
-    root.title("Audio Recorder")
-
-    # Create a button that starts the recording process
-    start_button = tk.Button(root, text="Start Recording", font=("Helvetica", 16), command=lambda: start_recording(root))
+def guiRecord_main(parent_frame):
+    # Create a button that starts the recording process within the parent frame
+    start_button = tk.Button(parent_frame, text="Start Recording", font=("Helvetica", 16), command=lambda: start_recording(parent_frame))
     start_button.pack(pady=20)
 
-    # Run the tkinter main loop
-    root.mainloop()
-
-def start_recording(root):
+def start_recording(parent_frame):
     p = pyaudio.PyAudio()
 
     stream = p.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True, frames_per_buffer=FRAMES_PER_BUFFER)
 
     # Set up the plot for waveform display
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(8, 4))
     x = np.arange(0, 2 * FRAMES_PER_BUFFER, 2)
     line, = ax.plot(x, np.random.rand(FRAMES_PER_BUFFER))
     ax.set_ylim(-32768, 32767)
@@ -59,6 +52,9 @@ def start_recording(root):
     # Set up the animation
     ani = animation.FuncAnimation(fig, update, data_gen, blit=True, interval=50)
 
+    # Display the plot in a non-blocking manner
+    plt.show(block=False)
+
     # Start recording for the specified duration
     start_time = time.time()
     while time.time() - start_time < RECORD_SECONDS:
@@ -79,6 +75,6 @@ def start_recording(root):
     # Inform the user that the recording is saved
     messagebox.showinfo("Recording Complete", f"Recording saved as {output_filename}")
 
-    # Close the tkinter window after saving the file
-    root.quit()
+    # You can add additional behavior to hide the plot after completion if necessary
+    plt.close(fig)
 

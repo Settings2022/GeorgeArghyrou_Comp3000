@@ -1,58 +1,67 @@
 import tkinter as tk
 from tkinter import messagebox
-import os
+from tkinter import ttk
 from gui import gui_main
 from gui2 import gui2_main
 from gui3 import gui3_main
 from gui3_plot import gui3_plot_main
 from guiRecord import guiRecord_main
+from lowPassFilter import low_pass_filter_main
 
 # Placeholder functions for the features
-def open_gui():
-    gui_main()
+def open_gui(parent_frame):
+    gui_main(parent_frame)
 
-def open_gui2():
-    gui2_main()
+def open_gui2(parent_frame):
+    gui2_main(parent_frame)
 
-def open_gui3():
-    gui3_main()
+def open_gui3(parent_frame):
+    gui3_main(parent_frame)
 
-def open_gui3_plot():
-    gui3_plot_main()
+def open_gui3_plot(parent_frame):
+    gui3_plot_main(parent_frame)
 
-def open_guiRecord():
-    guiRecord_main()
+def open_guiRecord(parent_frame):
+    guiRecord_main(parent_frame)
+
+def open_low_pass_filter(parent_frame):
+    low_pass_filter_main(parent_frame)
 
 # Main Application
 def main_interface():
     root = tk.Tk()
     root.title("Final Year Project: Unified Interface")
-    root.geometry("500x400")
+    root.geometry("800x600")
 
-    # Header
-    header = tk.Label(root, text="Welcome to SoundWaves Project", font=("Helvetica", 16, "bold"))
-    header.pack(pady=20)
+    # Create a notebook (tabbed interface)
+    notebook = ttk.Notebook(root)
+    notebook.pack(fill="both", expand=True)
 
-    # Buttons to open functionalities
-    gui_button = tk.Button(root, text="Open Gui!", command=open_gui, width=20, height=2)
-    gui_button.pack(pady=10)
+    # Create frames for each tab
+    tab1_frame = ttk.Frame(notebook)
+    tab2_frame = ttk.Frame(notebook)
+    tab3_frame = ttk.Frame(notebook)
+    tab4_frame = ttk.Frame(notebook)
+    tab5_frame = ttk.Frame(notebook)
+    tab6_frame = ttk.Frame(notebook)
 
-    gui2_button = tk.Button(root, text="Open Gui2!", command=open_gui2, width=20, height=2)
-    gui2_button.pack(pady=10)
+    # Add tabs to the notebook
+    notebook.add(tab1_frame, text="Play Frq Hz Gui")
+    notebook.add(tab2_frame, text="Play & Display wav file Gui2")
+    notebook.add(tab3_frame, text="Display wav file stats Gui3")
+    notebook.add(tab4_frame, text="Plot wav graphically Gui3_plot")
+    notebook.add(tab5_frame, text="Make a recording GuiRecord")
+    notebook.add(tab6_frame, text="Low Pass Filter Graph")
 
-    gui3_button = tk.Button(root, text="Open Gui3!", command=open_gui3, width=20, height=2)
-    gui3_button.pack(pady=10)
+    # Initialize each GUI within its respective tab
+    open_gui(tab1_frame)
+    open_gui2(tab2_frame)
+    open_gui3(tab3_frame)
+    open_gui3_plot(tab4_frame)
+    open_guiRecord(tab5_frame)
+    open_low_pass_filter(tab6_frame)
 
-    gui3_plot_button = tk.Button(root, text="Open Gui3_plot!", command=open_gui3_plot, width=20, height=2)
-    gui3_plot_button.pack(pady=10)
-
-    guiRecord_button = tk.Button(root, text="Open GuiRecord!", command=open_guiRecord, width=20, height=2)
-    guiRecord_button.pack(pady=10)
-
-    # Footer
-    footer = tk.Label(root, text="Select a feature to explore", font=("Helvetica", 10, "italic"))
-    footer.pack(side=tk.BOTTOM, pady=20)
-
+    # Start the tkinter main loop
     root.mainloop()
 
 # Run the main interface
