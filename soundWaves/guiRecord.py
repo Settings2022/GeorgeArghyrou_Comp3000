@@ -24,11 +24,18 @@ def guiRecord_main(parent_frame):
     time_entry.pack(pady=10)
     time_entry.insert(0, "5")  # Default value is 5 seconds
 
+    # Create a label and entry field for the user to input the filename
+    filename_label = tk.Label(parent_frame, text="Enter filename (alphanumeric only):", font=("Helvetica", 12))
+    filename_label.pack(pady=10)
+
+    filename_entry = tk.Entry(parent_frame, font=("Helvetica", 12))
+    filename_entry.pack(pady=10)
+
     # Create a button that starts the recording process
-    start_button = tk.Button(parent_frame, text="Start Recording", font=("Helvetica", 16), command=lambda: start_recording(parent_frame, time_entry.get()))
+    start_button = tk.Button(parent_frame, text="Start Recording", font=("Helvetica", 16), command=lambda: start_recording(parent_frame, time_entry.get(), filename_entry.get()))
     start_button.pack(pady=20)
 
-def start_recording(parent_frame, time_input):
+def start_recording(parent_frame, time_input, filename_input):
     try:
         # Convert the user input to an integer (duration of the recording in seconds)
         RECORD_SECONDS = int(time_input)
@@ -38,6 +45,18 @@ def start_recording(parent_frame, time_input):
         # If the user inputs an invalid value, show an error message
         messagebox.showerror("Invalid Input", "Please enter a valid positive integer for the duration.")
         return
+
+    # Validate filename to ensure it only contains alphanumeric characters
+    if not filename_input.isalnum():
+        messagebox.showerror("Invalid Filename", "Filename must only contain alphanumeric characters (letters and numbers).")
+        return
+
+    # If no filename is provided, generate a default one based on the current date and time
+    if not filename_input:
+        filename_input = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+
+    # Add the .wav extension to the filename
+    output_filename = os.path.join(os.getcwd(), filename_input + ".wav")
 
     p = pyaudio.PyAudio()
 
@@ -50,8 +69,6 @@ def start_recording(parent_frame, time_input):
     ax.set_ylim(-32768, 32767)
     ax.set_xlim(0, FRAMES_PER_BUFFER)
 
-    # Generate a unique filename based on the current date and time
-    output_filename = os.path.join(os.getcwd(), datetime.datetime.now().strftime("%Y%m%d%H%M%S") + ".wav")
     frames = []
 
     # Data generator for the animation
