@@ -31,7 +31,9 @@ def open_low_pass_filter(parent_frame):
 def main_interface():
     root = tk.Tk()
     root.title("Final Year Project: Unified Interface")
-    root.geometry("800x600")
+    
+    # Make the window fill the desktop screen
+    root.state('zoomed')
 
     # Create a notebook (tabbed interface)
     notebook = ttk.Notebook(root)
@@ -46,6 +48,10 @@ def main_interface():
     tab6_frame = ttk.Frame(notebook)
 
     # Add tabs to the notebook
+    style = ttk.Style()
+    style.configure('TNotebook.Tab', padding=[100, 25], font=('Helvetica', '16'))
+    style = ttk.Style()
+    style.configure('TNotebook.Tab', padding=[100, 25])
     notebook.add(tab1_frame, text="Play Frq Hz Gui")
     notebook.add(tab2_frame, text="Play & Display wav file Gui2")
     notebook.add(tab3_frame, text="Display wav file stats Gui3")

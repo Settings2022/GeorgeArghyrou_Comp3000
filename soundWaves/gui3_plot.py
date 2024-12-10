@@ -16,7 +16,7 @@ def gui3_plot_main(parent_frame):
 
     if wav_files:
         # Create a dropdown (Combobox) for selecting a WAV file
-        combo_box = ttk.Combobox(parent_frame, values=wav_files, font=("Helvetica", 14), state="readonly")
+        combo_box = ttk.Combobox(parent_frame, values=wav_files, font=("Helvetica", 20), state="readonly")
         combo_box.set("Select WAV File")  # Set default text
         combo_box.pack(pady=20)
 
@@ -24,13 +24,13 @@ def gui3_plot_main(parent_frame):
         button = tk.Button(
             parent_frame,
             text="Plot Waveform",
-            font=("Helvetica", 16),
+            font=("Helvetica", 20),
             command=lambda: plot_waveform(combo_box.get())
         )
         button.pack(pady=20)
     else:
         # If no WAV files are found in the current directory, show a message
-        no_files_label = tk.Label(parent_frame, text="No WAV files found in the current directory.", font=("Helvetica", 14), fg="red")
+        no_files_label = tk.Label(parent_frame, text="No WAV files found in the current directory.", font=("Helvetica", 20), fg="red")
         no_files_label.pack(pady=20)
 
 # Function to plot the waveform of the selected file
@@ -50,7 +50,7 @@ def plot_waveform(selected_file):
         times = np.linspace(0, t_audio, len(signal_array))
 
         # Create the plot for the waveform
-        plt.figure(figsize=(10, 5))
+        plt.figure(figsize=(20, 10))
         plt.plot(times, signal_array, color='blue')
         plt.xlabel('Time (s)')
         plt.ylabel('Amplitude')

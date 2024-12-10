@@ -52,27 +52,27 @@ def gui_main(parent_frame):
             messagebox.showerror("Invalid input", "Please enter valid integers for the duration and frequency.")
 
     # Create and place the duration entry
-    tk.Label(parent_frame, text="Enter duration (ms):", font=("Helvetica", 16)).pack(pady=5)
-    duration_entry = tk.Entry(parent_frame, font=("Helvetica", 16), width=10)
+    tk.Label(parent_frame, text="Enter duration (ms):", font=("Helvetica", 30)).pack(pady=5)
+    duration_entry = tk.Entry(parent_frame, font=("Helvetica", 20), width=10)
     duration_entry.pack(pady=5)
 
     # Create and place the frequency entry
-    tk.Label(parent_frame, text="Enter frequency (Hz):", font=("Helvetica", 16)).pack(pady=5)
+    tk.Label(parent_frame, text="Enter frequency (Hz):", font=("Helvetica", 30)).pack(pady=5)
     frequency_entry = tk.Entry(parent_frame, font=("Helvetica", 16), width=10)
     frequency_entry.pack(pady=5)
 
     # Display the frequency label
-    frequency_label = tk.Label(parent_frame, text="Frequency: - Hz", font=("Helvetica", 16))
+    frequency_label = tk.Label(parent_frame, text="Frequency: - Hz", font=("Helvetica", 20))
     frequency_label.pack(pady=5)
 
     # Create and place the play button
-    play_button = tk.Button(parent_frame, text="Play Sound", command=play_sound_and_plot, font=("Helvetica", 16))
+    play_button = tk.Button(parent_frame, text="Play Sound", command=play_sound_and_plot, font=("Helvetica", 20))
     play_button.pack(pady=30)
 
     # Create a frame to hold the plot and set up the figure and axis
     plot_frame = tk.Frame(parent_frame)
     plot_frame.pack(pady=20)
-    fig, ax = plt.subplots(figsize=(4, 2))
+    fig, ax = plt.subplots(figsize=(20, 10))
 
     # Embed the figure in the Tkinter canvas
     canvas = FigureCanvasTkAgg(fig, master=plot_frame)

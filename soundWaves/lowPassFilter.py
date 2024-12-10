@@ -66,19 +66,19 @@ def low_pass_filter_main(parent_frame):
     selected_file.set(wav_files[0])
 
     # Dropdown to select .wav file
-    tk.Label(parent_frame, text="Select .wav file:", font=("Helvetica", 16)).pack(pady=5)
+    tk.Label(parent_frame, text="Select .wav file:", font=("Helvetica", 20)).pack(pady=5)
     file_dropdown = tk.OptionMenu(parent_frame, selected_file, *wav_files)
-    file_dropdown.config(width=20, height=2, font=("Helvetica", 16))
+    file_dropdown.config(width=20, height=2, font=("Helvetica", 20))
     file_dropdown.pack(pady=5)
 
     # Button to apply low-pass filter and display waveform
-    filter_button = tk.Button(parent_frame, text="Apply Low-Pass Filter", command=display_filtered_waveform, width=25, height=2, font=("Helvetica", 16))
+    filter_button = tk.Button(parent_frame, text="Apply Low-Pass Filter", command=display_filtered_waveform, width=25, height=2, font=("Helvetica", 20))
     filter_button.pack(pady=20)
 
     # Plot frame and matplotlib figure
     plot_frame = tk.Frame(parent_frame)
     plot_frame.pack(pady=20)
-    fig, ax = plt.subplots(figsize=(10, 6))
+    fig, ax = plt.subplots(figsize=(20, 10))
 
     # Embed the figure in the Tkinter canvas
     canvas = FigureCanvasTkAgg(fig, master=plot_frame)

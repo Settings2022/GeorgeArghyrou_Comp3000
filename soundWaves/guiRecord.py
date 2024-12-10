@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import tkinter as tk
 from tkinter import messagebox
+from PIL import Image, ImageTk  # Import from Pillow library for images
 
 # Constants
 FRAMES_PER_BUFFER = 3200
@@ -16,23 +17,39 @@ CHANNELS = 1
 RATE = 44100
 
 def guiRecord_main(parent_frame):
+
+    # Load the image from the 'images' folder
+    image_path = os.path.join(os.getcwd(), 'images', 'guitars.jpg')
+    img = Image.open(image_path)
+    
+    # Optionally, you can resize the image to fit your UI
+    img = img.resize((600, 400), resample=Image.Resampling.LANCZOS)
+    img = img.rotate(-90, expand=True)
+    
+    img_tk = ImageTk.PhotoImage(img)
+
+    # Create a label to display the image
+    img_label = tk.Label(parent_frame, image=img_tk)
+    img_label.image = img_tk  # Keep a reference so it’s not garbage collected
+    img_label.pack(pady=10)
+
     # Create a label and entry field for the user to input the recording time
-    time_label = tk.Label(parent_frame, text="Enter recording duration in seconds:", font=("Helvetica", 12))
+    time_label = tk.Label(parent_frame, text="Enter recording duration in seconds:", font=("Helvetica", 20))
     time_label.pack(pady=10)
 
-    time_entry = tk.Entry(parent_frame, font=("Helvetica", 12))
+    time_entry = tk.Entry(parent_frame, font=("Helvetica", 20))
     time_entry.pack(pady=10)
     time_entry.insert(0, "5")  # Default value is 5 seconds
 
     # Create a label and entry field for the user to input the filename
-    filename_label = tk.Label(parent_frame, text="Enter filename (alphanumeric only):", font=("Helvetica", 12))
+    filename_label = tk.Label(parent_frame, text="Enter alphanumeric filename to store your recording as a .wav file:", font=("Helvetica", 20))
     filename_label.pack(pady=10)
 
-    filename_entry = tk.Entry(parent_frame, font=("Helvetica", 12))
+    filename_entry = tk.Entry(parent_frame, font=("Helvetica", 20))
     filename_entry.pack(pady=10)
 
     # Create a button that starts the recording process
-    start_button = tk.Button(parent_frame, text="Start Recording", font=("Helvetica", 16), command=lambda: start_recording(parent_frame, time_entry.get(), filename_entry.get()))
+    start_button = tk.Button(parent_frame, text="Start Recording", font=("Helvetica", 20), command=lambda: start_recording(parent_frame, time_entry.get(), filename_entry.get()))
     start_button.pack(pady=20)
 
 def start_recording(parent_frame, time_input, filename_input):

@@ -95,7 +95,7 @@ def gui2_main(parent_frame):
     selected_file.set(wav_files[0])
 
     # Dropdown to select .wav file
-    tk.Label(parent_frame, text="Select .wav file:", font=("Helvetica", 20)).pack(pady=5)
+    tk.Label(parent_frame, text="Select .wav file:", font=("Helvetica", 30)).pack(pady=5)
     file_dropdown = tk.OptionMenu(parent_frame, selected_file, *wav_files)
     file_dropdown.config(width=20, height=2, font=("Helvetica", 20))
     file_dropdown.pack(pady=5)
@@ -105,13 +105,13 @@ def gui2_main(parent_frame):
     menu.config(font=("Helvetica", 20))
 
     # Play button
-    play_button = tk.Button(parent_frame, text="Play Sound", command=play_sound_and_plot_from_file, width=20, height=2, font=("Helvetica", 20))
+    play_button = tk.Button(parent_frame, text="Play Sound", command=play_sound_and_plot_from_file, width=20, height=2, font=("Helvetica", 30))
     play_button.pack(pady=20)
 
     # Plot frame and matplotlib figure
     plot_frame = tk.Frame(parent_frame)
     plot_frame.pack(pady=20)
-    fig, ax = plt.subplots(figsize=(16, 8))
+    fig, ax = plt.subplots(figsize=(20, 10))
 
     # Embed the figure in the Tkinter canvas
     canvas = FigureCanvasTkAgg(fig, master=plot_frame)

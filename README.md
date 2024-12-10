@@ -37,3 +37,6 @@ Tabs added to frontPage.py for each gui.
 guiRecord.py user can set recording duration in seconds.
 guiRecord.py user can enter an alphanumeric filename, saved as .wav
 guiRecord.py checks if filename already exists.
+
+soundwaves file UI improved, work needed when dragged to larger screen.
+test .jpg image added.
