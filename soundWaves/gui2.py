@@ -1,3 +1,4 @@
+# play and display .wav
 import tkinter as tk
 from tkinter import messagebox
 import numpy as np
@@ -18,10 +19,13 @@ duration = 0
 start_time = 0
 ani = None
 
-# Function to get all .wav files in the current directory
+# Path to the sounds folder
+SOUNDS_FOLDER = "sounds"
+
+# Function to get all .wav files in the 'soundWaves' folder
 def get_wav_files():
-    folder_path = "."  # Use the current directory
-    wav_files = [f for f in os.listdir(folder_path) if f.endswith('.wav')]
+    folder_path = SOUNDS_FOLDER  # Use the SOUNDS_FOLDER path to get .wav files
+    wav_files = [os.path.join(folder_path, f) for f in os.listdir(folder_path) if f.endswith('.wav')]
     return wav_files
 
 # Get the list of .wav files
@@ -109,7 +113,7 @@ def gui2_main(parent_frame):
     play_button.pack(pady=20)
 
     # Plot frame and matplotlib figure
-    plot_frame = tk.Frame(parent_frame)
+    plot_frame = tk.Frame(parent_frame, width=800, height=400, padx=100, pady=50)
     plot_frame.pack(pady=20)
     fig, ax = plt.subplots(figsize=(20, 10))
 

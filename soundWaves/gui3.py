@@ -1,12 +1,16 @@
+# See .wav stats
 import tkinter as tk
 from tkinter import messagebox
 import wave
 import os
 
+# Path to the sounds folder
+SOUNDS_FOLDER = "sounds"
+
 # Function to get all .wav files in the 'soundWaves' folder
 def get_wav_files():
-    folder_path = "."  # Use the current directory (or specify a path) to get .wav files
-    wav_files = [f for f in os.listdir(folder_path) if f.endswith('.wav')]
+    folder_path = SOUNDS_FOLDER  # Use the SOUNDS_FOLDER path to get .wav files
+    wav_files = [os.path.join(folder_path, f) for f in os.listdir(folder_path) if f.endswith('.wav')]
     return wav_files
 
 # Main function to initialize the GUI for analyzing wave files

@@ -1,3 +1,4 @@
+# play .wav
 import tkinter as tk
 from tkinter import messagebox
 import numpy as np
@@ -70,7 +71,7 @@ def gui_main(parent_frame):
     play_button.pack(pady=30)
 
     # Create a frame to hold the plot and set up the figure and axis
-    plot_frame = tk.Frame(parent_frame)
+    plot_frame = tk.Frame(parent_frame, width=800, height=400, padx=100, pady=50)
     plot_frame.pack(pady=20)
     fig, ax = plt.subplots(figsize=(20, 10))
 

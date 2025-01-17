@@ -1,3 +1,5 @@
+# Record 
+# audio using PyAudio and save it as a .wav file with a GUI using Tkinter
 import pyaudio
 import wave
 import numpy as np
@@ -131,5 +133,5 @@ def start_recording(parent_frame, time_input, filename_input):
     # Inform the user that the recording is saved
     messagebox.showinfo("Recording Complete", f"Recording saved as {output_filename}")
 
-    # You can add additional behavior to hide the plot after completion if necessary
+    # Can add additional behavior to hide the plot after completion if necessary
     plt.close(fig)
