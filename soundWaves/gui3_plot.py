@@ -16,7 +16,7 @@ def gui3_plot_main(parent_frame):
     label.pack(pady=20)
 
     # List all WAV files in the current directory
-    wav_files = [f for f in os.listdir(SOUNDS_FOLDER) if f.endswith('.wav')]
+    wav_files = [f for f in os.listdir(SOUNDS_FOLDER) if f.endswith('.wav')] 
 
     if wav_files:
         # Create a dropdown (Combobox) for selecting a WAV file

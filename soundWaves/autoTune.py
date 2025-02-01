@@ -1,4 +1,3 @@
-# gui.py contains the implementation of the GuitarTunerApp class, which is responsible for creating the GUI application for the guitar tuner.
 import tkinter as tk
 from tkinter import ttk
 import threading
@@ -16,53 +15,50 @@ RATE = 44100
 SOUNDS_FOLDER = "sounds"  # Path to the folder containing string recordings
 
 
-def load_reference_frequencies():
+def load_strums():
     """
-    Load the reference frequencies from the recordings in the 'sounds' folder.
+    Load the recordings from the 'sounds' folder.
     Returns:
         dict: A dictionary mapping string names to their detected frequencies.
     """
-    reference_frequencies = {}
+    strums = {}
     for file in os.listdir(SOUNDS_FOLDER):
         if file.endswith(".wav"):
-            string_name = os.path.splitext(file)[0]  # Extract the string name (e.g., "E2")
-            filepath = os.path.join(SOUNDS_FOLDER, file)
-            sample_rate, audio_data = wavfile.read(filepath)
+            string_name = os.path.splitext(file)[0]  # get filename without extension
+            filepath = os.path.join(SOUNDS_FOLDER, file) # get full path to file
+            sample_rate, audio_data = wavfile.read(filepath) # read the audio file
             
             # Perform FFT to find the dominant frequency
-            fft_spectrum = np.fft.rfft(audio_data)
-            frequencies = np.fft.rfftfreq(len(audio_data), d=1 / sample_rate)
-            dominant_freq = frequencies[np.argmax(np.abs(fft_spectrum))]
+            fft_spectrum = np.fft.rfft(audio_data) # Real FFT
+            frequencies = np.fft.rfftfreq(len(audio_data), d=1 / sample_rate) # Frequency bins
+            dominant_freq = frequencies[np.argmax(np.abs(fft_spectrum))] # Find the dominant frequency
             
-            reference_frequencies[string_name] = dominant_freq
-    return reference_frequencies
-print(load_reference_frequencies())
-# STANDARD_FREQUENCIES
-#     "E2": 82.41,
-#     "A": 110.00,
-#     "D": 146.83,
-#     "G": 196.00,
-#     "B": 246.94, 
-#     "E": 329.63
+            strums[string_name] = dominant_freq # Add to dictionary
+    return strums
+
 
 class GuitarTunerApp:
     def __init__(self, root):
         self.root = root
-        
-        label = tk.Label(root, text="Play a string to see if it's in tune.", font=("Helvetica", 20))
+        self.running = True
+        self.queue = Queue()
+        self.active_string = None  # Active string being tuned
+
+        # GUI Setup
+        label = tk.Label(root, text="Click a string button to start tuning.", font=("Helvetica", 20))
         label.pack(pady=10)
 
-        label = tk.Label(root, text="The app will tell you to tune up, down, or in tune.", font=("Helvetica", 20))
-        label.pack(pady=10)
+        # call load_strums() to get the references from sounds folder
+        self.reference_frequencies = load_strums()
 
-        # Load reference frequencies
-        self.reference_frequencies = load_reference_frequencies()
-
-        self.labels = {}
+        # Create buttons for each string
+        self.buttons = {}
+        button_frame = ttk.Frame(root)
+        button_frame.pack(pady=20)
         for string in self.reference_frequencies.keys():
-            label = ttk.Label(root, text=f"{string}: -- Hz", font=("Times New Roman", 16))
-            label.pack(pady=5)
-            self.labels[string] = label
+            button = ttk.Button(button_frame, text=string, command=lambda s=string: self.activate_string(s))
+            button.pack(side=tk.LEFT, padx=5)
+            self.buttons[string] = button
 
         # Feedback label for tuning instructions
         self.feedback_label = ttk.Label(root, text="", font=("Times New Roman", 16))
@@ -78,11 +74,10 @@ class GuitarTunerApp:
         self.waveform_canvas = tk.Canvas(root, width=400, height=100, bg="black")
         self.waveform_canvas.pack(pady=10)
 
-        self.running = True
-        self.queue = Queue()
-
+        # Audio setup
         self.stream, self.p = self.get_audio_stream()
         self.thread = threading.Thread(target=self.update_frequency)
+        self.thread.daemon = True
         self.thread.start()
 
         self.root.after(100, self.process_queue)
@@ -106,25 +101,23 @@ class GuitarTunerApp:
             return peak_freq
         return None
 
-    def closest_string(self, frequency):
-        closest_string = None
-        min_diff = float('inf')
-        for string, standard_freq in self.reference_frequencies.items():
-            diff = abs(frequency - standard_freq)
-            if diff < min_diff:
-                min_diff = diff
-                closest_string = string
-        return closest_string
+    def activate_string(self, string):
+        """
+        Activate tuning for a specific string.
+        """
+        self.active_string = string
+        # self.feedback_label.config(text=f"Tuning {string}. Play the string.")
+
+        # Reset needle and waveform display
+        self.needle_canvas.coords(self.needle, self.needle_center_x, 10, self.needle_center_x, 50)
+        self.waveform_canvas.delete("waveform")
 
     def update_tuning_needle(self, difference, string):
         max_shift = 100
-        if string:
-            shift = max_shift * (difference / self.reference_frequencies[string])
-            shift = min(max(shift, -max_shift), max_shift)
-            new_x = self.needle_center_x + shift
-            self.needle_canvas.coords(self.needle, new_x, 10, new_x, 50)
-        else:
-            self.needle_canvas.coords(self.needle, self.needle_center_x, 10, self.needle_center_x, 50)
+        shift = max_shift * (difference / self.reference_frequencies[string])
+        shift = min(max(shift, -max_shift), max_shift)
+        new_x = self.needle_center_x + shift
+        self.needle_canvas.coords(self.needle, new_x, 10, new_x, 50)
 
     def update_waveform(self, audio_data):
         self.waveform_canvas.delete("waveform")
@@ -142,31 +135,24 @@ class GuitarTunerApp:
             data = self.stream.read(CHUNK)
             audio_data = np.frombuffer(data, dtype=np.int16)
             frequency = self.detect_frequency(audio_data)
-            if frequency is not None:
+            if frequency is not None and self.active_string:
                 self.queue.put((frequency, audio_data))
 
     def process_queue(self):
         while not self.queue.empty():
             frequency, audio_data = self.queue.get()
-            closest_string = self.closest_string(frequency)
+            standard_freq = self.reference_frequencies[self.active_string]
+            difference = frequency - standard_freq
 
-            for string in self.reference_frequencies.keys():
-                if string == closest_string:
-                    self.labels[string].config(text=f"{string}: {frequency:.2f} Hz")
-                    standard_freq = self.reference_frequencies[string]
-                    difference = frequency - standard_freq
+            # Update feedback and tuning needle
+            if frequency < standard_freq:
+                self.feedback_label.config(text=f"Tune UP to {self.active_string} ({standard_freq:.2f} Hz)")
+            elif frequency > standard_freq:
+                self.feedback_label.config(text=f"Tune DOWN to {self.active_string} ({standard_freq:.2f} Hz)")
+            else:
+                self.feedback_label.config(text=f"{self.active_string} is in tune!")
 
-                    if frequency < standard_freq:
-                        self.feedback_label.config(text=f"Tune UP to {string} ({standard_freq:.2f} Hz)")
-                    elif frequency > standard_freq:
-                        self.feedback_label.config(text=f"Tune DOWN to {string} ({standard_freq:.2f} Hz)")
-                    else:
-                        self.feedback_label.config(text=f"{string} is in tune!")
-                    
-                    self.update_tuning_needle(difference, string)
-                else:
-                    self.labels[string].config(text=f"{string}: -- Hz")
-
+            self.update_tuning_needle(difference, self.active_string)
             self.update_waveform(audio_data)
 
         self.root.after(100, self.process_queue)
@@ -184,5 +170,3 @@ if __name__ == "__main__":
     app = GuitarTunerApp(root)
     root.protocol("WM_DELETE_WINDOW", app.on_close)
     root.mainloop()
-# In this script, we have created a GUI application that uses the PyAudio library to continuously detect the frequency of audio input from a microphone. 
-# The application displays the detected frequencies of the guitar strings and provides feedback on whether the strings need to be tuned up or down.

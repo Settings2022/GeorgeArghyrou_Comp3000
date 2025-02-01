@@ -1,4 +1,17 @@
 import tkinter as tk
+"""
+This module creates a unified interface for various tabs and functionalities using Tkinter.
+Functions:
+    open_gui(parent_frame): Initializes the main GUI in the given parent frame.
+    open_gui2(parent_frame): Initializes the second GUI in the given parent frame.
+    open_gui3(parent_frame): Initializes the third GUI in the given parent frame.
+    open_gui3_plot(parent_frame): Initializes the GUI for plotting .wav graphs in the given parent frame.
+    open_guiRecord(parent_frame): Initializes the GUI for recording sound in the given parent frame.
+    open_low_pass_filter(parent_frame): Initializes the GUI for low pass filter graph in the given parent frame.
+    open_instrument_tab(parent_frame): Initializes the instrument tab in the given parent frame.
+    open_guitar_tuner_tab(parent_frame): Initializes the Guitar Tuner tab in the given parent frame.
+    main_interface(): Creates the main application window with a tabbed interface and initializes each tab with its respective GUI.
+""" 
 from tkinter import ttk
 from gui import gui_main
 from gui2 import gui2_main
