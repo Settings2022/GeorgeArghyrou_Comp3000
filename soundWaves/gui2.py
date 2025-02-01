@@ -20,11 +20,11 @@ start_time = 0
 ani = None
 
 # Path to the sounds folder
-SOUNDS_FOLDER = "sounds"
+RECORDINGS_FOLDER = "recordings"
 
 # Function to get all .wav files in the 'soundWaves' folder
 def get_wav_files():
-    folder_path = SOUNDS_FOLDER  # Use the SOUNDS_FOLDER path to get .wav files
+    folder_path = RECORDINGS_FOLDER  # Use the SOUNDS_FOLDER path to get .wav files
     wav_files = [os.path.join(folder_path, f) for f in os.listdir(folder_path) if f.endswith('.wav')]
     return wav_files
 

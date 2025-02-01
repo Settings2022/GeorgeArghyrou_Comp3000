@@ -7,7 +7,7 @@ import tkinter as tk
 from tkinter import ttk
 
 # Path to the sounds folder
-SOUNDS_FOLDER = "sounds"
+RECORDINGS_FOLDER = "recordings"
 
 # Function to initialize the waveform plotting GUI
 def gui3_plot_main(parent_frame):
@@ -16,7 +16,7 @@ def gui3_plot_main(parent_frame):
     label.pack(pady=20)
 
     # List all WAV files in the current directory
-    wav_files = [f for f in os.listdir(SOUNDS_FOLDER) if f.endswith('.wav')] 
+    wav_files = [f for f in os.listdir(RECORDINGS_FOLDER) if f.endswith('.wav')] 
 
     if wav_files:
         # Create a dropdown (Combobox) for selecting a WAV file
@@ -44,7 +44,7 @@ def plot_waveform(selected_file):
 
     try:
         # Process the selected WAV file
-        file_path = os.path.join(SOUNDS_FOLDER, selected_file)
+        file_path = os.path.join(RECORDINGS_FOLDER, selected_file)
         with wave.open(file_path, 'r') as obj:
             sample_freq = obj.getframerate()
             num_samples = obj.getnframes()
