@@ -74,8 +74,15 @@ def start_recording(parent_frame, time_input, filename_input):
     if not filename_input:
         filename_input = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
 
-    # Add the .wav extension to the filename
-    output_filename = os.path.join(os.getcwd(), filename_input + ".wav")
+    # Define the path to the recordings folder
+    recordings_folder = os.path.join(os.getcwd(), 'recordings')
+    
+    # Ensure the folder exists, create it if necessary
+    if not os.path.exists(recordings_folder):
+        os.makedirs(recordings_folder)
+
+    # Add the .wav extension to the filename and construct the full path
+    output_filename = os.path.join(recordings_folder, filename_input + ".wav")
 
     # Check if the file already exists
     if os.path.exists(output_filename):
@@ -86,32 +93,7 @@ def start_recording(parent_frame, time_input, filename_input):
 
     stream = p.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True, frames_per_buffer=FRAMES_PER_BUFFER)
 
-    # Set up the plot for waveform display
-    fig, ax = plt.subplots(figsize=(8, 4))
-    x = np.arange(0, 2 * FRAMES_PER_BUFFER, 2)
-    line, = ax.plot(x, np.random.rand(FRAMES_PER_BUFFER))
-    ax.set_ylim(-32768, 32767)
-    ax.set_xlim(0, FRAMES_PER_BUFFER)
-
     frames = []
-
-    # Data generator for the animation
-    def data_gen():
-        while True:
-            data = np.frombuffer(stream.read(FRAMES_PER_BUFFER), dtype=np.int16)
-            frames.append(data)
-            yield data
-
-    # Update the plot with new data
-    def update(data):
-        line.set_ydata(data)
-        return line,
-
-    # Set up the animation
-    ani = animation.FuncAnimation(fig, update, data_gen, blit=True, interval=50)
-
-    # Display the plot in a non-blocking manner
-    plt.show(block=False)
 
     # Start recording for the specified duration
     start_time = time.time()
@@ -133,5 +115,3 @@ def start_recording(parent_frame, time_input, filename_input):
     # Inform the user that the recording is saved
     messagebox.showinfo("Recording Complete", f"Recording saved as {output_filename}")
 
-    # Can add additional behavior to hide the plot after completion if necessary
-    plt.close(fig)

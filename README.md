@@ -47,3 +47,6 @@ instrument_tab.py unresponsive, requires fix
 autoTune.py requires fix to change needle_canvas to buttons for each string.
 
 autoTune.py needle_canvas changed to buttons
+
+guiRecord.py recordings save to dedicated folder, and graphs removed.
+
