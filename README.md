@@ -54,3 +54,7 @@ files now play sounds from 'recordings' folder.
 
 Image and text enhancements added to gui.py and guiRecord.
 Also gui.py duration changed from ms to s.
+
+Image and text instructions added to all tab interfaces.
+
+Bug - instrument_tab.py crashes when a sound is played.

@@ -5,6 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import tkinter as tk
 from tkinter import ttk
+from PIL import Image, ImageTk
 
 # Path to the sounds folder
 RECORDINGS_FOLDER = "recordings"
@@ -14,6 +15,33 @@ def gui3_plot_main(parent_frame):
     # Create a label for instructions
     label = tk.Label(parent_frame, text="Select a WAV file to plot the waveform", font=("Helvetica", 14))
     label.pack(pady=20)
+
+    # Adding instructional text to the right side of the screen
+    instruction_text = (
+        "\n"
+        "This page allows you to see a graph of a recording saved to the recordings folder.\n"
+        "\n"
+        "Select a .wav file from the drop down menu.\n"
+        "\n"
+        "Click the Plot Waveform button to display the graph.\n"
+    )
+    instruction_label = tk.Label(parent_frame, text=instruction_text, font=("Helvetica", 25), wraplength=500, anchor="w")
+    instruction_label.place(x=3000, y=50)  # Position the text on the right side with padding
+
+    # Load and rotate the image from the 'images' folder
+    image_path = os.path.join(os.getcwd(), 'images', 'guitars.jpg')
+    img = Image.open(image_path)
+    
+    # Resize the image to fit your UI
+    img = img.resize((900, 600), resample=Image.Resampling.LANCZOS)
+    img = img.rotate(-90, expand=True)
+    
+    img_tk = ImageTk.PhotoImage(img)
+
+    # Create a label to display the image
+    img_label = tk.Label(parent_frame, image=img_tk)
+    img_label.image = img_tk  # Keep a reference so it’s not garbage collected
+    img_label.place(x=100, y=100)  # Place image on the left side with some padding
 
     # List all WAV files in the current directory
     wav_files = [f for f in os.listdir(RECORDINGS_FOLDER) if f.endswith('.wav')] 
@@ -70,3 +98,4 @@ def plot_waveform(selected_file):
         error_message = f"An error occurred while processing the file: {e}"
         print(error_message)
         tk.messagebox.showerror("Error", error_message)
+

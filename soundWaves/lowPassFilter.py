@@ -6,6 +6,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import tkinter as tk
 import wave
 import os
+from PIL import Image, ImageTk
 
 # Path to the sounds folder
 RECORDINGS_FOLDER = "recordings"
@@ -39,7 +40,7 @@ def display_filtered_waveform():
 
     try:
         signal, sample_rate, num_samples = load_waveform(file_path)
-        cutoff_frequency = 150  # in Hz
+        cutoff_frequency = 300  # in Hz
 
         # Apply the low-pass filter
         filtered_signal = low_pass_filter(signal, cutoff_frequency, sample_rate)
@@ -59,6 +60,40 @@ def display_filtered_waveform():
 
 # Main GUI function
 def low_pass_filter_main(parent_frame):
+
+    # Adding instructional text to the right side of the screen
+    instruction_text = (
+        "\n"
+        "This page allows you to see a low pass filter graph of a recording saved to the recordings folder.\n"
+        "\n"
+        "Select a .wav file from the drop down menu.\n"
+        "\n"
+        "Click the Apply Low-Pass Filter button to display the graph.\n"
+        "\n"
+        "This shows a graph with the original signal in blue and the low-pass filtered signal in red.\n"
+        "\n"
+        "The cutoff frequency in the code is currently set to 300 Hz.\n"
+    )
+    instruction_label = tk.Label(parent_frame, text=instruction_text, font=("Helvetica", 25), wraplength=500, anchor="w")
+    instruction_label.place(x=3000, y=50)  # Position the text on the right side with padding
+
+    # Load and rotate the image from the 'images' folder
+    image_path = os.path.join(os.getcwd(), 'images', 'guitars.jpg')
+    img = Image.open(image_path)
+    
+    # Resize the image to fit your UI
+    img = img.resize((900, 600), resample=Image.Resampling.LANCZOS)
+    img = img.rotate(-90, expand=True)
+    
+    img_tk = ImageTk.PhotoImage(img)
+
+    # Create a label to display the image
+    img_label = tk.Label(parent_frame, image=img_tk)
+    img_label.image = img_tk  # Keep a reference so it’s not garbage collected
+    img_label.place(x=100, y=100)  # Place image on the left side with some padding
+
+
+
     global selected_file, canvas, fig, ax
 
     # Get the list of available .wav files

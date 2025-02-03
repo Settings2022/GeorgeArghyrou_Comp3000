@@ -4,6 +4,7 @@ import os
 import numpy as np
 import simpleaudio as sa
 import threading  # threading for handling background tasks
+from PIL import Image, ImageTk
 
 # Path to the sounds folder
 SOUNDS_FOLDER = "sounds"
@@ -74,6 +75,34 @@ def stop_sound():
         print("Sound stopped.")
 
 def build_instrument_tab(parent_frame):
+
+    # Adding instructional text to the right side of the screen
+    instruction_text = (
+        "\n"
+        "Here you can tune your instrument by ear.\n"
+        "\n"
+        "Select a button to listen to the sound.\n"
+        "\n"
+        "Tune your instrument up or down to match that sound.\n"
+    )
+    instruction_label = tk.Label(parent_frame, text=instruction_text, font=("Helvetica", 25), wraplength=500, anchor="w")
+    instruction_label.place(x=3000, y=50)  # Position the text on the right side with padding
+
+    # Load and rotate the image from the 'images' folder
+    image_path = os.path.join(os.getcwd(), 'images', 'guitars.jpg')
+    img = Image.open(image_path)
+    
+    # Resize the image to fit your UI
+    img = img.resize((900, 600), resample=Image.Resampling.LANCZOS)
+    img = img.rotate(-90, expand=True)
+    
+    img_tk = ImageTk.PhotoImage(img)
+
+    # Create a label to display the image
+    img_label = tk.Label(parent_frame, image=img_tk)
+    img_label.image = img_tk  # Keep a reference so it’s not garbage collected
+    img_label.place(x=100, y=100)  # Place image on the left side with some padding
+
     """
     Populates the parent_frame (already a tab from frontPage.py)
     with guitar and ukulele buttons for playing corresponding sounds.

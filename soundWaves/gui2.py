@@ -1,7 +1,7 @@
-# play and display .wav
 import tkinter as tk
 from tkinter import messagebox
 import numpy as np
+import os
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import winsound
@@ -10,7 +10,7 @@ from matplotlib.animation import FuncAnimation
 import time
 import wave
 import struct
-import os  # for file selection
+from PIL import Image, ImageTk  # Import Pillow for image handling
 
 # Initialize global variables
 t = np.array([])
@@ -61,7 +61,7 @@ def display_waveform_from_file():
         ax.plot(t, waveform, color="blue", linewidth=0.5, label='Waveform Line')
         ax.set(xlabel='Time (s)', ylabel='Amplitude', title=f'Waveform from {file_path}')
         ax.legend()
-        ax.grid()
+        ax.grid(True)
         canvas.draw()
     except Exception as e:
         messagebox.showerror("Error", f"An error occurred: {e}")
@@ -89,7 +89,7 @@ def update_plot(i):
     ax.clear()
     ax.plot(t[:end_index], waveform[:end_index], color="blue")
     ax.set(xlabel='Time (s)', ylabel='Amplitude', title=f'Sound Waveform')
-    ax.grid()
+    ax.grid(True)
 
 def gui2_main(parent_frame):
     global selected_file, canvas, fig, ax
@@ -97,6 +97,39 @@ def gui2_main(parent_frame):
     # Set up the GUI inside the parent frame
     selected_file = tk.StringVar(parent_frame)
     selected_file.set(wav_files[0])
+
+    # Adding instructional text to the right side of the screen
+    instruction_text = (
+        "\n"
+        "This page allows you to generate and play a sound with a specified frequency and duration.\n"
+        "\n"
+        "You can then visualize the waveform of the sound as it plays.\n"
+        "\n"
+        "Choose a saved recording from the Recordings folder.\n"
+        "\n"
+        "To make a recording go to the Record Tab.\n"
+        "\n"
+        "Enter the frequency (in Hz) and the duration (in seconds).\n"
+        "\n" 
+        "To generate a sine wave, press 'Play Sound'."
+    )
+    instruction_label = tk.Label(parent_frame, text=instruction_text, font=("Helvetica", 25), wraplength=500, anchor="w")
+    instruction_label.place(x=3000, y=50)  # Position the text on the right side with padding
+
+    # Load and rotate the image from the 'images' folder
+    image_path = os.path.join(os.getcwd(), 'images', 'guitars.jpg')
+    img = Image.open(image_path)
+    
+    # Resize the image to fit your UI
+    img = img.resize((900, 600), resample=Image.Resampling.LANCZOS)
+    img = img.rotate(-90, expand=True)
+    
+    img_tk = ImageTk.PhotoImage(img)
+
+    # Create a label to display the image
+    img_label = tk.Label(parent_frame, image=img_tk)
+    img_label.image = img_tk  # Keep a reference so it’s not garbage collected
+    img_label.place(x=100, y=100)  # Place image on the left side with some padding
 
     # Dropdown to select .wav file
     tk.Label(parent_frame, text="Select .wav file:", font=("Helvetica", 30)).pack(pady=5)
@@ -116,6 +149,12 @@ def gui2_main(parent_frame):
     plot_frame = tk.Frame(parent_frame, width=800, height=400, padx=100, pady=50)
     plot_frame.pack(pady=20)
     fig, ax = plt.subplots(figsize=(20, 10))
+
+    # Add axis labels for the graph
+    ax.set_xlabel('Time (s)', fontsize=18)
+    ax.set_ylabel('Amplitude', fontsize=18)
+    ax.set_title('Sound Waveform', fontsize=20)
+    ax.grid(True)  # Enable grid for better clarity
 
     # Embed the figure in the Tkinter canvas
     canvas = FigureCanvasTkAgg(fig, master=plot_frame)

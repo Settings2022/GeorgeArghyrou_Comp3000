@@ -76,19 +76,23 @@ def gui_main(parent_frame):
         "\n"
         "This page allows you to generate and play a sound with a specified frequency and duration.\n"
         "\n"
-        "You can visualize the waveform of the sound as it plays. Enter the frequency (in Hz) and\n"
+        "You can visualize the waveform of the sound as it plays.\n"
         "\n"
-        "duration (in seconds) to generate a sine wave, then press 'Play Sound'."
+        "Enter the frequency (in Hz).\n"
+        "\n"
+        "Set the duration (in seconds).\n"
+        "\n"
+        "To generate a sine wave, click 'Play Sound'."
     )
     instruction_label = tk.Label(parent_frame, text=instruction_text, font=("Helvetica", 25), wraplength=500, anchor="w")
-    instruction_label.place(x=500, y=20)  # Position the text on the right side with padding
+    instruction_label.place(x=3000, y=50)  # Position the text on the right side with padding
 
     # Load and rotate the image from the 'images' folder
     image_path = os.path.join(os.getcwd(), 'images', 'guitars.jpg')
     img = Image.open(image_path)
     
     # Resize the image to fit your UI
-    img = img.resize((600, 400), resample=Image.Resampling.LANCZOS)
+    img = img.resize((900, 600), resample=Image.Resampling.LANCZOS)
     img = img.rotate(-90, expand=True)
     
     img_tk = ImageTk.PhotoImage(img)
@@ -96,7 +100,7 @@ def gui_main(parent_frame):
     # Create a label to display the image
     img_label = tk.Label(parent_frame, image=img_tk)
     img_label.image = img_tk  # Keep a reference so it’s not garbage collected
-    img_label.pack(pady=10)
+    img_label.place(x=100, y=100)  # Place image on the left side with some padding
 
     # Create and place the input fields for duration and frequency
     tk.Label(parent_frame, text="Enter duration (s):", font=("Helvetica", 30)).pack(pady=5)

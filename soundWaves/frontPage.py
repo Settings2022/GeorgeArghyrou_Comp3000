@@ -54,7 +54,7 @@ def main_interface():
     root.title("Final Year Project: Unified Interface")
     
     # Maximize window on startup
-    # root.state('zoomed')
+    root.state('zoomed')
     
     # Create a notebook (tabbed interface)
     notebook = ttk.Notebook(root)

@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import messagebox
 import wave
 import os
+from PIL import Image, ImageTk
 
 # Path to the sounds folder
 RECORDINGS_FOLDER = "recordings"
@@ -15,6 +16,34 @@ def get_wav_files():
 
 # Main function to initialize the GUI for analyzing wave files
 def gui3_main(parent_frame):
+
+    # Adding instructional text to the right side of the screen
+    instruction_text = (
+        "\n"
+        "here you can view statistical information about recordings you have made.\n"
+        "\n"
+        "Select a .wav file from the drop down menu.\n"
+        "\n"
+        "Click the Analyse Wave File button to display the information.\n"
+    )
+    instruction_label = tk.Label(parent_frame, text=instruction_text, font=("Helvetica", 25), wraplength=500, anchor="w")
+    instruction_label.place(x=3000, y=50)  # Position the text on the right side with padding
+
+    # Load and rotate the image from the 'images' folder
+    image_path = os.path.join(os.getcwd(), 'images', 'guitars.jpg')
+    img = Image.open(image_path)
+    
+    # Resize the image to fit your UI
+    img = img.resize((900, 600), resample=Image.Resampling.LANCZOS)
+    img = img.rotate(-90, expand=True)
+    
+    img_tk = ImageTk.PhotoImage(img)
+
+    # Create a label to display the image
+    img_label = tk.Label(parent_frame, image=img_tk)
+    img_label.image = img_tk  # Keep a reference so it’s not garbage collected
+    img_label.place(x=100, y=100)  # Place image on the left side with some padding
+    
     # Get the list of available .wav files
     wav_files = get_wav_files()
     if not wav_files:

@@ -18,12 +18,12 @@ RATE = 44100
 
 def guiRecord_main(parent_frame):
 
-    # Load the image from the 'images' folder
+    # Load and rotate the image from the 'images' folder
     image_path = os.path.join(os.getcwd(), 'images', 'guitars.jpg')
     img = Image.open(image_path)
     
-    # resize the image to fit your UI
-    img = img.resize((600, 400), resample=Image.Resampling.LANCZOS)
+    # Resize the image to fit your UI
+    img = img.resize((900, 600), resample=Image.Resampling.LANCZOS)
     img = img.rotate(-90, expand=True)
     
     img_tk = ImageTk.PhotoImage(img)
@@ -31,7 +31,7 @@ def guiRecord_main(parent_frame):
     # Create a label to display the image
     img_label = tk.Label(parent_frame, image=img_tk)
     img_label.image = img_tk  # Keep a reference so it’s not garbage collected
-    img_label.pack(pady=10)
+    img_label.place(x=100, y=100)  # Place image on the left side with some padding
 
     # Add instructional text to help guide the user
     instruction_text = (
@@ -39,10 +39,12 @@ def guiRecord_main(parent_frame):
         "\n"
         "You can specify the duration and name of the recording.\n"
         "\n"
-        "Once you start the recording, the audio will be captured and saved in the 'recordings' folder."
+        "Once you start the recording, the audio will be captured and saved in the 'recordings' folder.\n"
+        "\n"
+        "You can listen to your recording and view graphical images by exploring other tabs in the application."
     )
-    instruction_label = tk.Label(parent_frame, text=instruction_text, font=("Helvetica", 20), wraplength=500)
-    instruction_label.pack(pady=10)
+    instruction_label = tk.Label(parent_frame, text=instruction_text, font=("Helvetica", 25), wraplength=500)
+    instruction_label.place(x=3000, y=50)  # Position the text on the right side with padding
 
     # Create a label and entry field for the user to input the recording time
     time_label = tk.Label(parent_frame, text="Enter recording duration in seconds:", font=("Helvetica", 20))

@@ -1,11 +1,12 @@
 import tkinter as tk
 from tkinter import ttk
-import threading
 import numpy as np
+import os
+import threading
+from PIL import Image, ImageTk  # Import Pillow for image handling
 import pyaudio
 from queue import Queue
 from scipy.io import wavfile
-import os
 
 # Constants
 CHUNK = 4096
@@ -47,6 +48,44 @@ class GuitarTunerApp:
         # GUI Setup
         label = tk.Label(root, text="Click a string button to start tuning.", font=("Helvetica", 20))
         label.pack(pady=10)
+
+        # Adding instructional text to the right side of the screen
+        instruction_text = (
+            "This page allows you to tune your guitar in standard tuning.\n"
+            "\n"
+            "Select a string by clicking one of the buttons.\n"
+            "\n"
+            " 1 is the low E string, that's the thickest one on your guitar.\n"
+            "\n"
+            "2 is the A string, 3 is the D string, 4 is the G string,\n"
+            "\n"
+            "5 is the B string, and 6 is the high E string.\n"
+            "\n"
+            "Play the corresponding string on your guitar.\n"
+            "\n"
+            "The app listens for your sound.\n"
+            "\n"
+            "The needle will show if you are in tune or not.\n"
+            "\n"
+            "If the needle is in the middle, you are in tune.\n"
+        )
+        instruction_label = tk.Label(root, text=instruction_text, font=("Helvetica", 25), wraplength=500, anchor="w")
+        instruction_label.place(x=3000, y=50)  # Position the text on the right side with padding
+
+        # Load and rotate the image from the 'images' folder
+        image_path = os.path.join(os.getcwd(), 'images', 'guitars.jpg')
+        img = Image.open(image_path)
+        
+        # Resize the image to fit your UI
+        img = img.resize((900, 600), resample=Image.Resampling.LANCZOS)
+        img = img.rotate(-90, expand=True)
+        
+        img_tk = ImageTk.PhotoImage(img)
+
+        # Create a label to display the image
+        img_label = tk.Label(root, image=img_tk)
+        img_label.image = img_tk  # Keep a reference so it’s not garbage collected
+        img_label.place(x=50, y=100)  # Place image on the left side with some padding
 
         # call load_strums() to get the references from sounds folder
         self.reference_frequencies = load_strums()
