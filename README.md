@@ -51,3 +51,6 @@ autoTune.py needle_canvas changed to buttons
 guiRecord.py recordings save to dedicated folder, and graphs removed.
 
 files now play sounds from 'recordings' folder.
+
+Image and text enhancements added to gui.py and guiRecord.
+Also gui.py duration changed from ms to s.

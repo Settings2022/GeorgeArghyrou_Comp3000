@@ -1,10 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
 import os
-from playsound import playsound
 import numpy as np
 import simpleaudio as sa
-import threading
+import threading  # threading for handling background tasks
 
 # Path to the sounds folder
 SOUNDS_FOLDER = "sounds"
@@ -17,35 +16,62 @@ UKULELE_FREQUENCIES = {
     "A": 440.00
 }
 
-def play_frequency_in_background(frequency, duration):
-    """Plays a sine wave at the specified frequency and duration in the background."""
-    def play_sound():
+# Global variable to hold the play_obj, so we can stop it later
+current_play_obj = None
+stop_requested = False  # To track if stop has been requested
+
+def play_frequency_in_background(frequency):
+    """Plays a sine wave at the specified frequency in a loop."""
+    global current_play_obj, stop_requested
+
     # Sampling information
-        sample_rate = 44100  # 44.1 kHz sample rate
-        t = np.linspace(0, duration, int(sample_rate * duration), False)  # Time array
+    sample_rate = 44100  # 44.1 kHz sample rate
+    t = np.linspace(0, 1, int(sample_rate * 1), False)  # Time array for 1 second
 
-        # Generate sine wave
-        sine_wave = 0.5 * np.sin(2 * np.pi * frequency * t)
+    # Generate sine wave
+    sine_wave = 0.5 * np.sin(2 * np.pi * frequency * t)
 
-        # Convert to 16-bit PCM audio
-        audio = (sine_wave * 32767).astype(np.int16)
+    # Convert to 16-bit PCM audio
+    audio = (sine_wave * 32767).astype(np.int16)
 
-        # Start playback
-        play_obj = sa.play_buffer(audio, 1, 2, sample_rate)
-        
-        # Play in the background (does not block)
-        play_obj.wait_done()
+    # Start playback in a loop (non-blocking)
+    while not stop_requested:
+        current_play_obj = sa.play_buffer(audio, 1, 2, sample_rate)
+
+        # Wait until the sound finishes playing, then loop
+        current_play_obj.wait_done()
+
+    stop_requested = False  # Reset stop flag after playback is stopped
 
 def play_sound_file(file_name):
     """
-    Plays the specified sound file from the sounds folder.
+    Plays the specified sound file from the sounds folder in a loop.
     """
+    global current_play_obj, stop_requested
+
+    stop_requested = False  # Reset stop flag when a new sound starts
+
     file_path = os.path.join(SOUNDS_FOLDER, file_name)
+    
     if os.path.exists(file_path):
-        playsound(file_path)
-        print(f"Attempting to play: {file_path}")
+        # Play the sound using simpleaudio (non-blocking)
+        wave_obj = sa.WaveObject.from_wave_file(file_path)
+        current_play_obj = wave_obj.play()
+        
+        # Loop the sound indefinitely
+        while not stop_requested:
+            continue  # Keep looping until stop is requested
+
     else:
         print(f"Sound file {file_name} not found.")
+
+def stop_sound():
+    """Stops the sound if it's playing."""
+    global current_play_obj, stop_requested
+    if current_play_obj:
+        stop_requested = True  # Set stop flag
+        current_play_obj.stop()
+        print("Sound stopped.")
 
 def build_instrument_tab(parent_frame):
     """
@@ -53,17 +79,9 @@ def build_instrument_tab(parent_frame):
     with guitar and ukulele buttons for playing corresponding sounds.
     """
 
-    # Title and Entry for duration
-    ttk.Label(parent_frame, text="Set Duration (seconds):", font=("Arial", 30)).pack(pady=(5, 0))
-    duration_var = tk.StringVar(value="1.0")
-    duration_entry = ttk.Entry(parent_frame, textvariable=duration_var, width=10)
-    duration_entry.pack(pady=5)
-
-    def get_duration():
-        try:
-            return float(duration_var.get())
-        except ValueError:
-            return 1.0  # Fallback if user input is invalid
+    # Create a style for the stop button
+    style = ttk.Style()
+    style.configure("TButton", font=("Arial", 20))
 
     # Title label for guitar
     ttk.Label(parent_frame, text="Guitar Strings", font=("Arial", 30)).pack(pady=(10, 0))
@@ -84,12 +102,14 @@ def build_instrument_tab(parent_frame):
 
     for string_name, sound_file in guitar_sounds.items():
         def on_click(sf=sound_file):
-            play_sound_file(sf)
+            stop_sound()  # Stop any sound that may be currently playing
+            threading.Thread(target=play_sound_file, args=(sf,), daemon=True).start()  # Start sound in a background thread
         ttk.Button(
             guitar_frame,
             text=string_name,
             width=20,
-            command=on_click
+            command=on_click,
+            style="TButton"  # Apply the style here
         ).pack(side=tk.LEFT, padx=5)
 
     # Title label for ukulele
@@ -101,11 +121,16 @@ def build_instrument_tab(parent_frame):
 
     for string_name, freq in UKULELE_FREQUENCIES.items():
         def on_click(f=freq):
-            duration = get_duration()
-            play_frequency_in_background(f, duration)
+            stop_sound()  # Stop any sound that may be currently playing
+            threading.Thread(target=play_frequency_in_background, args=(f,), daemon=True).start()  # Start frequency in a background thread
         ttk.Button(
             ukulele_frame,
             text=string_name,
             width=20,
-            command=on_click
+            command=on_click,
+            style="TButton"  # Apply the style here
         ).pack(side=tk.LEFT, padx=5)
+
+    # Stop button to stop any sound playing
+    stop_button = ttk.Button(parent_frame, text="Stop Sound", command=stop_sound, width=20, style="TButton")
+    stop_button.pack(pady=20)

@@ -1,5 +1,3 @@
-# Record 
-# audio using PyAudio and save it as a .wav file with a GUI using Tkinter
 import pyaudio
 import wave
 import numpy as np
@@ -24,7 +22,7 @@ def guiRecord_main(parent_frame):
     image_path = os.path.join(os.getcwd(), 'images', 'guitars.jpg')
     img = Image.open(image_path)
     
-    # Optionally, you can resize the image to fit your UI
+    # resize the image to fit your UI
     img = img.resize((600, 400), resample=Image.Resampling.LANCZOS)
     img = img.rotate(-90, expand=True)
     
@@ -34,6 +32,17 @@ def guiRecord_main(parent_frame):
     img_label = tk.Label(parent_frame, image=img_tk)
     img_label.image = img_tk  # Keep a reference so it’s not garbage collected
     img_label.pack(pady=10)
+
+    # Add instructional text to help guide the user
+    instruction_text = (
+        "This section allows you to record audio and save it as a .wav file.\n"
+        "\n"
+        "You can specify the duration and name of the recording.\n"
+        "\n"
+        "Once you start the recording, the audio will be captured and saved in the 'recordings' folder."
+    )
+    instruction_label = tk.Label(parent_frame, text=instruction_text, font=("Helvetica", 20), wraplength=500)
+    instruction_label.pack(pady=10)
 
     # Create a label and entry field for the user to input the recording time
     time_label = tk.Label(parent_frame, text="Enter recording duration in seconds:", font=("Helvetica", 20))
@@ -114,4 +123,3 @@ def start_recording(parent_frame, time_input, filename_input):
 
     # Inform the user that the recording is saved
     messagebox.showinfo("Recording Complete", f"Recording saved as {output_filename}")
-
