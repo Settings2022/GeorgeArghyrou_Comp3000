@@ -18,32 +18,26 @@ UKULELE_SOUNDS = {
 
 # Global variable to hold the play_obj, so we can stop it later
 current_play_obj = None
-stop_requested = False  # To track if stop has been requested
 
 def play_sound_file(file_name):
     """
-    Plays the specified sound file from the sounds folder in a loop.
+    Plays the specified sound file from the sounds folder once.
     """
-    global current_play_obj, stop_requested
-
-    stop_requested = False  # Reset stop flag when a new sound starts
+    global current_play_obj
 
     file_path = os.path.join(SOUNDS_FOLDER, file_name)
     
     if os.path.exists(file_path):
         wave_obj = sa.WaveObject.from_wave_file(file_path)
         current_play_obj = wave_obj.play()
-        
-        while not stop_requested:
-            continue  # Keep looping until stop is requested
+        current_play_obj.wait_done()  # Ensure the sound completes before returning
     else:
         print(f"Sound file {file_name} not found.")
 
 def stop_sound():
     """Stops the sound if it's playing."""
-    global current_play_obj, stop_requested
+    global current_play_obj
     if current_play_obj:
-        stop_requested = True  # Set stop flag
         current_play_obj.stop()
         print("Sound stopped.")
 

@@ -62,5 +62,6 @@ Bug - instrument_tab.py crashes when a sound is played.
 Actual ukulele string sounds added to sounds folder.
 Crash persists.
 
+Loop removed from instrument_tab.py, crash persists when sound is played.
 
 
