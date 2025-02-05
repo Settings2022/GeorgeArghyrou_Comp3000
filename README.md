@@ -58,3 +58,9 @@ Also gui.py duration changed from ms to s.
 Image and text instructions added to all tab interfaces.
 
 Bug - instrument_tab.py crashes when a sound is played.
+
+Actual ukulele string sounds added to sounds folder.
+Crash persists.
+
+
+
