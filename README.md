@@ -64,4 +64,5 @@ Crash persists.
 
 Loop removed from instrument_tab.py, crash persists when sound is played.
 
+Crash issue resolved by using winsound library instead of simpleaudio.
 

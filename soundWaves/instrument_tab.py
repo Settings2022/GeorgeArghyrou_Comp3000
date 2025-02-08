@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 import os
-import simpleaudio as sa
+import winsound
 import threading  # threading for handling background tasks
 from PIL import Image, ImageTk
 
@@ -16,30 +16,19 @@ UKULELE_SOUNDS = {
     "A": "A.wav"
 }
 
-# Global variable to hold the play_obj, so we can stop it later
-current_play_obj = None
-
 def play_sound_file(file_name):
     """
-    Plays the specified sound file from the sounds folder once.
+    Plays the specified sound file from the sounds folder using winsound.
     """
-    global current_play_obj
-
-    file_path = os.path.join(SOUNDS_FOLDER, file_name)
+    def play():
+        file_path = os.path.join(SOUNDS_FOLDER, file_name)
+        if os.path.exists(file_path):
+            winsound.PlaySound(file_path, winsound.SND_FILENAME | winsound.SND_ASYNC)
+        else:
+            print(f"Sound file {file_name} not found.")
     
-    if os.path.exists(file_path):
-        wave_obj = sa.WaveObject.from_wave_file(file_path)
-        current_play_obj = wave_obj.play()
-        current_play_obj.wait_done()  # Ensure the sound completes before returning
-    else:
-        print(f"Sound file {file_name} not found.")
-
-def stop_sound():
-    """Stops the sound if it's playing."""
-    global current_play_obj
-    if current_play_obj:
-        current_play_obj.stop()
-        print("Sound stopped.")
+    # Run in a separate thread to avoid blocking UI
+    threading.Thread(target=play, daemon=True).start()
 
 def build_instrument_tab(parent_frame):
     # Adding instructional text to the right side of the screen
@@ -64,7 +53,7 @@ def build_instrument_tab(parent_frame):
     img_label.image = img_tk  # Keep reference
     img_label.place(x=100, y=100)
 
-    # Create a style for the stop button
+    # Create a style for the buttons
     style = ttk.Style()
     style.configure("TButton", font=("Arial", 20))
 
@@ -84,8 +73,7 @@ def build_instrument_tab(parent_frame):
 
     for string_name, sound_file in guitar_sounds.items():
         def on_click(sf=sound_file):
-            stop_sound()
-            threading.Thread(target=play_sound_file, args=(sf,), daemon=True).start()
+            play_sound_file(sf)
         ttk.Button(
             guitar_frame, text=string_name, width=20, command=on_click, style="TButton"
         ).pack(side=tk.LEFT, padx=5)
@@ -97,11 +85,7 @@ def build_instrument_tab(parent_frame):
 
     for string_name, sound_file in UKULELE_SOUNDS.items():
         def on_click(sf=sound_file):
-            stop_sound()
-            threading.Thread(target=play_sound_file, args=(sf,), daemon=True).start()
+            play_sound_file(sf)
         ttk.Button(
             ukulele_frame, text=string_name, width=20, command=on_click, style="TButton"
         ).pack(side=tk.LEFT, padx=5)
-
-    stop_button = ttk.Button(parent_frame, text="Stop Sound", command=stop_sound, width=20, style="TButton")
-    stop_button.pack(pady=20)
