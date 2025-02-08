@@ -66,5 +66,6 @@ Loop removed from instrument_tab.py, crash persists when sound is played.
 
 Crash issue resolved by using winsound library instead of simpleaudio.
 Repeat look added to instrument_tab.py with stop button.
+Feedback provided to tell user which string is being played.
 
 
