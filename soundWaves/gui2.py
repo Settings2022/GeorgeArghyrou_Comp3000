@@ -53,19 +53,6 @@ def load_waveform(file_path):
         t = np.linspace(0, num_frames / sample_rate, num_frames, endpoint=False)
     return t, waveform
 
-def display_waveform_from_file():
-    try:
-        file_path = get_selected_file_path()
-        load_waveform(file_path)
-        ax.clear()
-        ax.plot(t, waveform, color="blue", linewidth=0.5, label='Waveform Line')
-        ax.set(xlabel='Time (s)', ylabel='Amplitude', title=f'Waveform from {file_path}')
-        ax.legend()
-        ax.grid(True)
-        canvas.draw()
-    except Exception as e:
-        messagebox.showerror("Error", f"An error occurred: {e}")
-
 def play_sound_and_plot_from_file():
     global start_time, ani
     try:
@@ -120,9 +107,9 @@ def gui2_main(parent_frame):
     image_path = os.path.join(os.getcwd(), 'images', 'guitars.jpg')
     img = Image.open(image_path)
     
-    # Resize the image to fit your UI
-    img = img.resize((900, 600), resample=Image.Resampling.LANCZOS)
-    img = img.rotate(-90, expand=True)
+    # Resize the image to fit UI
+    img = img.resize((600, 900), resample=Image.Resampling.LANCZOS)
+    img = img.rotate(360, expand=True)
     
     img_tk = ImageTk.PhotoImage(img)
 

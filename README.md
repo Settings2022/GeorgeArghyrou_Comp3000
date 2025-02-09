@@ -68,4 +68,9 @@ Crash issue resolved by using winsound library instead of simpleaudio.
 Repeat look added to instrument_tab.py with stop button.
 Feedback provided to tell user which string is being played.
 
+Redundant function def display_waveform_from_file(): removed from gui2.py,
+because play_sound_and_plot_from_file(): handles both play and plot.
+
+
+
 

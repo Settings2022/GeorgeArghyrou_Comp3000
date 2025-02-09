@@ -36,9 +36,6 @@ def gui_main(parent_frame):
         ax.set(xlabel='Time (s)', ylabel='Amplitude', title=f'Sound Waveform - {frequency} Hz')
         ax.grid()
 
-        # Update the canvas with the new plot
-        canvas.draw()
-
     # Play sound and plot the waveform
     def play_sound_and_plot():
         global t, waveform, frequency, ani, start_time, duration
@@ -91,9 +88,9 @@ def gui_main(parent_frame):
     image_path = os.path.join(os.getcwd(), 'images', 'guitars.jpg')
     img = Image.open(image_path)
     
-    # Resize the image to fit your UI
-    img = img.resize((900, 600), resample=Image.Resampling.LANCZOS)
-    img = img.rotate(-90, expand=True)
+    # Resize the image to fit UI
+    img = img.resize((600, 900), resample=Image.Resampling.LANCZOS)
+    img = img.rotate(360, expand=True)
     
     img_tk = ImageTk.PhotoImage(img)
 

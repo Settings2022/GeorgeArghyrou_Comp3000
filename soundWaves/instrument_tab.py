@@ -54,6 +54,10 @@ def build_instrument_tab(parent_frame):
         "\n"
         "Select a button to listen to the sound.\n"
         "\n"
+        "The sound will repeat in a loop until you select another button or press the stop button.\n"
+        "\n"
+        "Listen carefully to the sound and compare it to the sound of your instrument.\n"
+        "\n"
         "Tune your instrument up or down to match that sound.\n"
     )
     instruction_label = tk.Label(parent_frame, text=instruction_text, font=("Helvetica", 25), wraplength=500, anchor="w")
@@ -66,8 +70,11 @@ def build_instrument_tab(parent_frame):
     # Load and rotate the image from the 'images' folder
     image_path = os.path.join(os.getcwd(), 'images', 'guitars.jpg')
     img = Image.open(image_path)
-    img = img.resize((900, 600), resample=Image.Resampling.LANCZOS)
-    img = img.rotate(-90, expand=True)
+    
+    # Resize the image to fit UI
+    img = img.resize((600, 900), resample=Image.Resampling.LANCZOS)
+    img = img.rotate(360, expand=True)
+
     img_tk = ImageTk.PhotoImage(img)
     img_label = tk.Label(parent_frame, image=img_tk)
     img_label.image = img_tk  # Keep reference

@@ -76,9 +76,9 @@ class GuitarTunerApp:
         image_path = os.path.join(os.getcwd(), 'images', 'guitars.jpg')
         img = Image.open(image_path)
         
-        # Resize the image to fit your UI
-        img = img.resize((900, 600), resample=Image.Resampling.LANCZOS)
-        img = img.rotate(-90, expand=True)
+        # Resize the image to fit UI
+        img = img.resize((600, 900), resample=Image.Resampling.LANCZOS)
+        img = img.rotate(360, expand=True)
         
         img_tk = ImageTk.PhotoImage(img)
 

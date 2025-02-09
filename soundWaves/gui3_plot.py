@@ -33,8 +33,8 @@ def gui3_plot_main(parent_frame):
     img = Image.open(image_path)
     
     # Resize the image to fit your UI
-    img = img.resize((900, 600), resample=Image.Resampling.LANCZOS)
-    img = img.rotate(-90, expand=True)
+    img = img.resize((600, 900), resample=Image.Resampling.LANCZOS)
+    img = img.rotate(360, expand=True)
     
     img_tk = ImageTk.PhotoImage(img)
 
