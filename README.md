@@ -71,6 +71,10 @@ Feedback provided to tell user which string is being played.
 Redundant function def display_waveform_from_file(): removed from gui2.py,
 because play_sound_and_plot_from_file(): handles both play and plot.
 
+instrument_tab.py enhancements added
+
+new images added to images file
+
 
 
 

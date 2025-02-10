@@ -78,11 +78,11 @@ def low_pass_filter_main(parent_frame):
     instruction_label.place(x=3000, y=50)  # Position the text on the right side with padding
 
     # Load and rotate the image from the 'images' folder
-    image_path = os.path.join(os.getcwd(), 'images', 'guitars.jpg')
+    image_path = os.path.join(os.getcwd(), 'images', 'gibson.jpg')
     img = Image.open(image_path)
     
     # Resize the image to fit UI
-    img = img.resize((600, 900), resample=Image.Resampling.LANCZOS)
+    img = img.resize((400, 900), resample=Image.Resampling.LANCZOS)
     img = img.rotate(360, expand=True)
     
     img_tk = ImageTk.PhotoImage(img)
@@ -91,8 +91,6 @@ def low_pass_filter_main(parent_frame):
     img_label = tk.Label(parent_frame, image=img_tk)
     img_label.image = img_tk  # Keep a reference so it’s not garbage collected
     img_label.place(x=100, y=100)  # Place image on the left side with some padding
-
-
 
     global selected_file, canvas, fig, ax
 
