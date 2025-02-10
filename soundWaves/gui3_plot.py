@@ -10,6 +10,64 @@ from PIL import Image, ImageTk
 # Path to the sounds folder
 RECORDINGS_FOLDER = "recordings"
 
+# Function to add multiple images
+def add_images(parent_frame):
+    image_files = ["gibson.jpg", "strat.jpg", "ukulele.jpg", "sigma.jpg", "epiphone.jpg", "washburn.jpg", "epiphoneLPS.jpg"]  # Add more filenames here
+    image_positions = [(100, 100), (1300, 650), (100, 1050), (700, 650), (2350, 650), (3050, 650), (1500, 1150) ]  # Position coordinates for images
+
+    image_labels = []  # Store references to avoid garbage collection
+
+    for i, filename in enumerate(image_files):
+        image_path = os.path.join(os.getcwd(), "images", filename)
+
+        if os.path.exists(image_path):  # Check if the image file exists
+            img = Image.open(image_path)
+            img = img.resize((400, 900), resample=Image.Resampling.LANCZOS)
+            img = img.rotate(360, expand=True)
+
+            if filename == "gibson.jpg":
+                heading_label = tk.Label(parent_frame, text="The Gibson J45:", font=("Arial", 24, "bold"))
+                heading_label.place(x=100, y=50)
+            
+            if filename == "strat.jpg":
+                heading_label = tk.Label(parent_frame, text="A Fender Stratocaster:", font=("Arial", 24, "bold"))
+                heading_label.place(x=1300, y=600)
+                img = img.resize((900, 400), resample=Image.Resampling.LANCZOS)
+
+            if filename == "epiphoneLPS.jpg":
+                heading_label = tk.Label(parent_frame, text="The Epiphone Les Paul Studio:", font=("Arial", 24, "bold"))
+                heading_label.place(x=1500, y=1100)
+                img = img.resize((450, 900), resample=Image.Resampling.LANCZOS)
+            
+            if filename == "ukulele.jpg":
+                heading_label = tk.Label(parent_frame, text="A Ukulele:", font=("Arial", 24, "bold"))
+                heading_label.place(x=100, y=1000)
+            
+            if filename == "sigma.jpg":
+                heading_label = tk.Label(parent_frame, text="A Sigma Parlour guitar:", font=("Arial", 24, "bold"))
+                heading_label.place(x=700, y=600)  # Position the heading above the image
+                img = img.resize((450, 900), resample=Image.Resampling.LANCZOS)
+
+            if filename == "epiphone.jpg":
+                heading_label = tk.Label(parent_frame, text="The Noel Gallagher Epiphone Riviera:", font=("Arial", 24, "bold"))
+                heading_label.place(x=2350, y=600)
+                img = img.resize((450, 900), resample=Image.Resampling.LANCZOS)
+            
+            if filename == "washburn.jpg":
+                heading_label = tk.Label(parent_frame, text="A Washburn Parlour guitar:", font=("Arial", 24, "bold"))
+                heading_label.place(x=3050, y=600)
+                img = img.resize((450, 1000), resample=Image.Resampling.LANCZOS)
+
+            img_tk = ImageTk.PhotoImage(img)
+
+            # Create a label for the image
+            img_label = tk.Label(parent_frame, image=img_tk)
+            img_label.image = img_tk  # Keep a reference to prevent garbage collection
+            img_label.place(x=image_positions[i][0], y=image_positions[i][1])  # Position the image
+            image_labels.append(img_label)
+        else:
+            print(f"Warning: {filename} not found in the images folder!")
+
 # Function to initialize the waveform plotting GUI
 def gui3_plot_main(parent_frame):
     # Create a label for instructions
@@ -28,20 +86,7 @@ def gui3_plot_main(parent_frame):
     instruction_label = tk.Label(parent_frame, text=instruction_text, font=("Helvetica", 25), wraplength=500, anchor="w")
     instruction_label.place(x=3000, y=50)  # Position the text on the right side with padding
 
-    # Load and rotate the image from the 'images' folder
-    image_path = os.path.join(os.getcwd(), 'images', 'gibson.jpg')
-    img = Image.open(image_path)
-    
-    # Resize the image to fit UI
-    img = img.resize((400, 900), resample=Image.Resampling.LANCZOS)
-    img = img.rotate(360, expand=True)
-    
-    img_tk = ImageTk.PhotoImage(img)
-
-    # Create a label to display the image
-    img_label = tk.Label(parent_frame, image=img_tk)
-    img_label.image = img_tk  # Keep a reference so it’s not garbage collected
-    img_label.place(x=100, y=100)  # Place image on the left side with some padding
+    add_images(parent_frame)  # Add images to the GUI
 
     # List all WAV files in the current directory
     wav_files = [f for f in os.listdir(RECORDINGS_FOLDER) if f.endswith('.wav')] 

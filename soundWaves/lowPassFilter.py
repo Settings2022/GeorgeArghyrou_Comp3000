@@ -11,9 +11,58 @@ from PIL import Image, ImageTk
 # Path to the sounds folder
 RECORDINGS_FOLDER = "recordings"
 
+# Function to add multiple images
+def add_images(parent_frame):
+    image_files = ["gibson.jpg", "strat.jpg", "ukulele.jpg", "lowPassWave.jpg", "epiphoneLPS.jpg"]  # Add more filenames here
+    image_positions = [(200, 100), (2050, 1600), (200, 1100), (1000, 1600), (3100, 800)]  # position co-ordinates for images
+
+    image_labels = []  # Store references to avoid garbage collection
+
+    for i, filename in enumerate(image_files):
+        image_path = os.path.join(os.getcwd(), "images", filename)
+
+        if os.path.exists(image_path):  # Check if the image file exists
+            img = Image.open(image_path)
+            img = img.resize((400, 900), resample=Image.Resampling.LANCZOS)
+            img = img.rotate(360, expand=True)
+
+            if filename == "gibson.jpg":
+                heading_label = tk.Label(parent_frame, text="The Gibson J45:", font=("Arial", 24, "bold"))
+                heading_label.place(x=200, y=50)
+            
+            if filename == "strat.jpg":
+                heading_label = tk.Label(parent_frame, text="A Fender Startocaster:", font=("Arial", 24, "bold"))
+                heading_label.place(x=2050, y=1550)
+                img = img.resize((900, 400), resample=Image.Resampling.LANCZOS)
+            
+            if filename == "ukulele.jpg":
+                heading_label = tk.Label(parent_frame, text="A Ukulele:", font=("Arial", 24, "bold"))
+                heading_label.place(x=200, y=1050)
+            
+            if filename == "lowPassWave.jpg":
+                heading_label = tk.Label(parent_frame, text="Example of orinigal wave in blue vs low pass wave in red:", font=("Arial", 24, "bold"))
+                heading_label.place(x=1000, y=1550)  # Position the heading above the image
+                img = img.resize((900, 400), resample=Image.Resampling.LANCZOS)
+
+            if filename == "epiphoneLPS.jpg":
+                heading_label = tk.Label(parent_frame, text="Epiphone Les Paul Studio:", font=("Arial", 24, "bold"))
+                heading_label.place(x=3100, y=750)
+                img = img.resize((450, 900), resample=Image.Resampling.LANCZOS)
+
+            img_tk = ImageTk.PhotoImage(img)
+
+            # Create a label for the image
+            img_label = tk.Label(parent_frame, image=img_tk)
+            img_label.image = img_tk  # Keep a reference to prevent garbage collection
+            img_label.place(x=image_positions[i][0], y=image_positions[i][1])  # Position the image
+            image_labels.append(img_label)
+        else:
+            print(f"Warning: {filename} not found in the images folder!")
+
+
 # Function to get all .wav files in the 'soundWaves' folder
 def get_wav_files():
-    folder_path = RECORDINGS_FOLDER  # Use the SOUNDS_FOLDER path to get .wav files
+    folder_path = RECORDINGS_FOLDER  # Use the RECORDINGS_FOLDER path to get .wav files
     wav_files = [os.path.join(folder_path, f) for f in os.listdir(folder_path) if f.endswith('.wav')]
     return wav_files
 
@@ -40,7 +89,7 @@ def display_filtered_waveform():
 
     try:
         signal, sample_rate, num_samples = load_waveform(file_path)
-        cutoff_frequency = 300  # in Hz
+        cutoff_frequency = 250  # in Hz
 
         # Apply the low-pass filter
         filtered_signal = low_pass_filter(signal, cutoff_frequency, sample_rate)
@@ -49,9 +98,14 @@ def display_filtered_waveform():
         times = np.linspace(0, num_samples / sample_rate, num_samples)
 
         ax.clear()
-        ax.plot(times, signal, label='Original Signal', alpha=0.7)
-        ax.plot(times, filtered_signal, label='Filtered Signal', alpha=0.7, color='red')
-        ax.set(xlabel='Time (s)', ylabel='Amplitude', title=f'Original vs Low-Pass Filtered Signal\n{file_path}')
+        ax.plot(times, signal, label='Original Signal', alpha=0.7, color="blue")
+        ax.plot(times, filtered_signal, label='Filtered Signal (Low-Pass)', alpha=0.7, color="red")
+
+        # **Updated: Add axis labels and title**
+        ax.set_xlabel("Time (seconds)", fontsize=16)
+        ax.set_ylabel("Amplitude", fontsize=16)
+        ax.set_title(f"Original (blue) vs Low-Pass Filtered (red) Signal from file named: {file_path}", fontsize=18, fontweight='bold')
+
         ax.legend()
         ax.grid()
         canvas.draw()
@@ -66,31 +120,18 @@ def low_pass_filter_main(parent_frame):
         "\n"
         "This page allows you to see a low pass filter graph of a recording saved to the recordings folder.\n"
         "\n"
-        "Select a .wav file from the drop down menu.\n"
+        "Select a .wav file from the drop-down menu.\n"
         "\n"
         "Click the Apply Low-Pass Filter button to display the graph.\n"
         "\n"
         "This shows a graph with the original signal in blue and the low-pass filtered signal in red.\n"
         "\n"
-        "The cutoff frequency in the code is currently set to 300 Hz.\n"
+        "The cutoff frequency in the code is currently set to 250 Hz.\n"
     )
     instruction_label = tk.Label(parent_frame, text=instruction_text, font=("Helvetica", 25), wraplength=500, anchor="w")
     instruction_label.place(x=3000, y=50)  # Position the text on the right side with padding
 
-    # Load and rotate the image from the 'images' folder
-    image_path = os.path.join(os.getcwd(), 'images', 'gibson.jpg')
-    img = Image.open(image_path)
-    
-    # Resize the image to fit UI
-    img = img.resize((400, 900), resample=Image.Resampling.LANCZOS)
-    img = img.rotate(360, expand=True)
-    
-    img_tk = ImageTk.PhotoImage(img)
-
-    # Create a label to display the image
-    img_label = tk.Label(parent_frame, image=img_tk)
-    img_label.image = img_tk  # Keep a reference so it’s not garbage collected
-    img_label.place(x=100, y=100)  # Place image on the left side with some padding
+    add_images(parent_frame)
 
     global selected_file, canvas, fig, ax
 
@@ -116,6 +157,11 @@ def low_pass_filter_main(parent_frame):
     plot_frame = tk.Frame(parent_frame, width=800, height=400, padx=100, pady=50)
     plot_frame.pack(pady=20)
     fig, ax = plt.subplots(figsize=(20, 10))
+
+    # **Updated: Set axis labels and title when initializing the figure**
+    ax.set_xlabel("Time (seconds)", fontsize=16)
+    ax.set_ylabel("Amplitude", fontsize=16)
+    ax.set_title("Original (blue) vs Low-Pass Filtered (red) Signal", fontsize=18, fontweight='bold')
 
     # Embed the figure in the Tkinter canvas
     canvas = FigureCanvasTkAgg(fig, master=plot_frame)

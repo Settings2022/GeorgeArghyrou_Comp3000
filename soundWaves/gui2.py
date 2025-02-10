@@ -104,19 +104,61 @@ def gui2_main(parent_frame):
     instruction_label.place(x=3000, y=50)  # Position the text on the right side with padding
 
     # Load and rotate the image from the 'images' folder
+    heading_label = tk.Label(parent_frame, text="The Gibson J45:", font=("Arial", 24, "bold"))
+    heading_label.place(x=200, y=50)
     image_path = os.path.join(os.getcwd(), 'images', 'gibson.jpg')
-    img = Image.open(image_path)
-    
+    img = Image.open(image_path)    
     # Resize the image to fit UI
     img = img.resize((400, 900), resample=Image.Resampling.LANCZOS)
-    img = img.rotate(360, expand=True)
-    
+    img = img.rotate(360, expand=True)    
     img_tk = ImageTk.PhotoImage(img)
-
     # Create a label to display the image
     img_label = tk.Label(parent_frame, image=img_tk)
     img_label.image = img_tk  # Keep a reference so it’s not garbage collected
-    img_label.place(x=100, y=100)  # Place image on the left side with some padding
+    img_label.place(x=200, y=100)  # Place image on the left side with some padding
+
+    # Add heading for the example wave image
+    heading_label = tk.Label(parent_frame, text="Example of a Sound Wave:", font=("Arial", 24, "bold"))
+    heading_label.place(x=500, y=1450)  # Position the heading above the image
+    # Load and rotate the image from the 'images' folder
+    image_path = os.path.join(os.getcwd(), 'images', 'exampleWave.jpg')
+    img = Image.open(image_path)    
+    # Resize the image to fit UI
+    img = img.resize((900, 400), resample=Image.Resampling.LANCZOS)
+    img = img.rotate(360, expand=True)    
+    img_tk = ImageTk.PhotoImage(img)
+    # Create a label to display the image
+    img_label = tk.Label(parent_frame, image=img_tk)
+    img_label.image = img_tk  # Keep a reference so it’s not garbage collected
+    img_label.place(x=500, y=1500)  # Place image on the left side with some padding
+
+    # Load and rotate the image from the 'images' folder
+    heading_label = tk.Label(parent_frame, text="A Fender Startocaster:", font=("Arial", 24, "bold"))
+    heading_label.place(x=1700, y=1450)
+    image_path = os.path.join(os.getcwd(), 'images', 'strat.jpg')
+    img = Image.open(image_path)    
+    # Resize the image to fit UI
+    img = img.resize((900, 400), resample=Image.Resampling.LANCZOS)
+    img = img.rotate(360, expand=True)    
+    img_tk = ImageTk.PhotoImage(img)
+    # Create a label to display the image
+    img_label = tk.Label(parent_frame, image=img_tk)
+    img_label.image = img_tk  # Keep a reference so it’s not garbage collected
+    img_label.place(x=1700, y=1500)  # Place image on the left side with some padding
+
+    # Load and rotate the image from the 'images' folder
+    heading_label = tk.Label(parent_frame, text="The Noel Gallagher Epiphone Riviera:", font=("Arial", 24, "bold"))
+    heading_label.place(x=3050, y=950)
+    image_path = os.path.join(os.getcwd(), 'images', 'epiphone.jpg')
+    img = Image.open(image_path)    
+    # Resize the image to fit UI
+    img = img.resize((400, 900), resample=Image.Resampling.LANCZOS)
+    img = img.rotate(360, expand=True)    
+    img_tk = ImageTk.PhotoImage(img)
+    # Create a label to display the image
+    img_label = tk.Label(parent_frame, image=img_tk)
+    img_label.image = img_tk  # Keep a reference so it’s not garbage collected
+    img_label.place(x=3050, y=1000)  # Place image on the left side with some padding
 
     # Dropdown to select .wav file
     tk.Label(parent_frame, text="Select .wav file:", font=("Helvetica", 30)).pack(pady=5)

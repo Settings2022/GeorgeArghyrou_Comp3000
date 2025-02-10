@@ -17,6 +17,54 @@ def generate_waveform(duration, frequency):
     waveform = 0.5 * np.sin(2 * np.pi * frequency * t)
     return t, waveform
 
+# Function to add multiple images
+def add_images(parent_frame):
+    image_files = ["gibson.jpg", "strat.jpg", "ukulele.jpg", "freqWaveExample.jpg", "epiphoneLPS.jpg"]  # Add more filenames here
+    image_positions = [(200, 100), (2050, 1600), (200, 1100), (1000, 1600), (3100, 800)]  # position co-ordinates for images
+
+    image_labels = []  # Store references to avoid garbage collection
+
+    for i, filename in enumerate(image_files):
+        image_path = os.path.join(os.getcwd(), "images", filename)
+
+        if os.path.exists(image_path):  # Check if the image file exists
+            img = Image.open(image_path)
+            img = img.resize((400, 900), resample=Image.Resampling.LANCZOS)
+            img = img.rotate(360, expand=True)
+
+            if filename == "gibson.jpg":
+                heading_label = tk.Label(parent_frame, text="The Gibson J45:", font=("Arial", 24, "bold"))
+                heading_label.place(x=200, y=50)
+            
+            if filename == "strat.jpg":
+                heading_label = tk.Label(parent_frame, text="A Fender Startocaster:", font=("Arial", 24, "bold"))
+                heading_label.place(x=2050, y=1550)
+                img = img.resize((900, 400), resample=Image.Resampling.LANCZOS)
+            
+            if filename == "ukulele.jpg":
+                heading_label = tk.Label(parent_frame, text="A Ukulele:", font=("Arial", 24, "bold"))
+                heading_label.place(x=200, y=1050)
+            
+            if filename == "freqWaveExample.jpg":
+                heading_label = tk.Label(parent_frame, text="Example of a Frequency Wave at 888 Hz over 5 seconds:", font=("Arial", 24, "bold"))
+                heading_label.place(x=1000, y=1550)  # Position the heading above the image
+                img = img.resize((900, 400), resample=Image.Resampling.LANCZOS)
+
+            if filename == "epiphoneLPS.jpg":
+                heading_label = tk.Label(parent_frame, text="Epiphone Les Paul Studio:", font=("Arial", 24, "bold"))
+                heading_label.place(x=3100, y=750)
+                img = img.resize((450, 900), resample=Image.Resampling.LANCZOS)
+
+            img_tk = ImageTk.PhotoImage(img)
+
+            # Create a label for the image
+            img_label = tk.Label(parent_frame, image=img_tk)
+            img_label.image = img_tk  # Keep a reference to prevent garbage collection
+            img_label.place(x=image_positions[i][0], y=image_positions[i][1])  # Position the image
+            image_labels.append(img_label)
+        else:
+            print(f"Warning: {filename} not found in the images folder!")
+
 # Main function to build the GUI
 def gui_main(parent_frame):
     # Function to update the plot
@@ -84,20 +132,8 @@ def gui_main(parent_frame):
     instruction_label = tk.Label(parent_frame, text=instruction_text, font=("Helvetica", 25), wraplength=500, anchor="w")
     instruction_label.place(x=3000, y=50)  # Position the text on the right side with padding
 
-    # Load and rotate the image from the 'images' folder
-    image_path = os.path.join(os.getcwd(), 'images', 'gibson.jpg')
-    img = Image.open(image_path)
-    
-    # Resize the image to fit UI
-    img = img.resize((400, 900), resample=Image.Resampling.LANCZOS)
-    img = img.rotate(360, expand=True)
-    
-    img_tk = ImageTk.PhotoImage(img)
-
-    # Create a label to display the image
-    img_label = tk.Label(parent_frame, image=img_tk)
-    img_label.image = img_tk  # Keep a reference so it’s not garbage collected
-    img_label.place(x=100, y=100)  # Place image on the left side with some padding
+    # Load and display multiple images dynamically
+    add_images(parent_frame)
 
     # Create and place the input fields for duration and frequency
     tk.Label(parent_frame, text="Enter duration (s):", font=("Helvetica", 30)).pack(pady=5)

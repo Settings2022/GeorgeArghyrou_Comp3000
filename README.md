@@ -73,7 +73,9 @@ because play_sound_and_plot_from_file(): handles both play and plot.
 
 instrument_tab.py enhancements added
 
-new images added to images file
+Code added for multiple images on UIs.
+Axis labels & title added to low pass filter .py
+
 
 
 
