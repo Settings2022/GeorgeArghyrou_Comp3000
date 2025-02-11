@@ -31,8 +31,13 @@ stop_playback = False
 
 # Function to add multiple images
 def add_images(parent_frame):
+
+    # GUI Setup
+    label = tk.Label(parent_frame, text="Click a button to hear the sound.", font=("Helvetica", 40, "bold"))
+    label.pack(pady=10)
+
     image_files = ["gibson.jpg", "strat.jpg", "ukulele.jpg", "sigma.jpg", "epiphone.jpg", "washburn.jpg", "epiphoneLPS.jpg"]  # Add more filenames here
-    image_positions = [(100, 100), (1300, 1300), (100, 1050), (700, 100), (2350, 1050), (3050, 1050), (700, 1050) ]  # Position coordinates for images
+    image_positions = [(100, 100), (1300, 1300), (100, 1050), (700, 100), (2350, 1100), (3050, 1050), (700, 1050) ]  # Position coordinates for images
 
     image_labels = []  # Store references to avoid garbage collection
 
@@ -69,7 +74,7 @@ def add_images(parent_frame):
 
             if filename == "epiphone.jpg":
                 heading_label = tk.Label(parent_frame, text="The Noel Gallagher Epiphone Riviera:", font=("Arial", 24, "bold"))
-                heading_label.place(x=2350, y=1000)
+                heading_label.place(x=2350, y=1050)
                 img = img.resize((450, 900), resample=Image.Resampling.LANCZOS)
             
             if filename == "washburn.jpg":
