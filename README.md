@@ -80,6 +80,8 @@ instrument_tab.py HCI improved:
 Buttons repositioned and enlarged,
 but may have too many pics.
 
+autoTune.py HCI improved - images need to be added.
+
 
 
 

@@ -148,7 +148,7 @@ def gui3_main(parent_frame):
     sampwidth_label = tk.Label(parent_frame, text="Sample width: -", font=("Helvetica", 20))
     sampwidth_label.pack(pady=5)
 
-    framerate_label = tk.Label(parent_frame, text="Frame rate: -", font=("Helvetica", 20))
+    framerate_label = tk.Label(parent_frame, text="Sample rate: -", font=("Helvetica", 20))
     framerate_label.pack(pady=5)
 
     frames_label = tk.Label(parent_frame, text="Number of frames: -", font=("Helvetica", 20))

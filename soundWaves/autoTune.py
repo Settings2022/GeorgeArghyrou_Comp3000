@@ -35,6 +35,7 @@ def load_strums():
             dominant_freq = frequencies[np.argmax(np.abs(fft_spectrum))] # Find the dominant frequency
             
             strums[string_name] = dominant_freq # Add to dictionary
+    print("Loaded Frequencies:", strums)  # Debugging output to verify frequencies
     return strums
 
 
@@ -48,6 +49,11 @@ class GuitarTunerApp:
         # GUI Setup
         label = tk.Label(root, text="Click a string button to start tuning.", font=("Helvetica", 20))
         label.pack(pady=10)
+
+        # Define button style
+        style = ttk.Style()
+        style.configure("Large.TButton", font=("Arial", 18), padding=15)
+
 
         # Adding instructional text to the right side of the screen
         instruction_text = (
@@ -72,32 +78,82 @@ class GuitarTunerApp:
         instruction_label = tk.Label(root, text=instruction_text, font=("Helvetica", 25), wraplength=500, anchor="w")
         instruction_label.place(x=3000, y=50)  # Position the text on the right side with padding
 
-        # Load and rotate the image from the 'images' folder
-        image_path = os.path.join(os.getcwd(), 'images', 'guitars.jpg')
-        img = Image.open(image_path)
-        
-        # Resize the image to fit UI
-        img = img.resize((600, 900), resample=Image.Resampling.LANCZOS)
-        img = img.rotate(360, expand=True)
-        
-        img_tk = ImageTk.PhotoImage(img)
+        # Create a frame to hold both guitar and ukulele sections
+        instrument_container = ttk.Frame(root)
+        instrument_container.pack(pady=10)
 
-        # Create a label to display the image
-        img_label = tk.Label(root, image=img_tk)
-        img_label.image = img_tk  # Keep a reference so it’s not garbage collected
-        img_label.place(x=50, y=100)  # Place image on the left side with some padding
+        # Guitar Section
+        guitar_frame = ttk.Frame(instrument_container)
+        guitar_frame.grid(row=0, column=0, padx=100)
+
+        # Guitar Headstock Label
+        guitar_label = tk.Label(guitar_frame, text="Guitar Headstock", font=("Arial", 20, "bold"))
+        guitar_label.pack()
+
+        # Load and display guitar headstock image
+        guitar_tuner_path = os.path.join(os.getcwd(), 'images', 'guitarPegs.jpg')
+        guitar_tuner_img = Image.open(guitar_tuner_path)
+        guitar_tuner_img = guitar_tuner_img.resize((400, 600), resample=Image.Resampling.LANCZOS)
+        guitar_tuner_img_tk = ImageTk.PhotoImage(guitar_tuner_img)
+        guitar_tuner_label = tk.Label(guitar_frame, image=guitar_tuner_img_tk)
+        guitar_tuner_label.image = guitar_tuner_img_tk
+        guitar_tuner_label.pack()
+
+        # Ukulele Section
+        ukulele_frame = ttk.Frame(instrument_container)
+        ukulele_frame.grid(row=0, column=1, padx=100)
+
+        # Ukulele Headstock Label
+        ukulele_label = tk.Label(ukulele_frame, text="Ukulele Headstock", font=("Arial", 20, "bold"))
+        ukulele_label.pack()
+
+        # Load and display ukulele headstock image
+        ukulele_tuner_path = os.path.join(os.getcwd(), 'images', 'ukulelePegs.jpg')
+        ukulele_tuner_img = Image.open(ukulele_tuner_path)
+        ukulele_tuner_img = ukulele_tuner_img.resize((400, 600), resample=Image.Resampling.LANCZOS)
+        ukulele_tuner_img_tk = ImageTk.PhotoImage(ukulele_tuner_img)
+        ukulele_tuner_label = tk.Label(ukulele_frame, image=ukulele_tuner_img_tk)
+        ukulele_tuner_label.image = ukulele_tuner_img_tk
+        ukulele_tuner_label.pack()
 
         # call load_strums() to get the references from sounds folder
         self.reference_frequencies = load_strums()
 
         # Create buttons for each string
         self.buttons = {}
-        button_frame = ttk.Frame(root)
-        button_frame.pack(pady=20)
-        for string in self.reference_frequencies.keys():
-            button = ttk.Button(button_frame, text=string, command=lambda s=string: self.activate_string(s))
-            button.pack(side=tk.LEFT, padx=5)
-            self.buttons[string] = button
+        button_frame = ttk.Frame(guitar_frame)  # Place buttons under the guitar image
+        button_frame.pack()
+
+        # Guitar Buttons
+        guitar_button_frame = ttk.Frame(guitar_frame)
+        guitar_button_frame.pack()
+
+        # Map button labels to actual file names
+        button_mapping = {
+            "E2": "1", "A": "2", "D": "3", "G": "4", "B": "5", "E": "6"
+        }
+
+        guitar_positions = [["D", "G"], ["A", "B"], ["E2", "E"]]
+
+        for row, pair in enumerate(guitar_positions):
+            for col, string_name in enumerate(pair):
+                mapped_string = button_mapping[string_name]  # Convert label to correct key
+                button = ttk.Button(guitar_button_frame, text=string_name, width=20, style="Large.TButton",
+                                    command=lambda s=mapped_string: self.activate_string(s))
+                button.grid(row=row, column=col, padx=10, pady=5)
+                self.buttons[string_name] = button
+
+        # Ukulele Buttons
+        ukulele_button_frame = ttk.Frame(ukulele_frame)
+        ukulele_button_frame.pack()
+
+        ukulele_positions = [["C", "E"], ["G", "A"]]
+        for row, pair in enumerate(ukulele_positions):
+            for col, string_name in enumerate(pair):
+                button = ttk.Button(ukulele_button_frame, text=string_name, width=20, style="Large.TButton",
+                                    command=lambda s=string_name: self.activate_string(s))
+                button.grid(row=row, column=col, padx=10, pady=5)
+                self.buttons[string_name] = button
 
         # Feedback label for tuning instructions
         self.feedback_label = ttk.Label(root, text="", font=("Times New Roman", 16))
@@ -171,28 +227,33 @@ class GuitarTunerApp:
 
     def update_frequency(self):
         while self.running:
-            data = self.stream.read(CHUNK)
-            audio_data = np.frombuffer(data, dtype=np.int16)
-            frequency = self.detect_frequency(audio_data)
-            if frequency is not None and self.active_string:
-                self.queue.put((frequency, audio_data))
+            try:
+                data = self.stream.read(CHUNK, exception_on_overflow=False)
+                audio_data = np.frombuffer(data, dtype=np.int16)
+                frequency = self.detect_frequency(audio_data)
+                if frequency is not None and self.active_string:
+                    self.queue.put((frequency, audio_data))
+            except Exception as e:
+                print(f"Audio stream error: {e}")
 
     def process_queue(self):
-        while not self.queue.empty():
+        if not self.queue.empty() and self.active_string:
             frequency, audio_data = self.queue.get()
-            standard_freq = self.reference_frequencies[self.active_string]
-            difference = frequency - standard_freq
 
-            # Update feedback and tuning needle
-            if frequency < standard_freq:
-                self.feedback_label.config(text=f"Tune UP to {self.active_string} ({standard_freq:.2f} Hz)")
-            elif frequency > standard_freq:
-                self.feedback_label.config(text=f"Tune DOWN to {self.active_string} ({standard_freq:.2f} Hz)")
-            else:
-                self.feedback_label.config(text=f"{self.active_string} is in tune!")
+            if self.active_string in self.reference_frequencies:
+                standard_freq = self.reference_frequencies[self.active_string]
+                difference = frequency - standard_freq
 
-            self.update_tuning_needle(difference, self.active_string)
-            self.update_waveform(audio_data)
+                # Update feedback and tuning needle
+                if frequency < standard_freq:
+                    self.feedback_label.config(text=f"Tune UP to {self.active_string} ({standard_freq:.2f} Hz)")
+                elif frequency > standard_freq:
+                    self.feedback_label.config(text=f"Tune DOWN to {self.active_string} ({standard_freq:.2f} Hz)")
+                else:
+                    self.feedback_label.config(text=f"{self.active_string} is in tune!")
+
+                self.update_tuning_needle(difference, self.active_string)
+                self.update_waveform(audio_data)
 
         self.root.after(100, self.process_queue)
 
