@@ -29,6 +29,64 @@ UKULELE_SOUNDS = {
 # Global variable to track if the sound should stop
 stop_playback = False
 
+# Function to add multiple images
+def add_images(parent_frame):
+    image_files = ["gibson.jpg", "strat.jpg", "ukulele.jpg", "sigma.jpg", "epiphone.jpg", "washburn.jpg", "epiphoneLPS.jpg"]  # Add more filenames here
+    image_positions = [(100, 100), (1300, 1300), (100, 1050), (700, 100), (2350, 1050), (3050, 1050), (700, 1050) ]  # Position coordinates for images
+
+    image_labels = []  # Store references to avoid garbage collection
+
+    for i, filename in enumerate(image_files):
+        image_path = os.path.join(os.getcwd(), "images", filename)
+
+        if os.path.exists(image_path):  # Check if the image file exists
+            img = Image.open(image_path)
+            img = img.resize((400, 900), resample=Image.Resampling.LANCZOS)
+            img = img.rotate(360, expand=True)
+
+            if filename == "gibson.jpg":
+                heading_label = tk.Label(parent_frame, text="The Gibson J45:", font=("Arial", 24, "bold"))
+                heading_label.place(x=100, y=50)
+            
+            if filename == "strat.jpg":
+                heading_label = tk.Label(parent_frame, text="A Fender Stratocaster:", font=("Arial", 24, "bold"))
+                heading_label.place(x=1300, y=1250)
+                img = img.resize((900, 400), resample=Image.Resampling.LANCZOS)
+
+            if filename == "epiphoneLPS.jpg":
+                heading_label = tk.Label(parent_frame, text="The Epiphone Les Paul Studio:", font=("Arial", 24, "bold"))
+                heading_label.place(x=700, y=1000)
+                img = img.resize((450, 900), resample=Image.Resampling.LANCZOS)
+            
+            if filename == "ukulele.jpg":
+                heading_label = tk.Label(parent_frame, text="A Ukulele:", font=("Arial", 24, "bold"))
+                heading_label.place(x=100, y=1000)
+            
+            if filename == "sigma.jpg":
+                heading_label = tk.Label(parent_frame, text="A Sigma Parlour guitar:", font=("Arial", 24, "bold"))
+                heading_label.place(x=700, y=50)  # Position the heading above the image
+                img = img.resize((450, 900), resample=Image.Resampling.LANCZOS)
+
+            if filename == "epiphone.jpg":
+                heading_label = tk.Label(parent_frame, text="The Noel Gallagher Epiphone Riviera:", font=("Arial", 24, "bold"))
+                heading_label.place(x=2350, y=1000)
+                img = img.resize((450, 900), resample=Image.Resampling.LANCZOS)
+            
+            if filename == "washburn.jpg":
+                heading_label = tk.Label(parent_frame, text="A Washburn Parlour guitar:", font=("Arial", 24, "bold"))
+                heading_label.place(x=3050, y=1000)
+                img = img.resize((450, 1000), resample=Image.Resampling.LANCZOS)
+
+            img_tk = ImageTk.PhotoImage(img)
+
+            # Create a label for the image
+            img_label = tk.Label(parent_frame, image=img_tk)
+            img_label.image = img_tk  # Keep a reference to prevent garbage collection
+            img_label.place(x=image_positions[i][0], y=image_positions[i][1])  # Position the image
+            image_labels.append(img_label)
+        else:
+            print(f"Warning: {filename} not found in the images folder!")
+
 def play_sound_file(file_name, string_name, feedback_label):
     """
     Plays the specified sound file from the sounds folder in a loop until stopped
@@ -62,7 +120,9 @@ def build_instrument_tab(parent_frame):
         "\n"
         "Here you can tune your instrument by ear.\n"
         "\n"
-        "Select a button to listen to the sound.\n"
+        "Each button represents a specific guitar or ukulele string in the headstock image.\n"
+        "\n"
+        "Select a button to play the sound of the guitar or ukulele string in standard tuning.\n"
         "\n"
         "The sound will repeat in a loop until you select another button or press the stop button.\n"
         "\n"
@@ -71,86 +131,71 @@ def build_instrument_tab(parent_frame):
         "Tune your instrument up or down to match that sound.\n"
     )
     instruction_label = tk.Label(parent_frame, text=instruction_text, font=("Helvetica", 25), wraplength=500, anchor="w")
-    instruction_label.place(x=3000, y=50)
+    instruction_label.place(x=2700, y=50)
 
-    # Load and rotate the image from the 'images' folder
-    image_path = os.path.join(os.getcwd(), 'images', 'gibson.jpg')
-    img = Image.open(image_path)
-    
-    # Resize the image to fit UI
-    img = img.resize((400, 900), resample=Image.Resampling.LANCZOS)
-    img = img.rotate(360, expand=True)
-    
-    img_tk = ImageTk.PhotoImage(img)
+    add_images(parent_frame)
 
-    # Create a label to display the image
-    img_label = tk.Label(parent_frame, image=img_tk)
-    img_label.image = img_tk  # Keep a reference so it’s not garbage collected
-    img_label.place(x=100, y=100)  # Place image on the left side with some padding
-
-    # Feedback label to show which string is playing
     feedback_label = tk.Label(parent_frame, text="", font=("Arial", 20), fg="black")
-    feedback_label.pack(pady=10)    
-
-    # Title label for guitar
-    ttk.Label(parent_frame, text="Guitar Strings", font=("Arial", 30)).pack(pady=(10, 0))
-    guitar_frame = ttk.Frame(parent_frame)
-    guitar_frame.pack(pady=5)
-
-    # Guitar frame to hold image and buttons
-    guitar_frame = ttk.Frame(parent_frame)
-    guitar_frame.pack()
+    feedback_label.pack(pady=10)
     
-    # Load and add the guitar headstock image
+    instrument_container = ttk.Frame(parent_frame)
+    instrument_container.pack(pady=10)
+    
+    guitar_frame = ttk.Frame(instrument_container)
+    guitar_frame.grid(row=0, column=0, padx=100)
+    
     guitar_tuner_path = os.path.join(os.getcwd(), 'images', 'guitarPegs.jpg')
     guitar_tuner_img = Image.open(guitar_tuner_path)
     guitar_tuner_img = guitar_tuner_img.resize((400, 600), resample=Image.Resampling.LANCZOS)
     guitar_tuner_img_tk = ImageTk.PhotoImage(guitar_tuner_img)
     guitar_tuner_label = tk.Label(guitar_frame, image=guitar_tuner_img_tk)
-    guitar_tuner_label.image = guitar_tuner_img_tk  # Keep reference
+    guitar_tuner_label.image = guitar_tuner_img_tk
+    guitar_label = tk.Label(guitar_frame, text="Guitar Headstock", font=("Arial", 20, "bold"))
+    guitar_label.pack()
     guitar_tuner_label.pack()
-
-    # Guitar string buttons arranged below the image
+    
     button_frame = ttk.Frame(guitar_frame)
     button_frame.pack()
     
-    style = ttk.Style()
-    style.configure("Large.TButton", font=("Arial", 20), padding=(10, 10))  # Increase padding for more height
-
     guitar_positions = [["D", "G"], ["A", "B"], ["E2", "E"]]
     for row, pair in enumerate(guitar_positions):
         for col, string_name in enumerate(pair):
             def on_click(sn=string_name):
                 play_sound_file(GUITAR_SOUNDS[sn], sn, feedback_label)
-            ttk.Button(button_frame, text=string_name, width=15, style="Large.TButton", command=on_click).grid(row=row, column=col, padx=10, pady=5)
+            # ttk.Button(button_frame, text=string_name, width=20, padding=15, command=on_click).grid(row=row, column=col, padx=10, pady=5)
+            style = ttk.Style()
+            style.configure("Large.TButton", font=("Arial", 20), padding=15)
+            ttk.Button(button_frame, text=string_name, width=10, style="Large.TButton", command=on_click).grid(row=row, column=col, padx=10, pady=5)
+
 
     
-     # Title label for ukulele
-    ttk.Label(parent_frame, text="Ukulele Strings", font=("Arial", 30)).pack(pady=(20, 0))
-    ukulele_frame = ttk.Frame(parent_frame)
-    ukulele_frame.pack(pady=5)
+    ukulele_frame = ttk.Frame(instrument_container)
+    ukulele_frame.grid(row=0, column=1, padx=100)
     
-    # Load and add the ukulele headstock image
-    ukulele_tuner_path = os.path.join(os.getcwd(), 'images', 'ukTuners.jpg')
+    ukulele_tuner_path = os.path.join(os.getcwd(), 'images', 'ukulelePegs.jpg')
     ukulele_tuner_img = Image.open(ukulele_tuner_path)
     ukulele_tuner_img = ukulele_tuner_img.resize((400, 600), resample=Image.Resampling.LANCZOS)
     ukulele_tuner_img_tk = ImageTk.PhotoImage(ukulele_tuner_img)
-    ukulele_tuner_label = tk.Label(parent_frame, image=ukulele_tuner_img_tk)
-    ukulele_tuner_label.image = ukulele_tuner_img_tk  # Keep reference
+    ukulele_tuner_label = tk.Label(ukulele_frame, image=ukulele_tuner_img_tk)
+    ukulele_tuner_label.image = ukulele_tuner_img_tk
+    ukulele_label = tk.Label(ukulele_frame, text="Ukulele Headstock", font=("Arial", 20, "bold"))
+    ukulele_label.pack()
     ukulele_tuner_label.pack()
-
-    # Ukulele string buttons arranged below the image
+    
     ukulele_button_frame = ttk.Frame(ukulele_frame)
     ukulele_button_frame.pack()
     
-    ukulele_positions = [["G", "A"], ["C", "E"]]
+    ukulele_positions = [["C", "E"], ["G", "A"]]
     for row, pair in enumerate(ukulele_positions):
         for col, string_name in enumerate(pair):
             def on_click(sn=string_name):
                 play_sound_file(UKULELE_SOUNDS[sn], sn, feedback_label)
-            ttk.Button(ukulele_button_frame, text=string_name, width=15, style="Large.TButton", command=on_click).grid(row=row, column=col, padx=10, pady=5)
-    
-    # Stop button
-    stop_button = ttk.Button(parent_frame, text="Stop Sound", command=lambda: stop_sound(feedback_label), width=20, style="Large.TButton")
+            style = ttk.Style()
+            style.configure("Large.TButton", font=("Arial", 20), padding=15)
+            ttk.Button(ukulele_button_frame, text=string_name, width=10, style="Large.TButton", command=on_click).grid(row=row, column=col, padx=10, pady=5)    
+      
+    style = ttk.Style()
+    style.configure("Large.TButton", font=("Arial", 20), padding=20)
+    stop_button = ttk.Button(parent_frame, text="Stop Sound", command=lambda: stop_sound(feedback_label), width=15, style="Large.TButton")
     stop_button.pack(pady=20)
-
+    

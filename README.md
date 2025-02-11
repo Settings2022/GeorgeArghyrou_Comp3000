@@ -76,6 +76,12 @@ instrument_tab.py enhancements added
 Code added for multiple images on UIs.
 Axis labels & title added to low pass filter .py
 
+instrument_tab.py HCI improved: 
+Buttons repositioned and enlarged,
+but may have too many pics.
+
+
+
 
 
 

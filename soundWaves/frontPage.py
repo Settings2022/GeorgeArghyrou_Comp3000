@@ -51,7 +51,7 @@ def open_guitar_tuner_tab(parent_frame):
 # Main Application
 def main_interface():
     root = tk.Tk()
-    root.title("Final Year Project: Unified Interface")
+    root.title("Final Year Project: COMP3000")
     
     # Maximize window on startup
     root.state('zoomed')
