@@ -15,6 +15,64 @@ CHANNELS = 1
 RATE = 44100
 SOUNDS_FOLDER = "sounds"  # Path to the folder containing string recordings
 
+# Function to add multiple images
+def add_images(parent_frame):
+    image_files = ["gibson.jpg", "strat.jpg", "ukulele.jpg", "sigma.jpg", "epiphone.jpg", "washburn.jpg", "epiphoneLPS.jpg"]  # Add more filenames here
+    image_positions = [(100, 100), (1300, 1300), (100, 1050), (600, 100), (2350, 1050), (3050, 1050), (600, 1050) ]  # Position coordinates for images
+
+    image_labels = []  # Store references to avoid garbage collection
+
+    for i, filename in enumerate(image_files):
+        image_path = os.path.join(os.getcwd(), "images", filename)
+
+        if os.path.exists(image_path):  # Check if the image file exists
+            img = Image.open(image_path)
+            img = img.resize((400, 900), resample=Image.Resampling.LANCZOS)
+            img = img.rotate(360, expand=True)
+
+            if filename == "gibson.jpg":
+                heading_label = tk.Label(parent_frame, text="The Gibson J45:", font=("Arial", 24, "bold"))
+                heading_label.place(x=100, y=50)
+            
+            if filename == "strat.jpg":
+                heading_label = tk.Label(parent_frame, text="A Fender Stratocaster:", font=("Arial", 24, "bold"))
+                heading_label.place(x=1300, y=1250)
+                img = img.resize((900, 400), resample=Image.Resampling.LANCZOS)
+
+            if filename == "epiphoneLPS.jpg":
+                heading_label = tk.Label(parent_frame, text="The Epiphone Les Paul Studio:", font=("Arial", 24, "bold"))
+                heading_label.place(x=600, y=1000)
+                img = img.resize((450, 900), resample=Image.Resampling.LANCZOS)
+            
+            if filename == "ukulele.jpg":
+                heading_label = tk.Label(parent_frame, text="A Ukulele:", font=("Arial", 24, "bold"))
+                heading_label.place(x=100, y=1000)
+            
+            if filename == "sigma.jpg":
+                heading_label = tk.Label(parent_frame, text="A Sigma Parlour guitar:", font=("Arial", 24, "bold"))
+                heading_label.place(x=600, y=50)  # Position the heading above the image
+                img = img.resize((450, 900), resample=Image.Resampling.LANCZOS)
+
+            if filename == "epiphone.jpg":
+                heading_label = tk.Label(parent_frame, text="The Noel Gallagher Epiphone Riviera:", font=("Arial", 24, "bold"))
+                heading_label.place(x=2350, y=1000)
+                img = img.resize((450, 900), resample=Image.Resampling.LANCZOS)
+            
+            if filename == "washburn.jpg":
+                heading_label = tk.Label(parent_frame, text="A Washburn Parlour guitar:", font=("Arial", 24, "bold"))
+                heading_label.place(x=3050, y=1000)
+                img = img.resize((450, 1000), resample=Image.Resampling.LANCZOS)
+
+            img_tk = ImageTk.PhotoImage(img)
+
+            # Create a label for the image
+            img_label = tk.Label(parent_frame, image=img_tk)
+            img_label.image = img_tk  # Keep a reference to prevent garbage collection
+            img_label.place(x=image_positions[i][0], y=image_positions[i][1])  # Position the image
+            image_labels.append(img_label)
+        else:
+            print(f"Warning: {filename} not found in the images folder!")
+
 
 def load_strums():
     """
@@ -61,12 +119,6 @@ class GuitarTunerApp:
             "\n"
             "Select a string by clicking one of the buttons.\n"
             "\n"
-            " 1 is the low E string, that's the thickest one on your guitar.\n"
-            "\n"
-            "2 is the A string, 3 is the D string, 4 is the G string,\n"
-            "\n"
-            "5 is the B string, and 6 is the high E string.\n"
-            "\n"
             "Play the corresponding string on your guitar.\n"
             "\n"
             "The app listens for your sound.\n"
@@ -76,7 +128,9 @@ class GuitarTunerApp:
             "If the needle is in the middle, you are in tune.\n"
         )
         instruction_label = tk.Label(root, text=instruction_text, font=("Helvetica", 25), wraplength=500, anchor="w")
-        instruction_label.place(x=3000, y=50)  # Position the text on the right side with padding
+        instruction_label.place(x=3000, y=30)  # Position the text on the right side with padding
+
+        add_images(parent_frame=root)
 
         # Create a frame to hold both guitar and ukulele sections
         instrument_container = ttk.Frame(root)
@@ -212,7 +266,8 @@ class GuitarTunerApp:
         shift = max_shift * (difference / self.reference_frequencies[string])
         shift = min(max(shift, -max_shift), max_shift)
         new_x = self.needle_center_x + shift
-        self.needle_canvas.coords(self.needle, new_x, 10, new_x, 50)
+        self.needle_canvas.delete(self.needle)  # Remove the previous needle
+        self.needle = self.needle_canvas.create_oval(new_x - 10, 10, new_x + 30, 50, fill="green")
 
     def update_waveform(self, audio_data):
         self.waveform_canvas.delete("waveform")

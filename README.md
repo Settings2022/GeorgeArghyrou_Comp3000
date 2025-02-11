@@ -82,6 +82,10 @@ but may have too many pics.
 
 autoTune.py HCI improved - images need to be added.
 
+autoTune.py tuning needle changed to oval shape when activated
+Images added to autoTune.py.
+
+
 
 
 
