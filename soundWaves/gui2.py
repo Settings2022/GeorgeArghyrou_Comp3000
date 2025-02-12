@@ -78,6 +78,54 @@ def update_plot(i):
     ax.set(xlabel='Time (s)', ylabel='Amplitude', title=f'Sound Waveform')
     ax.grid(True)
 
+# Function to add multiple images
+def add_images(parent_frame):
+    image_files = ["gibson.jpg", "strat.jpg", "ukulele.jpg", "freqWaveExample.jpg", "epiphoneLPS.jpg"]  # Add more filenames here
+    image_positions = [(200, 100), (2050, 1600), (200, 1100), (1000, 1600), (3150, 700)]  # position co-ordinates for images
+
+    image_labels = []  # Store references to avoid garbage collection
+
+    for i, filename in enumerate(image_files):
+        image_path = os.path.join(os.getcwd(), "images", filename)
+
+        if os.path.exists(image_path):  # Check if the image file exists
+            img = Image.open(image_path)
+            img = img.resize((400, 900), resample=Image.Resampling.LANCZOS)
+            img = img.rotate(360, expand=True)
+
+            if filename == "gibson.jpg":
+                heading_label = tk.Label(parent_frame, text="The Gibson J45:", font=("Arial", 24, "bold"))
+                heading_label.place(x=270, y=50)
+            
+            if filename == "strat.jpg":
+                heading_label = tk.Label(parent_frame, text="A Fender Startocaster:", font=("Arial", 24, "bold"))
+                heading_label.place(x=2300, y=1550)
+                img = img.resize((900, 400), resample=Image.Resampling.LANCZOS)
+            
+            if filename == "ukulele.jpg":
+                heading_label = tk.Label(parent_frame, text="A Ukulele:", font=("Arial", 24, "bold"))
+                heading_label.place(x=310, y=1050)
+            
+            if filename == "freqWaveExample.jpg":
+                heading_label = tk.Label(parent_frame, text="Example of a Frequency Wave at 888 Hz over 5 seconds:", font=("Arial", 24, "bold"))
+                heading_label.place(x=1015, y=1550)  # Position the heading above the image
+                img = img.resize((900, 400), resample=Image.Resampling.LANCZOS)
+
+            if filename == "epiphoneLPS.jpg":
+                heading_label = tk.Label(parent_frame, text="Epiphone Les Paul Studio:", font=("Arial", 24, "bold"))
+                heading_label.place(x=3170, y=650)
+                img = img.resize((450, 900), resample=Image.Resampling.LANCZOS)
+
+            img_tk = ImageTk.PhotoImage(img)
+
+            # Create a label for the image
+            img_label = tk.Label(parent_frame, image=img_tk)
+            img_label.image = img_tk  # Keep a reference to prevent garbage collection
+            img_label.place(x=image_positions[i][0], y=image_positions[i][1])  # Position the image
+            image_labels.append(img_label)
+        else:
+            print(f"Warning: {filename} not found in the images folder!")
+
 def gui2_main(parent_frame):
     global selected_file, canvas, fig, ax
 
@@ -87,83 +135,22 @@ def gui2_main(parent_frame):
 
     # Adding instructional text to the right side of the screen
     instruction_text = (
-        "\n"
         "This page allows you to generate and play a sound with a specified frequency and duration.\n"
-        "\n"
         "You can then visualize the waveform of the sound as it plays.\n"
-        "\n"
         "Choose a saved recording from the Recordings folder.\n"
-        "\n"
         "To make a recording go to the Record Tab.\n"
-        "\n"
         "Enter the frequency (in Hz) and the duration (in seconds).\n"
-        "\n" 
         "To generate a sine wave, press 'Play Sound'."
     )
-    instruction_label = tk.Label(parent_frame, text=instruction_text, font=("Helvetica", 25), wraplength=500, anchor="w")
-    instruction_label.place(x=3000, y=50)  # Position the text on the right side with padding
+    instruction_label = tk.Label(parent_frame, text=instruction_text, font=("Helvetica", 25, "bold"), wraplength=1500, anchor="w")
+    instruction_label.place(x=2200, y=50)  # Position the text on the right side with padding  
 
-    # Load and rotate the image from the 'images' folder
-    heading_label = tk.Label(parent_frame, text="The Gibson J45:", font=("Arial", 24, "bold"))
-    heading_label.place(x=200, y=50)
-    image_path = os.path.join(os.getcwd(), 'images', 'gibson.jpg')
-    img = Image.open(image_path)    
-    # Resize the image to fit UI
-    img = img.resize((400, 900), resample=Image.Resampling.LANCZOS)
-    img = img.rotate(360, expand=True)    
-    img_tk = ImageTk.PhotoImage(img)
-    # Create a label to display the image
-    img_label = tk.Label(parent_frame, image=img_tk)
-    img_label.image = img_tk  # Keep a reference so it’s not garbage collected
-    img_label.place(x=200, y=100)  # Place image on the left side with some padding
-
-    # Add heading for the example wave image
-    heading_label = tk.Label(parent_frame, text="Example of a Sound Wave:", font=("Arial", 24, "bold"))
-    heading_label.place(x=500, y=1450)  # Position the heading above the image
-    # Load and rotate the image from the 'images' folder
-    image_path = os.path.join(os.getcwd(), 'images', 'exampleWave.jpg')
-    img = Image.open(image_path)    
-    # Resize the image to fit UI
-    img = img.resize((900, 400), resample=Image.Resampling.LANCZOS)
-    img = img.rotate(360, expand=True)    
-    img_tk = ImageTk.PhotoImage(img)
-    # Create a label to display the image
-    img_label = tk.Label(parent_frame, image=img_tk)
-    img_label.image = img_tk  # Keep a reference so it’s not garbage collected
-    img_label.place(x=500, y=1500)  # Place image on the left side with some padding
-
-    # Load and rotate the image from the 'images' folder
-    heading_label = tk.Label(parent_frame, text="A Fender Startocaster:", font=("Arial", 24, "bold"))
-    heading_label.place(x=1700, y=1450)
-    image_path = os.path.join(os.getcwd(), 'images', 'strat.jpg')
-    img = Image.open(image_path)    
-    # Resize the image to fit UI
-    img = img.resize((900, 400), resample=Image.Resampling.LANCZOS)
-    img = img.rotate(360, expand=True)    
-    img_tk = ImageTk.PhotoImage(img)
-    # Create a label to display the image
-    img_label = tk.Label(parent_frame, image=img_tk)
-    img_label.image = img_tk  # Keep a reference so it’s not garbage collected
-    img_label.place(x=1700, y=1500)  # Place image on the left side with some padding
-
-    # Load and rotate the image from the 'images' folder
-    heading_label = tk.Label(parent_frame, text="The Noel Gallagher Epiphone Riviera:", font=("Arial", 24, "bold"))
-    heading_label.place(x=3050, y=950)
-    image_path = os.path.join(os.getcwd(), 'images', 'epiphone.jpg')
-    img = Image.open(image_path)    
-    # Resize the image to fit UI
-    img = img.resize((400, 900), resample=Image.Resampling.LANCZOS)
-    img = img.rotate(360, expand=True)    
-    img_tk = ImageTk.PhotoImage(img)
-    # Create a label to display the image
-    img_label = tk.Label(parent_frame, image=img_tk)
-    img_label.image = img_tk  # Keep a reference so it’s not garbage collected
-    img_label.place(x=3050, y=1000)  # Place image on the left side with some padding
+    add_images(parent_frame) 
 
     # Dropdown to select .wav file
-    tk.Label(parent_frame, text="Select .wav file:", font=("Helvetica", 30)).pack(pady=5)
+    tk.Label(parent_frame, text="Select .wav file:", font=("Helvetica", 25, "bold")).pack(pady=5)
     file_dropdown = tk.OptionMenu(parent_frame, selected_file, *wav_files)
-    file_dropdown.config(width=20, height=2, font=("Helvetica", 20))
+    file_dropdown.config(width=20, height=2, font=("Helvetica", 25, "bold"))
     file_dropdown.pack(pady=5)
 
     # Adjust dropdown menu font
@@ -171,7 +158,7 @@ def gui2_main(parent_frame):
     menu.config(font=("Helvetica", 20))
 
     # Play button
-    play_button = tk.Button(parent_frame, text="Play Sound", command=play_sound_and_plot_from_file, width=20, height=2, font=("Helvetica", 30))
+    play_button = tk.Button(parent_frame, text="Play Sound", command=play_sound_and_plot_from_file, width=20, height=2, font=("Helvetica", 25, "bold"))
     play_button.pack(pady=20)
 
     # Plot frame and matplotlib figure

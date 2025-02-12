@@ -87,6 +87,10 @@ Images added to autoTune.py.
 
 Title headings added to autoTune, and instrument_tab.
 
+Box shadows added to autoTune and instrument_tab.
+Background colour added to all UIs.
+Images placed nicely.
+
 
 
 

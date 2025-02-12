@@ -37,7 +37,7 @@ def add_images(parent_frame):
     label.pack(pady=10)
 
     image_files = ["gibson.jpg", "strat.jpg", "ukulele.jpg", "sigma.jpg", "epiphone.jpg", "washburn.jpg", "epiphoneLPS.jpg"]  # Add more filenames here
-    image_positions = [(100, 100), (1300, 1300), (100, 1050), (700, 100), (2350, 1100), (3050, 1050), (700, 1050) ]  # Position coordinates for images
+    image_positions = [(100, 100), (1450, 1500), (100, 1150), (700, 100), (2560, 1050), (3250, 1050), (700, 1150) ]  # Position coordinates for images
 
     image_labels = []  # Store references to avoid garbage collection
 
@@ -51,35 +51,35 @@ def add_images(parent_frame):
 
             if filename == "gibson.jpg":
                 heading_label = tk.Label(parent_frame, text="The Gibson J45:", font=("Arial", 24, "bold"))
-                heading_label.place(x=100, y=50)
+                heading_label.place(x=180, y=50)
             
             if filename == "strat.jpg":
                 heading_label = tk.Label(parent_frame, text="A Fender Stratocaster:", font=("Arial", 24, "bold"))
-                heading_label.place(x=1300, y=1250)
+                heading_label.place(x=1750, y=1450)
                 img = img.resize((900, 400), resample=Image.Resampling.LANCZOS)
 
             if filename == "epiphoneLPS.jpg":
                 heading_label = tk.Label(parent_frame, text="The Epiphone Les Paul Studio:", font=("Arial", 24, "bold"))
-                heading_label.place(x=700, y=1000)
+                heading_label.place(x=690, y=1100)
                 img = img.resize((450, 900), resample=Image.Resampling.LANCZOS)
             
             if filename == "ukulele.jpg":
                 heading_label = tk.Label(parent_frame, text="A Ukulele:", font=("Arial", 24, "bold"))
-                heading_label.place(x=100, y=1000)
+                heading_label.place(x=200, y=1100)
             
             if filename == "sigma.jpg":
                 heading_label = tk.Label(parent_frame, text="A Sigma Parlour guitar:", font=("Arial", 24, "bold"))
-                heading_label.place(x=700, y=50)  # Position the heading above the image
+                heading_label.place(x=750, y=50)  # Position the heading above the image
                 img = img.resize((450, 900), resample=Image.Resampling.LANCZOS)
 
             if filename == "epiphone.jpg":
                 heading_label = tk.Label(parent_frame, text="The Noel Gallagher Epiphone Riviera:", font=("Arial", 24, "bold"))
-                heading_label.place(x=2350, y=1050)
+                heading_label.place(x=2500, y=1000)
                 img = img.resize((450, 900), resample=Image.Resampling.LANCZOS)
             
             if filename == "washburn.jpg":
                 heading_label = tk.Label(parent_frame, text="A Washburn Parlour guitar:", font=("Arial", 24, "bold"))
-                heading_label.place(x=3050, y=1000)
+                heading_label.place(x=3260, y=1000)
                 img = img.resize((450, 1000), resample=Image.Resampling.LANCZOS)
 
             img_tk = ImageTk.PhotoImage(img)
@@ -129,14 +129,14 @@ def build_instrument_tab(parent_frame):
         "\n"
         "Select a button to play the sound of the guitar or ukulele string in standard tuning.\n"
         "\n"
-        "The sound will repeat in a loop until you select another button or press the stop button.\n"
+        "The sound will repeat until you select another button or press the stop button.\n"
         "\n"
         "Listen carefully to the sound and compare it to the sound of your instrument.\n"
         "\n"
         "Tune your instrument up or down to match that sound.\n"
     )
-    instruction_label = tk.Label(parent_frame, text=instruction_text, font=("Helvetica", 25), wraplength=500, anchor="w")
-    instruction_label.place(x=2700, y=50)
+    instruction_label = tk.Label(parent_frame, text=instruction_text, font=("Helvetica", 25, "bold"), wraplength=1300, anchor="w")
+    instruction_label.place(x=2480, y=160)
 
     add_images(parent_frame)
 
@@ -146,8 +146,14 @@ def build_instrument_tab(parent_frame):
     instrument_container = ttk.Frame(parent_frame)
     instrument_container.pack(pady=10)
     
-    guitar_frame = ttk.Frame(instrument_container)
-    guitar_frame.grid(row=0, column=0, padx=100)
+    # Outer frame to create the shadow effect
+    guitar_shadow = ttk.Frame(instrument_container, padding=5, style="Shadow.TFrame")
+    guitar_shadow.grid(row=0, column=0, padx=50, pady=20)
+
+    # Inner frame to contain the actual guitar section
+    guitar_frame = ttk.Frame(guitar_shadow, padding=10, relief="raised", borderwidth=2)
+    guitar_frame.pack()
+
     
     guitar_tuner_path = os.path.join(os.getcwd(), 'images', 'guitarPegs.jpg')
     guitar_tuner_img = Image.open(guitar_tuner_path)
@@ -171,11 +177,14 @@ def build_instrument_tab(parent_frame):
             style = ttk.Style()
             style.configure("Large.TButton", font=("Arial", 20), padding=15)
             ttk.Button(button_frame, text=string_name, width=10, style="Large.TButton", command=on_click).grid(row=row, column=col, padx=10, pady=5)
-
-
     
-    ukulele_frame = ttk.Frame(instrument_container)
-    ukulele_frame.grid(row=0, column=1, padx=100)
+    # Outer frame to create the shadow effect
+    ukulele_shadow = ttk.Frame(instrument_container, padding=5, style="Shadow.TFrame")
+    ukulele_shadow.grid(row=0, column=1, padx=50, pady=20)
+
+    # Inner frame to contain the actual ukulele section
+    ukulele_frame = ttk.Frame(ukulele_shadow, padding=10, relief="raised", borderwidth=2)
+    ukulele_frame.pack()
     
     ukulele_tuner_path = os.path.join(os.getcwd(), 'images', 'ukulelePegs.jpg')
     ukulele_tuner_img = Image.open(ukulele_tuner_path)
@@ -199,8 +208,15 @@ def build_instrument_tab(parent_frame):
             style.configure("Large.TButton", font=("Arial", 20), padding=15)
             ttk.Button(ukulele_button_frame, text=string_name, width=10, style="Large.TButton", command=on_click).grid(row=row, column=col, padx=10, pady=5)    
       
-    style = ttk.Style()
-    style.configure("Large.TButton", font=("Arial", 20), padding=20)
-    stop_button = ttk.Button(parent_frame, text="Stop Sound", command=lambda: stop_sound(feedback_label), width=15, style="Large.TButton")
-    stop_button.pack(pady=20)
+    # Frame to simulate box shadow for the stop button
+    shadow_frame = tk.Frame(parent_frame, background="#aaaaaa", padx=3, pady=3)
+    shadow_frame.pack(pady=20)
+
+    # Stop button inside shadow frame
+    stop_button = ttk.Button(shadow_frame, text="Stop Sound",
+                            command=lambda: stop_sound(feedback_label),
+                            width=20, style="Large.TButton")
+    stop_button.pack()
+
+
     

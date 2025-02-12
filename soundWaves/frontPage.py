@@ -61,14 +61,14 @@ def main_interface():
     notebook.pack(fill="both", expand=True)
 
     # Create frames for each tab
-    tab1_frame = tk.Frame(notebook)
-    tab2_frame = tk.Frame(notebook)
-    tab3_frame = tk.Frame(notebook)
-    tab4_frame = tk.Frame(notebook)
-    tab5_frame = tk.Frame(notebook)
-    tab6_frame = tk.Frame(notebook)
-    tab7_frame = tk.Frame(notebook)
-    guitar_tuner_frame = tk.Frame(notebook)
+    tab1_frame = tk.Frame(notebook, background="darkgrey")
+    tab2_frame = tk.Frame(notebook, background="darkgrey")
+    tab3_frame = tk.Frame(notebook, background="black")
+    tab4_frame = tk.Frame(notebook, background="black")
+    tab5_frame = tk.Frame(notebook, background="black")
+    tab6_frame = tk.Frame(notebook, background="black")
+    tab7_frame = tk.Frame(notebook, background="black")
+    guitar_tuner_frame = tk.Frame(notebook, background="black")
 
     # Configure style once
     style = ttk.Style()

@@ -14,7 +14,7 @@ RECORDINGS_FOLDER = "recordings"
 # Function to add multiple images
 def add_images(parent_frame):
     image_files = ["gibson.jpg", "strat.jpg", "ukulele.jpg", "lowPassWave.jpg", "epiphoneLPS.jpg"]  # Add more filenames here
-    image_positions = [(200, 100), (2050, 1600), (200, 1100), (1000, 1600), (3100, 800)]  # position co-ordinates for images
+    image_positions = [(200, 100), (2050, 1600), (200, 1100), (1000, 1600), (3200, 700)]  # position co-ordinates for images
 
     image_labels = []  # Store references to avoid garbage collection
 
@@ -28,25 +28,25 @@ def add_images(parent_frame):
 
             if filename == "gibson.jpg":
                 heading_label = tk.Label(parent_frame, text="The Gibson J45:", font=("Arial", 24, "bold"))
-                heading_label.place(x=200, y=50)
+                heading_label.place(x=270, y=50)
             
             if filename == "strat.jpg":
                 heading_label = tk.Label(parent_frame, text="A Fender Startocaster:", font=("Arial", 24, "bold"))
-                heading_label.place(x=2050, y=1550)
+                heading_label.place(x=2300, y=1550)
                 img = img.resize((900, 400), resample=Image.Resampling.LANCZOS)
             
             if filename == "ukulele.jpg":
                 heading_label = tk.Label(parent_frame, text="A Ukulele:", font=("Arial", 24, "bold"))
-                heading_label.place(x=200, y=1050)
+                heading_label.place(x=310, y=1050)
             
             if filename == "lowPassWave.jpg":
                 heading_label = tk.Label(parent_frame, text="Example of orinigal wave in blue vs low pass wave in red:", font=("Arial", 24, "bold"))
-                heading_label.place(x=1000, y=1550)  # Position the heading above the image
+                heading_label.place(x=1005, y=1550)  # Position the heading above the image
                 img = img.resize((900, 400), resample=Image.Resampling.LANCZOS)
 
             if filename == "epiphoneLPS.jpg":
                 heading_label = tk.Label(parent_frame, text="Epiphone Les Paul Studio:", font=("Arial", 24, "bold"))
-                heading_label.place(x=3100, y=750)
+                heading_label.place(x=3220, y=650)
                 img = img.resize((450, 900), resample=Image.Resampling.LANCZOS)
 
             img_tk = ImageTk.PhotoImage(img)
@@ -117,19 +117,14 @@ def low_pass_filter_main(parent_frame):
 
     # Adding instructional text to the right side of the screen
     instruction_text = (
-        "\n"
         "This page allows you to see a low pass filter graph of a recording saved to the recordings folder.\n"
-        "\n"
         "Select a .wav file from the drop-down menu.\n"
-        "\n"
         "Click the Apply Low-Pass Filter button to display the graph.\n"
-        "\n"
         "This shows a graph with the original signal in blue and the low-pass filtered signal in red.\n"
-        "\n"
         "The cutoff frequency in the code is currently set to 250 Hz.\n"
     )
-    instruction_label = tk.Label(parent_frame, text=instruction_text, font=("Helvetica", 25), wraplength=500, anchor="w")
-    instruction_label.place(x=3000, y=50)  # Position the text on the right side with padding
+    instruction_label = tk.Label(parent_frame, text=instruction_text, font=("Helvetica", 20, "bold"), wraplength=1500, anchor="w")
+    instruction_label.place(x=2200, y=50)  # Position the text on the right side with padding
 
     add_images(parent_frame)
 
@@ -144,13 +139,13 @@ def low_pass_filter_main(parent_frame):
     selected_file.set(wav_files[0])
 
     # Dropdown to select .wav file
-    tk.Label(parent_frame, text="Select .wav file:", font=("Helvetica", 20)).pack(pady=5)
+    tk.Label(parent_frame, text="Select .wav file:", font=("Helvetica", 25, "bold")).pack(pady=5)
     file_dropdown = tk.OptionMenu(parent_frame, selected_file, *wav_files)
-    file_dropdown.config(width=20, height=2, font=("Helvetica", 20))
+    file_dropdown.config(width=20, height=2, font=("Helvetica", 25, "bold"))
     file_dropdown.pack(pady=5)
 
     # Button to apply low-pass filter and display waveform
-    filter_button = tk.Button(parent_frame, text="Apply Low-Pass Filter", command=display_filtered_waveform, width=25, height=2, font=("Helvetica", 20))
+    filter_button = tk.Button(parent_frame, text="Apply Low-Pass Filter", command=display_filtered_waveform, width=25, height=2, font=("Helvetica", 25, "bold"))
     filter_button.pack(pady=20)
 
     # Plot frame and matplotlib figure

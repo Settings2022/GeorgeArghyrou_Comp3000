@@ -13,7 +13,7 @@ RECORDINGS_FOLDER = "recordings"
 # Function to add multiple images
 def add_images(parent_frame):
     image_files = ["gibson.jpg", "strat.jpg", "ukulele.jpg", "sigma.jpg", "epiphone.jpg", "washburn.jpg", "epiphoneLPS.jpg"]  # Add more filenames here
-    image_positions = [(100, 100), (1300, 650), (100, 1050), (700, 650), (2350, 650), (3050, 650), (1500, 1150) ]  # Position coordinates for images
+    image_positions = [(200, 100), (1430, 500), (200, 1150), (900, 1150), (2415, 1150), (1655, 1050), (3150, 1150) ]  # Position coordinates for images
 
     image_labels = []  # Store references to avoid garbage collection
 
@@ -27,35 +27,35 @@ def add_images(parent_frame):
 
             if filename == "gibson.jpg":
                 heading_label = tk.Label(parent_frame, text="The Gibson J45:", font=("Arial", 24, "bold"))
-                heading_label.place(x=100, y=50)
+                heading_label.place(x=270, y=50)
             
             if filename == "strat.jpg":
                 heading_label = tk.Label(parent_frame, text="A Fender Stratocaster:", font=("Arial", 24, "bold"))
-                heading_label.place(x=1300, y=600)
+                heading_label.place(x=1730, y=450)
                 img = img.resize((900, 400), resample=Image.Resampling.LANCZOS)
 
             if filename == "epiphoneLPS.jpg":
                 heading_label = tk.Label(parent_frame, text="The Epiphone Les Paul Studio:", font=("Arial", 24, "bold"))
-                heading_label.place(x=1500, y=1100)
+                heading_label.place(x=3140, y=1100)
                 img = img.resize((450, 900), resample=Image.Resampling.LANCZOS)
             
             if filename == "ukulele.jpg":
                 heading_label = tk.Label(parent_frame, text="A Ukulele:", font=("Arial", 24, "bold"))
-                heading_label.place(x=100, y=1000)
+                heading_label.place(x=310, y=1100)
             
             if filename == "sigma.jpg":
                 heading_label = tk.Label(parent_frame, text="A Sigma Parlour guitar:", font=("Arial", 24, "bold"))
-                heading_label.place(x=700, y=600)  # Position the heading above the image
+                heading_label.place(x=950, y=1100)  # Position the heading above the image
                 img = img.resize((450, 900), resample=Image.Resampling.LANCZOS)
 
             if filename == "epiphone.jpg":
                 heading_label = tk.Label(parent_frame, text="The Noel Gallagher Epiphone Riviera:", font=("Arial", 24, "bold"))
-                heading_label.place(x=2350, y=600)
+                heading_label.place(x=2370, y=1100)
                 img = img.resize((450, 900), resample=Image.Resampling.LANCZOS)
             
             if filename == "washburn.jpg":
                 heading_label = tk.Label(parent_frame, text="A Washburn Parlour guitar:", font=("Arial", 24, "bold"))
-                heading_label.place(x=3050, y=600)
+                heading_label.place(x=1665, y=1000)
                 img = img.resize((450, 1000), resample=Image.Resampling.LANCZOS)
 
             img_tk = ImageTk.PhotoImage(img)
@@ -71,7 +71,7 @@ def add_images(parent_frame):
 # Function to initialize the waveform plotting GUI
 def gui3_plot_main(parent_frame):
     # Create a label for instructions
-    label = tk.Label(parent_frame, text="Select a WAV file to plot the waveform", font=("Helvetica", 14))
+    label = tk.Label(parent_frame, text="Select a WAV file to plot the waveform", font=("Helvetica", 30, "bold"))
     label.pack(pady=20)
 
     # Adding instructional text to the right side of the screen
@@ -83,8 +83,8 @@ def gui3_plot_main(parent_frame):
         "\n"
         "Click the Plot Waveform button to display the graph.\n"
     )
-    instruction_label = tk.Label(parent_frame, text=instruction_text, font=("Helvetica", 25), wraplength=500, anchor="w")
-    instruction_label.place(x=3000, y=50)  # Position the text on the right side with padding
+    instruction_label = tk.Label(parent_frame, text=instruction_text, font=("Helvetica", 25, "bold"), wraplength=1000, anchor="w")
+    instruction_label.place(x=2500, y=100)  # Position the text on the right side with padding
 
     add_images(parent_frame)  # Add images to the GUI
 
@@ -93,7 +93,7 @@ def gui3_plot_main(parent_frame):
 
     if wav_files:
         # Create a dropdown (Combobox) for selecting a WAV file
-        combo_box = ttk.Combobox(parent_frame, values=wav_files, font=("Helvetica", 20), state="readonly")
+        combo_box = ttk.Combobox(parent_frame, values=wav_files, font=("Helvetica", 30, "bold"), state="readonly")
         combo_box.set("Select WAV File")  # Set default text
         combo_box.pack(pady=20)
 
@@ -101,7 +101,7 @@ def gui3_plot_main(parent_frame):
         button = tk.Button(
             parent_frame,
             text="Plot Waveform",
-            font=("Helvetica", 20),
+            font=("Helvetica", 30, "bold"),
             command=lambda: plot_waveform(combo_box.get())
         )
         button.pack(pady=20)

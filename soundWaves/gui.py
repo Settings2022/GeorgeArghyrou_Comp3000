@@ -20,7 +20,7 @@ def generate_waveform(duration, frequency):
 # Function to add multiple images
 def add_images(parent_frame):
     image_files = ["gibson.jpg", "strat.jpg", "ukulele.jpg", "freqWaveExample.jpg", "epiphoneLPS.jpg"]  # Add more filenames here
-    image_positions = [(200, 100), (2050, 1600), (200, 1100), (1000, 1600), (3100, 800)]  # position co-ordinates for images
+    image_positions = [(200, 100), (2050, 1600), (200, 1100), (1000, 1600), (3150, 700)]  # position co-ordinates for images
 
     image_labels = []  # Store references to avoid garbage collection
 
@@ -34,25 +34,25 @@ def add_images(parent_frame):
 
             if filename == "gibson.jpg":
                 heading_label = tk.Label(parent_frame, text="The Gibson J45:", font=("Arial", 24, "bold"))
-                heading_label.place(x=200, y=50)
+                heading_label.place(x=270, y=50)
             
             if filename == "strat.jpg":
                 heading_label = tk.Label(parent_frame, text="A Fender Startocaster:", font=("Arial", 24, "bold"))
-                heading_label.place(x=2050, y=1550)
+                heading_label.place(x=2300, y=1550)
                 img = img.resize((900, 400), resample=Image.Resampling.LANCZOS)
             
             if filename == "ukulele.jpg":
                 heading_label = tk.Label(parent_frame, text="A Ukulele:", font=("Arial", 24, "bold"))
-                heading_label.place(x=200, y=1050)
+                heading_label.place(x=310, y=1050)
             
             if filename == "freqWaveExample.jpg":
                 heading_label = tk.Label(parent_frame, text="Example of a Frequency Wave at 888 Hz over 5 seconds:", font=("Arial", 24, "bold"))
-                heading_label.place(x=1000, y=1550)  # Position the heading above the image
+                heading_label.place(x=1015, y=1550)  # Position the heading above the image
                 img = img.resize((900, 400), resample=Image.Resampling.LANCZOS)
 
             if filename == "epiphoneLPS.jpg":
                 heading_label = tk.Label(parent_frame, text="Epiphone Les Paul Studio:", font=("Arial", 24, "bold"))
-                heading_label.place(x=3100, y=750)
+                heading_label.place(x=3170, y=650)
                 img = img.resize((450, 900), resample=Image.Resampling.LANCZOS)
 
             img_tk = ImageTk.PhotoImage(img)
@@ -118,19 +118,16 @@ def gui_main(parent_frame):
 
     # Adding instructional text to the right side of the screen
     instruction_text = (
-        "\n"
         "This page allows you to generate and play a sound with a specified frequency and duration.\n"
         "\n"
         "You can visualize the waveform of the sound as it plays.\n"
         "\n"
-        "Enter the frequency (in Hz).\n"
+        "Enter the frequency (in Hz), set the duration (in seconds).\n"
         "\n"
-        "Set the duration (in seconds).\n"
-        "\n"
-        "To generate a sine wave, click 'Play Sound'."
+        "Click 'Play Sound' to generate the sound wave & play the sound.\n"
     )
-    instruction_label = tk.Label(parent_frame, text=instruction_text, font=("Helvetica", 25), wraplength=500, anchor="w")
-    instruction_label.place(x=3000, y=50)  # Position the text on the right side with padding
+    instruction_label = tk.Label(parent_frame, text=instruction_text, font=("Helvetica", 25, "bold"), wraplength=1800, anchor="w")
+    instruction_label.place(x=2200, y=10)  # Position the text on the right side with padding
 
     # Load and display multiple images dynamically
     add_images(parent_frame)
