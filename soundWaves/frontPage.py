@@ -61,8 +61,8 @@ def main_interface():
     notebook.pack(fill="both", expand=True)
 
     # Create frames for each tab
-    tab1_frame = tk.Frame(notebook, background="darkgrey")
-    tab2_frame = tk.Frame(notebook, background="darkgrey")
+    tab1_frame = tk.Frame(notebook, background="black")
+    tab2_frame = tk.Frame(notebook, background="black")
     tab3_frame = tk.Frame(notebook, background="black")
     tab4_frame = tk.Frame(notebook, background="black")
     tab5_frame = tk.Frame(notebook, background="black")
@@ -72,7 +72,7 @@ def main_interface():
 
     # Configure style once
     style = ttk.Style()
-    style.configure('TNotebook.Tab', padding=[50, 25], font=('Arial', '14'))
+    style.configure('TNotebook.Tab', padding=[50, 25], font=('Arial', '15', 'bold'))
 
     # Add tabs to the notebook
     notebook.add(tab1_frame, text="Play a sound")

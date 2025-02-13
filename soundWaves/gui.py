@@ -65,6 +65,35 @@ def add_images(parent_frame):
         else:
             print(f"Warning: {filename} not found in the images folder!")
 
+# Function to create a tooltip effect
+def create_tooltip(parent_frame):
+    # Define the function to show/hide tooltip
+    def show_instruction(event):
+        instruction_label.place(x=2200, y=100)  # Show tooltip when hovering
+
+    def hide_instruction(event):
+        instruction_label.place_forget()  # Hide tooltip when moving away
+
+    # Create the question mark label
+    question_mark = tk.Label(parent_frame, text="?", font=("Helvetica", 30, "bold"), bg="yellow", relief="solid", width=3)
+    question_mark.place(x=2200, y=50)  # Position the question mark
+
+    # Bind hover events
+    question_mark.bind("<Enter>", show_instruction)
+    question_mark.bind("<Leave>", hide_instruction)
+
+# Adding instructional text to the right side of the screen
+    instruction_text = (
+        "This page allows you to generate and play a sound with a specified frequency and duration.\n"
+        "\n"
+        "You can visualize the waveform of the sound as it plays.\n"
+        "\n"
+        "Enter the frequency (in Hz), set the duration (in seconds).\n"
+        "\n"
+        "Click 'Play Sound' to generate the sound wave & play the sound.\n"
+    )
+    instruction_label = tk.Label(parent_frame, text=instruction_text, font=("Helvetica", 25, "bold"), wraplength=1800, justify="left", bg="lightgray", relief="solid", padx=5, pady=5)  
+
 # Main function to build the GUI
 def gui_main(parent_frame):
     # Function to update the plot
@@ -116,21 +145,11 @@ def gui_main(parent_frame):
             # Show error if the user enters invalid input
             messagebox.showerror("Invalid input", "Please enter valid integers for the duration and frequency.")
 
-    # Adding instructional text to the right side of the screen
-    instruction_text = (
-        "This page allows you to generate and play a sound with a specified frequency and duration.\n"
-        "\n"
-        "You can visualize the waveform of the sound as it plays.\n"
-        "\n"
-        "Enter the frequency (in Hz), set the duration (in seconds).\n"
-        "\n"
-        "Click 'Play Sound' to generate the sound wave & play the sound.\n"
-    )
-    instruction_label = tk.Label(parent_frame, text=instruction_text, font=("Helvetica", 25, "bold"), wraplength=1800, anchor="w")
-    instruction_label.place(x=2200, y=10)  # Position the text on the right side with padding
-
     # Load and display multiple images dynamically
     add_images(parent_frame)
+
+    # Create the tooltip (question mark with hover effect)
+    create_tooltip(parent_frame)
 
     # Create and place the input fields for duration and frequency
     tk.Label(parent_frame, text="Enter duration (s):", font=("Helvetica", 30)).pack(pady=5)
