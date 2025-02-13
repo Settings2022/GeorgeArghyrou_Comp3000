@@ -99,13 +99,13 @@ def gui3_main(parent_frame):
     selected_file.set(wav_files[0])  # Set default value for the dropdown if there are files
 
     # Create a dropdown menu to select a .wav file
-    dropdown_label = tk.Label(parent_frame, text="Select .wav file:", font=("Helvetica", 20))
+    dropdown_label = tk.Label(parent_frame, text="Select .wav file:", font=("Helvetica", 25, "bold"))
     dropdown_label.pack(pady=10)
     
     file_dropdown = tk.OptionMenu(parent_frame, selected_file, *wav_files)
     menu = parent_frame.nametowidget(file_dropdown.menuname)
-    menu.config(font=("Helvetica", 20))
-    file_dropdown.config(width=30, height=2, font=("Helvetica", 20))
+    menu.config(font=("Helvetica", 25, "bold"))  # Set font for the dropdown menu
+    file_dropdown.config(width=20, height=1, font=("Helvetica", 25, "bold"))
     file_dropdown.pack(pady=10)
 
     # Function to analyze the selected .wav file
@@ -127,35 +127,35 @@ def gui3_main(parent_frame):
                 total_time_minutes = total_time_seconds / 60
 
                 # Display the information in the labels
-                channels_label.config(text=f"Number of channels: {num_channels}", font=("Helvetica", 20))
-                sampwidth_label.config(text=f"Sample width: {samp_width}", font=("Helvetica", 20))
-                framerate_label.config(text=f"Frame rate: {frame_rate}", font=("Helvetica", 20))
-                frames_label.config(text=f"Number of frames: {num_frames}", font=("Helvetica", 20))
-                time_seconds_label.config(text=f"Total time (s): {total_time_seconds:.2f}", font=("Helvetica", 20))
-                time_minutes_label.config(text=f"Total time (min): {total_time_minutes:.2f}", font=("Helvetica", 20))
+                channels_label.config(text=f"Number of channels: {num_channels}", font=("Helvetica", 25, "bold"), fg="green")
+                sampwidth_label.config(text=f"Sample width: {samp_width}", font=("Helvetica", 25, "bold"), fg="green")
+                framerate_label.config(text=f"Frame rate: {frame_rate}", font=("Helvetica", 25, "bold"), fg="green")
+                frames_label.config(text=f"Number of frames: {num_frames}", font=("Helvetica", 25, "bold"), fg="green")
+                time_seconds_label.config(text=f"Total time (s): {total_time_seconds:.2f}", font=("Helvetica", 25, "bold"), fg="green")
+                time_minutes_label.config(text=f"Total time (min): {total_time_minutes:.2f}", font=("Helvetica", 25, "bold"), fg="green")
                 
         except Exception as e:
             messagebox.showerror("Error", f"An error occurred while reading the file: {e}")
 
     # Create the analyze button
-    analyze_button = tk.Button(parent_frame, text="Analyze Wave File", command=analyze_wavefile, font=("Helvetica", 20))
-    analyze_button.pack(pady=20)
+    analyze_button = tk.Button(parent_frame, text="Analyze Wave File", command=analyze_wavefile, font=("Helvetica", 25, "bold"))
+    analyze_button.pack(pady=10)
 
     # Create labels to display the file properties
-    channels_label = tk.Label(parent_frame, text="Number of channels: -", font=("Helvetica", 20))
+    channels_label = tk.Label(parent_frame, text="Number of channels: -", font=("Helvetica", 25, "bold"))
     channels_label.pack(pady=5)
 
-    sampwidth_label = tk.Label(parent_frame, text="Sample width: -", font=("Helvetica", 20))
+    sampwidth_label = tk.Label(parent_frame, text="Sample width: -", font=("Helvetica", 25, "bold"))
     sampwidth_label.pack(pady=5)
 
-    framerate_label = tk.Label(parent_frame, text="Sample rate: -", font=("Helvetica", 20))
+    framerate_label = tk.Label(parent_frame, text="Sample rate: -", font=("Helvetica", 25, "bold"))
     framerate_label.pack(pady=5)
 
-    frames_label = tk.Label(parent_frame, text="Number of frames: -", font=("Helvetica", 20))
+    frames_label = tk.Label(parent_frame, text="Number of frames: -", font=("Helvetica", 25, "bold"))
     frames_label.pack(pady=5)
 
-    time_seconds_label = tk.Label(parent_frame, text="Total time (s): -", font=("Helvetica", 20))
+    time_seconds_label = tk.Label(parent_frame, text="Total time (s): -", font=("Helvetica", 25, "bold"))
     time_seconds_label.pack(pady=5)
 
-    time_minutes_label = tk.Label(parent_frame, text="Total time (min): -", font=("Helvetica", 20))
+    time_minutes_label = tk.Label(parent_frame, text="Total time (min): -", font=("Helvetica", 25, "bold"))
     time_minutes_label.pack(pady=5)

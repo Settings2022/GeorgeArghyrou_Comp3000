@@ -91,6 +91,8 @@ Box shadows added to autoTune and instrument_tab.
 Background colour added to all UIs.
 Images placed nicely.
 
+gui3.py see wave stats fields & buttons resized.
+
 
 
 
