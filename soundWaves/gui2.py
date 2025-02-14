@@ -80,7 +80,7 @@ def update_plot(i):
 
 # Function to add multiple images
 def add_images(parent_frame):
-    image_files = ["gibson.jpg", "strat.jpg", "ukulele.jpg", "freqWaveExample.jpg", "epiphoneLPS.jpg"]  # Add more filenames here
+    image_files = ["gibson.jpg", "strat.jpg", "ukulele.jpg", "wavgui2.jpg", "epiphoneLPS.jpg"]  # Add more filenames here
     image_positions = [(200, 100), (2050, 1600), (200, 1100), (1000, 1600), (3150, 700)]  # position co-ordinates for images
 
     image_labels = []  # Store references to avoid garbage collection
@@ -106,7 +106,7 @@ def add_images(parent_frame):
                 heading_label = tk.Label(parent_frame, text="A Ukulele:", font=("Arial", 24, "bold"))
                 heading_label.place(x=310, y=1050)
             
-            if filename == "freqWaveExample.jpg":
+            if filename == "wavgui2.jpg":
                 heading_label = tk.Label(parent_frame, text="Example of a Frequency Wave at 888 Hz over 5 seconds:", font=("Arial", 24, "bold"))
                 heading_label.place(x=1015, y=1550)  # Position the heading above the image
                 img = img.resize((900, 400), resample=Image.Resampling.LANCZOS)

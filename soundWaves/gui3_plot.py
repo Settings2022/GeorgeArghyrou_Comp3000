@@ -72,7 +72,7 @@ def add_images(parent_frame):
 def gui3_plot_main(parent_frame):
     # Create a label for instructions
     label = tk.Label(parent_frame, text="Select a WAV file to plot the waveform", font=("Helvetica", 30, "bold"))
-    label.pack(pady=20)
+    label.pack(pady=5)
 
     # Adding instructional text to the right side of the screen
     instruction_text = (
@@ -96,6 +96,9 @@ def gui3_plot_main(parent_frame):
         combo_box = ttk.Combobox(parent_frame, values=wav_files, font=("Helvetica", 30, "bold"), state="readonly")
         combo_box.set("Select WAV File")  # Set default text
         combo_box.pack(pady=20)
+
+        # Increase the font size of the dropdown list
+        combo_box.option_add('*TCombobox*Listbox.font', ("Helvetica", 25, "bold"))
 
         # Create a button to plot the waveform of the selected file
         button = tk.Button(

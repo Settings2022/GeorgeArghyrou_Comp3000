@@ -93,6 +93,7 @@ Images placed nicely.
 
 gui3.py see wave stats fields & buttons resized.
 
+gui3_plot combo_box options font size increased.
 
 
 
