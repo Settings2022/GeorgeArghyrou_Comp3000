@@ -98,6 +98,7 @@ Image corrected for gui2.
 
 Tooltip function added to gui.py, and guy2.py PASS.
  
+Tooltips function added to gui3.py PASS.
 
 
 
