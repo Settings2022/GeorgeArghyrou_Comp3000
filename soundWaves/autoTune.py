@@ -15,6 +15,32 @@ CHANNELS = 1
 RATE = 44100
 SOUNDS_FOLDER = "sounds"  # Path to the folder containing string recordings
 
+# Function to create a tooltip for the instructional text
+def create_tooltip(parent_frame, x, y, text):
+    """
+    Creates a tooltip effect for a given question mark (hover to reveal text).
+    """
+
+    def show_instruction(event):
+        instruction_label.place(x=x + 50, y=y)  # Show tooltip near the question mark
+
+    def hide_instruction(event):
+        instruction_label.place_forget()  # Hide tooltip when moving away
+
+    # Create the question mark label
+    question_mark = tk.Label(parent_frame, text="?", font=("Helvetica", 30, "bold"),
+                             bg="yellow", relief="solid", width=2)
+    question_mark.place(x=x, y=y)  # Position the question mark
+
+    # Bind hover events
+    question_mark.bind("<Enter>", show_instruction)
+    question_mark.bind("<Leave>", hide_instruction)
+
+    # Instructional text label (Initially hidden)
+    instruction_label = tk.Label(parent_frame, text=text, font=("Helvetica", 25, "bold"),
+                                 wraplength=1000, justify="left", bg="lightgray",
+                                 relief="solid", padx=5, pady=5)
+
 # Function to add multiple images
 def add_images(parent_frame):
 
@@ -112,8 +138,8 @@ class GuitarTunerApp:
             "\n"
             "If the needle is in the middle, you are in tune.\n"
         )
-        instruction_label = tk.Label(root, text=instruction_text, font=("Helvetica", 25, "bold"), wraplength=1000, anchor="w")
-        instruction_label.place(x=2800, y=100)  # Position the text on the right side with padding
+        # Add tooltip for instructional text
+        create_tooltip(parent_frame=root, x=2800, y=100, text=instruction_text)
 
         add_images(parent_frame=root)
 

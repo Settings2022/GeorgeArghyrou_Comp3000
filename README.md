@@ -106,6 +106,7 @@ Tooltips added to guiRecord and lowPassFilter PASS.
 
 Tooltips added to Tune By Ear Instrument_tab PASS.
 
+Tooltips added to Tuner App autoTune.py PASS.
 
 
 
