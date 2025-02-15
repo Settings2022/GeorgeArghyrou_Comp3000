@@ -75,7 +75,7 @@ def create_tooltip(parent_frame):
         instruction_label.place_forget()  # Hide tooltip when moving away
 
     # Create the question mark label
-    question_mark = tk.Label(parent_frame, text="?", font=("Helvetica", 30, "bold"), bg="yellow", relief="solid", width=3)
+    question_mark = tk.Label(parent_frame, text="?", font=("Helvetica", 30, "bold"), bg="yellow", relief="solid", width=2)
     question_mark.place(x=2200, y=50)  # Position the question mark
 
     # Bind hover events

@@ -100,6 +100,8 @@ Tooltip function added to gui.py, and guy2.py PASS.
  
 Tooltips function added to gui3.py PASS.
 
+Tooltips function added to gui3_plot.py PASS.
+
 
 
 
