@@ -94,7 +94,10 @@ Images placed nicely.
 gui3.py see wave stats fields & buttons resized.
 
 gui3_plot combo_box options font size increased.
+Image corrected for gui2.
 
+Tooltip function added to gui.py, and guy2.py PASS.
+ 
 
 
 

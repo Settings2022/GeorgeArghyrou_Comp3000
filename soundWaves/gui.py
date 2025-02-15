@@ -69,7 +69,7 @@ def add_images(parent_frame):
 def create_tooltip(parent_frame):
     # Define the function to show/hide tooltip
     def show_instruction(event):
-        instruction_label.place(x=2200, y=100)  # Show tooltip when hovering
+        instruction_label.place(x=2280, y=50)  # Show tooltip when hovering
 
     def hide_instruction(event):
         instruction_label.place_forget()  # Hide tooltip when moving away
