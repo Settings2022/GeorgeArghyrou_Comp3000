@@ -17,6 +17,8 @@ def generate_waveform(duration, frequency):
     waveform = 0.5 * np.sin(2 * np.pi * frequency * t)
     return t, waveform
 
+
+
 # Function to add multiple images
 def add_images(parent_frame):
     image_files = ["gibson.jpg", "strat.jpg", "ukulele.jpg", "freqWaveExample.jpg", "epiphoneLPS.jpg"]  # Add more filenames here

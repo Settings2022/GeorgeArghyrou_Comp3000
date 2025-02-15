@@ -102,6 +102,10 @@ Tooltips function added to gui3.py PASS.
 
 Tooltips function added to gui3_plot.py PASS.
 
+Tooltips added to guiRecord and lowPassFilter PASS.
+
+Tooltips added to Tune By Ear Instrument_tab PASS.
+
 
 
 
