@@ -160,11 +160,11 @@ def plot_waveform(selected_file):
         times = np.linspace(0, t_audio, len(signal_array))
 
         # Create the plot for the waveform
-        plt.figure(figsize=(20, 10))
+        plt.figure(figsize=(10, 5))
         plt.plot(times, signal_array, color='blue')
         plt.xlabel('Time (s)')
         plt.ylabel('Amplitude')
-        plt.title('Sound Waveform')
+        plt.title(f'Sound Waveform: {os.path.basename(selected_file)}')
         plt.grid()
 
         # Display the plot in a non-blocking way
@@ -176,3 +176,4 @@ def plot_waveform(selected_file):
         print(error_message)
         tk.messagebox.showerror("Error", error_message)
 
+    return None

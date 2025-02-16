@@ -108,6 +108,7 @@ Tooltips added to Tune By Ear Instrument_tab PASS.
 
 Tooltips added to Tuner App autoTune.py PASS.
 
+Selected file name shows in plot title in gui3_plot.py
 
 
 
