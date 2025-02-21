@@ -100,9 +100,8 @@ def create_tooltip(parent_frame, x, y, text):
     question_mark.bind("<Leave>", hide_instruction)
 
     # Instructional text label (Initially hidden)
-    instruction_label = tk.Label(parent_frame, text=text, font=("Helvetica", 25, "bold"),
-                                 wraplength=1500, justify="left", bg="lightgray",
-                                 relief="solid", padx=5, pady=5)
+    instruction_label = tk.Label(parent_frame, text=text, font=("Helvetica", 30, "bold"), bg="black", fg="yellow",
+                                 wraplength=1500, justify="left", relief="solid", padx=5, pady=5)
 
 # Function to add multiple images
 def add_images(parent_frame):
@@ -161,12 +160,11 @@ def gui2_main(parent_frame):
 
     # Adding instructional text to the right side of the screen
     instruction_text = (
-        "This page allows you to generate and play a sound with a specified frequency and duration.\n"
-        "You can then visualize the waveform of the sound as it plays.\n"
-        "Choose a saved recording from the Recordings folder.\n"
+        "First select a .wav file from the dropdown.\n"
+        "Then click the 'Play Sound' button to play the sound.\n"
+        "The waveform loads as the sound plays.\n"
+        "All the listed files are saved in the 'recordings' folder.\n"
         "To make a recording go to the Record Tab.\n"
-        "Enter the frequency (in Hz) and the duration (in seconds).\n"
-        "To generate a sine wave, press 'Play Sound'."
     )
 
     # Add tooltip for instructional text
@@ -182,14 +180,14 @@ def gui2_main(parent_frame):
 
     # Adjust dropdown menu font
     menu = parent_frame.nametowidget(file_dropdown.menuname)
-    menu.config(font=("Helvetica", 20))
+    menu.config(font=("Helvetica", 25))
 
     # Play button
     play_button = tk.Button(parent_frame, text="Play Sound", command=play_sound_and_plot_from_file, width=20, height=2, font=("Helvetica", 25, "bold"))
     play_button.pack(pady=20)
 
     # Plot frame and matplotlib figure
-    plot_frame = tk.Frame(parent_frame, width=800, height=400, padx=100, pady=50)
+    plot_frame = tk.Frame(parent_frame, width=800, height=400)
     plot_frame.pack(pady=20)
     fig, ax = plt.subplots(figsize=(20, 10))
 

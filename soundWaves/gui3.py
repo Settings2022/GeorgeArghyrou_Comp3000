@@ -36,9 +36,8 @@ def create_tooltip(parent_frame, x, y, text):
     question_mark.bind("<Leave>", hide_instruction)
 
     # Instructional text label (Initially hidden)
-    instruction_label = tk.Label(parent_frame, text=text, font=("Helvetica", 25, "bold"),
-                                 wraplength=1500, justify="left", bg="lightgray",
-                                 relief="solid", padx=5, pady=5)
+    instruction_label = tk.Label(parent_frame, text=text, font=("Helvetica", 30, "bold"), bg="black", fg="yellow",
+                                 wraplength=1200, justify="left", relief="solid", padx=5, pady=5)
 
 # Function to add multiple images
 def add_images(parent_frame):

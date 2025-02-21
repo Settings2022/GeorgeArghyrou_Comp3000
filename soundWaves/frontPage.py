@@ -72,7 +72,7 @@ def main_interface():
 
     # Configure style once
     style = ttk.Style()
-    style.configure('TNotebook.Tab', padding=[50, 25], font=('Arial', '15', 'bold'))
+    style.configure('TNotebook.Tab', padding=[50, 25], font=('Arial', '20', 'bold'))
 
     # Add tabs to the notebook
     notebook.add(tab1_frame, text="Play a sound")

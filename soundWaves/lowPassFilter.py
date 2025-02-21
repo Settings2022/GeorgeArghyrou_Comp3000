@@ -33,9 +33,8 @@ def create_tooltip(parent_frame, x, y, text):
     question_mark.bind("<Leave>", hide_instruction)
 
     # Instructional text label (Initially hidden)
-    instruction_label = tk.Label(parent_frame, text=text, font=("Helvetica", 25, "bold"),
-                                 wraplength=1500, justify="left", bg="lightgray",
-                                 relief="solid", padx=5, pady=5)
+    instruction_label = tk.Label(parent_frame, text=text, font=("Helvetica", 30, "bold"), bg="black", fg="yellow",
+                                 wraplength=1500, justify="left", relief="solid", padx=5, pady=5)
 
 # Function to add multiple images
 def add_images(parent_frame):
@@ -165,9 +164,11 @@ def low_pass_filter_main(parent_frame):
     selected_file.set(wav_files[0])
 
     # Dropdown to select .wav file
-    tk.Label(parent_frame, text="Select .wav file:", font=("Helvetica", 25, "bold")).pack(pady=5)
+    tk.Label(parent_frame, text="Select .wav file:", font=("Helvetica", 30, "bold")).pack(pady=5)
     file_dropdown = tk.OptionMenu(parent_frame, selected_file, *wav_files)
-    file_dropdown.config(width=20, height=2, font=("Helvetica", 25, "bold"))
+    menu = parent_frame.nametowidget(file_dropdown.menuname)
+    menu.config(font=("Helvetica", 30, "bold"))
+    file_dropdown.config(width=20, height=2, font=("Helvetica", 30, "bold"))
     file_dropdown.pack(pady=5)
 
     # Button to apply low-pass filter and display waveform
@@ -175,14 +176,15 @@ def low_pass_filter_main(parent_frame):
     filter_button.pack(pady=20)
 
     # Plot frame and matplotlib figure
-    plot_frame = tk.Frame(parent_frame, width=800, height=400, padx=100, pady=50)
-    plot_frame.pack(pady=20)
+    plot_frame = tk.Frame(parent_frame, width=600, height=300)
+    plot_frame.pack(pady=(120, 20))  # Increase the top padding by 100px
+    #plot_frame.pack(pady=20)
     fig, ax = plt.subplots(figsize=(20, 10))
 
     # **Updated: Set axis labels and title when initializing the figure**
-    ax.set_xlabel("Time (seconds)", fontsize=16)
-    ax.set_ylabel("Amplitude", fontsize=16)
-    ax.set_title("Original (blue) vs Low-Pass Filtered (red) Signal", fontsize=18, fontweight='bold')
+    ax.set_xlabel("Time (seconds)", fontsize=20)
+    ax.set_ylabel("Amplitude", fontsize=20)
+    ax.set_title("Original (blue) vs Low-Pass Filtered (red) Signal", fontsize=20, fontweight='bold')
 
     # Embed the figure in the Tkinter canvas
     canvas = FigureCanvasTkAgg(fig, master=plot_frame)

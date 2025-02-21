@@ -87,14 +87,11 @@ def create_tooltip(parent_frame):
 # Adding instructional text to the right side of the screen
     instruction_text = (
         "This page allows you to generate and play a sound with a specified frequency and duration.\n"
-        "\n"
         "You can visualize the waveform of the sound as it plays.\n"
-        "\n"
         "Enter the frequency (in Hz), set the duration (in seconds).\n"
-        "\n"
         "Click 'Play Sound' to generate the sound wave & play the sound.\n"
     )
-    instruction_label = tk.Label(parent_frame, text=instruction_text, font=("Helvetica", 25, "bold"), wraplength=1800, justify="left", bg="lightgray", relief="solid", padx=5, pady=5)  
+    instruction_label = tk.Label(parent_frame, text=instruction_text, font=("Helvetica", 30, "bold"), wraplength=1500, justify="left", bg="black", fg="yellow", relief="solid", padx=5, pady=5)
 
 # Main function to build the GUI
 def gui_main(parent_frame):
@@ -172,7 +169,7 @@ def gui_main(parent_frame):
     play_button.pack(pady=30)
 
     # Create a frame for the plot and set up the figure and axis
-    plot_frame = tk.Frame(parent_frame, width=800, height=400, padx=100, pady=50)
+    plot_frame = tk.Frame(parent_frame, width=800, height=400)
     plot_frame.pack(pady=20)
     fig, ax = plt.subplots(figsize=(20, 10))
 

@@ -23,7 +23,7 @@ def create_tooltip(parent_frame, x, y, text):
     """
 
     def show_instruction(event):
-        instruction_label.place(x=x + 50, y=y)  # Show tooltip near the question mark
+        instruction_label.place(x=x + 250, y=y)  # Show tooltip near the question mark
 
     def hide_instruction(event):
         instruction_label.place_forget()  # Hide tooltip when moving away
@@ -31,21 +31,20 @@ def create_tooltip(parent_frame, x, y, text):
     # Create the question mark label
     question_mark = tk.Label(parent_frame, text="?", font=("Helvetica", 30, "bold"),
                              bg="yellow", relief="solid", width=2)
-    question_mark.place(x=x, y=y)  # Position the question mark
+    question_mark.place(x=x + 200, y=y)  # Position the question mark
 
     # Bind hover events
     question_mark.bind("<Enter>", show_instruction)
     question_mark.bind("<Leave>", hide_instruction)
 
     # Instructional text label (Initially hidden)
-    instruction_label = tk.Label(parent_frame, text=text, font=("Helvetica", 25, "bold"),
-                                 wraplength=1500, justify="left", bg="lightgray",
-                                 relief="solid", padx=5, pady=5)
+    instruction_label = tk.Label(parent_frame, text=text, font=("Helvetica", 30, "bold"), bg="black", fg="yellow",
+                                 wraplength=1000, justify="left", relief="solid", padx=5, pady=5)
 
 # Function to add multiple images
 def add_images(parent_frame):
     image_files = ["gibson.jpg", "strat.jpg", "ukulele.jpg", "sigma.jpg", "epiphone.jpg", "washburn.jpg", "epiphoneLPS.jpg"]  # Add more filenames here
-    image_positions = [(200, 100), (900, 500), (200, 1150), (900, 1150), (2415, 1150), (1655, 1050), (3150, 1150) ]  # Position coordinates for images
+    image_positions = [(200, 100), (1450, 500), (200, 1150), (900, 1150), (2415, 1150), (1655, 1050), (3150, 1150) ]  # Position coordinates for images
 
     image_labels = []  # Store references to avoid garbage collection
 
@@ -63,7 +62,7 @@ def add_images(parent_frame):
             
             if filename == "strat.jpg":
                 heading_label = tk.Label(parent_frame, text="A Fender Stratocaster:", font=("Arial", 24, "bold"))
-                heading_label.place(x=1180, y=450)
+                heading_label.place(x=1750, y=450)
                 img = img.resize((900, 400), resample=Image.Resampling.LANCZOS)
 
             if filename == "epiphoneLPS.jpg":
@@ -113,7 +112,7 @@ def guiRecord_main(parent_frame):
         "You can listen to your recording and view graphical images by exploring other tabs in the application."
     )
     # Add tooltip for instructional text
-    create_tooltip(parent_frame, x=2200, y=250, text=instruction_text)
+    create_tooltip(parent_frame, x=2400, y=250, text=instruction_text)
 
     add_images(parent_frame)
 

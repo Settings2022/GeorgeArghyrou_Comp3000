@@ -110,6 +110,9 @@ Tooltips added to Tuner App autoTune.py PASS.
 
 Selected file name shows in plot title in gui3_plot.py
 
+Tooltips yellow font on black bg, all tabs.
+
+
 
 
 

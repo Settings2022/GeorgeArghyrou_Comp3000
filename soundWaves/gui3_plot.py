@@ -32,9 +32,8 @@ def create_tooltip(parent_frame, x, y, text):
     question_mark.bind("<Leave>", hide_instruction)
 
     # Instructional text label (Initially hidden)
-    instruction_label = tk.Label(parent_frame, text=text, font=("Helvetica", 25, "bold"),
-                                 wraplength=1500, justify="left", bg="lightgray",
-                                 relief="solid", padx=5, pady=5)
+    instruction_label = tk.Label(parent_frame, text=text, font=("Helvetica", 30, "bold"), bg="black", fg="yellow",
+                                 wraplength=1500, justify="left", relief="solid", padx=5, pady=5)
 
 # Function to add multiple images
 def add_images(parent_frame):
@@ -103,13 +102,10 @@ def gui3_plot_main(parent_frame):
     # Adding instructional text to the right side of the screen
     instruction_text = (
         "This page allows you to see a graph of a recording.\n"
-        "\n"
         "Select a .wav file from the drop down menu.\n"
-        "\n"
         "Click the Plot Waveform button to display the graph.\n"
-        "\n"
         "The graph shows the amplitude of the sound wave over time.\n"
-        "\n"
+        "Display multiple graphs for comparison.\n"
         "Go to the 'Record' tab to make a recording."
     )
     # Add tooltip for instructional text
@@ -160,7 +156,7 @@ def plot_waveform(selected_file):
         times = np.linspace(0, t_audio, len(signal_array))
 
         # Create the plot for the waveform
-        plt.figure(figsize=(10, 5))
+        plt.figure(figsize=(6, 3))
         plt.plot(times, signal_array, color='blue')
         plt.xlabel('Time (s)')
         plt.ylabel('Amplitude')
