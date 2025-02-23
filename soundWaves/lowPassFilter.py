@@ -52,25 +52,25 @@ def add_images(parent_frame):
             img = img.rotate(360, expand=True)
 
             if filename == "gibson.jpg":
-                heading_label = tk.Label(parent_frame, text="The Gibson J45:", font=("Arial", 24, "bold"))
+                heading_label = tk.Label(parent_frame, text="The Gibson J45:", font=("Arial", 24, "bold"), bg="black", fg="yellow")
                 heading_label.place(x=270, y=50)
             
             if filename == "strat.jpg":
-                heading_label = tk.Label(parent_frame, text="A Fender Startocaster:", font=("Arial", 24, "bold"))
+                heading_label = tk.Label(parent_frame, text="A Fender Startocaster:", font=("Arial", 24, "bold"), bg="black", fg="yellow")
                 heading_label.place(x=2300, y=1550)
                 img = img.resize((900, 400), resample=Image.Resampling.LANCZOS)
             
             if filename == "ukulele.jpg":
-                heading_label = tk.Label(parent_frame, text="A Ukulele:", font=("Arial", 24, "bold"))
+                heading_label = tk.Label(parent_frame, text="A Ukulele:", font=("Arial", 24, "bold"), bg="black", fg="yellow")
                 heading_label.place(x=310, y=1050)
             
             if filename == "lowPassWave.jpg":
-                heading_label = tk.Label(parent_frame, text="Example of orinigal wave in blue vs low pass wave in red:", font=("Arial", 24, "bold"))
+                heading_label = tk.Label(parent_frame, text="Example of orinigal wave in blue vs low pass wave in red:", font=("Arial", 24, "bold"), bg="black", fg="yellow")
                 heading_label.place(x=1005, y=1550)  # Position the heading above the image
                 img = img.resize((900, 400), resample=Image.Resampling.LANCZOS)
 
             if filename == "epiphoneLPS.jpg":
-                heading_label = tk.Label(parent_frame, text="Epiphone Les Paul Studio:", font=("Arial", 24, "bold"))
+                heading_label = tk.Label(parent_frame, text="Epiphone Les Paul Studio:", font=("Arial", 24, "bold"), bg="black", fg="yellow")
                 heading_label.place(x=3220, y=650)
                 img = img.resize((450, 900), resample=Image.Resampling.LANCZOS)
 

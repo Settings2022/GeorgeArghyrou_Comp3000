@@ -57,35 +57,35 @@ def add_images(parent_frame):
             img = img.rotate(360, expand=True)
 
             if filename == "gibson.jpg":
-                heading_label = tk.Label(parent_frame, text="The Gibson J45:", font=("Arial", 24, "bold"))
+                heading_label = tk.Label(parent_frame, text="The Gibson J45:", font=("Arial", 24, "bold"), bg="black", fg="yellow")
                 heading_label.place(x=250, y=50)
             
             if filename == "strat.jpg":
-                heading_label = tk.Label(parent_frame, text="A Fender Stratocaster:", font=("Arial", 24, "bold"))
+                heading_label = tk.Label(parent_frame, text="A Fender Stratocaster:", font=("Arial", 24, "bold"), bg="black", fg="yellow")
                 heading_label.place(x=1750, y=450)
                 img = img.resize((900, 400), resample=Image.Resampling.LANCZOS)
 
             if filename == "epiphoneLPS.jpg":
-                heading_label = tk.Label(parent_frame, text="The Epiphone Les Paul Studio:", font=("Arial", 24, "bold"))
+                heading_label = tk.Label(parent_frame, text="The Epiphone Les Paul Studio:", font=("Arial", 24, "bold"), bg="black", fg="yellow")
                 heading_label.place(x=3140, y=1100)
                 img = img.resize((450, 900), resample=Image.Resampling.LANCZOS)
             
             if filename == "ukulele.jpg":
-                heading_label = tk.Label(parent_frame, text="A Ukulele:", font=("Arial", 24, "bold"))
+                heading_label = tk.Label(parent_frame, text="A Ukulele:", font=("Arial", 24, "bold"), bg="black", fg="yellow")
                 heading_label.place(x=300, y=1100)
             
             if filename == "sigma.jpg":
-                heading_label = tk.Label(parent_frame, text="A Sigma Parlour guitar:", font=("Arial", 24, "bold"))
+                heading_label = tk.Label(parent_frame, text="A Sigma Parlour guitar:", font=("Arial", 24, "bold"), bg="black", fg="yellow")
                 heading_label.place(x=950, y=1100)  # Position the heading above the image
                 img = img.resize((450, 900), resample=Image.Resampling.LANCZOS)
 
             if filename == "epiphone.jpg":
-                heading_label = tk.Label(parent_frame, text="The Noel Gallagher Epiphone Riviera:", font=("Arial", 24, "bold"))
+                heading_label = tk.Label(parent_frame, text="The Noel Gallagher Epiphone Riviera:", font=("Arial", 24, "bold"), bg="black", fg="yellow")
                 heading_label.place(x=2370, y=1100)
                 img = img.resize((450, 900), resample=Image.Resampling.LANCZOS)
             
             if filename == "washburn.jpg":
-                heading_label = tk.Label(parent_frame, text="A Washburn Parlour guitar:", font=("Arial", 24, "bold"))
+                heading_label = tk.Label(parent_frame, text="A Washburn Parlour guitar:", font=("Arial", 24, "bold"), bg="black", fg="yellow")
                 heading_label.place(x=1665, y=1000)
                 img = img.resize((450, 1000), resample=Image.Resampling.LANCZOS)
 
