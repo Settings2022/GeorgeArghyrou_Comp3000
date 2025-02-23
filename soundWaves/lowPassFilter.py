@@ -6,6 +6,9 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import tkinter as tk
 import wave
 import os
+import winsound
+import threading
+import tkinter.messagebox
 from PIL import Image, ImageTk
 
 # Path to the sounds folder
@@ -99,6 +102,18 @@ def low_pass_filter(data, cutoff_freq, sampling_rate):
     filtered_data = filtfilt(b, a, data)
     return filtered_data
 
+# play sound function
+def play_sound():
+    file_path = selected_file.get()
+    try:
+        threading.Thread(
+            target=lambda: winsound.PlaySound(file_path, winsound.SND_FILENAME),
+            daemon=True
+        ).start()
+    except Exception as e:
+        tk.messagebox.showerror("Error", f"An error occurred while playing sound: {e}")
+
+
 # Function to load the WAV file
 def load_waveform(file_path):
     with wave.open(file_path, 'rb') as wav_file:
@@ -175,10 +190,13 @@ def low_pass_filter_main(parent_frame):
     filter_button = tk.Button(parent_frame, text="Apply Low-Pass Filter", command=display_filtered_waveform, width=25, height=2, font=("Helvetica", 25, "bold"))
     filter_button.pack(pady=20)
 
+    # Button to play the selected sound
+    play_button = tk.Button(parent_frame, text="Play Sound", command=play_sound, width=25, height=2, font=("Helvetica", 25, "bold"))
+    play_button.pack(pady=5)
+
     # Plot frame and matplotlib figure
     plot_frame = tk.Frame(parent_frame, width=600, height=300)
-    plot_frame.pack(pady=(120, 20))  # Increase the top padding by 100px
-    #plot_frame.pack(pady=20)
+    plot_frame.pack(pady=(20, 20))
     fig, ax = plt.subplots(figsize=(20, 10))
 
     # **Updated: Set axis labels and title when initializing the figure**

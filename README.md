@@ -114,5 +114,6 @@ Tooltips yellow font on black bg, all tabs.
 
 Image heading labels font yellow, bg black, all tabs.
 
+Play sound function added to low pass filter page.
 
 
