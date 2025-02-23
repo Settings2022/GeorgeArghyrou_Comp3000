@@ -58,7 +58,7 @@ def create_tooltip(parent_frame, x, y, text):
 def add_images(parent_frame):
 
     # GUI Setup
-    label = tk.Label(parent_frame, text="Click a button to hear the sound.", font=("Helvetica", 40, "bold"))
+    label = tk.Label(parent_frame, text="Click a button to hear the sound.", font=("Helvetica", 40, "bold"), bg="black", fg="yellow")
     label.pack(pady=10)
 
     image_files = ["gibson.jpg", "strat.jpg", "ukulele.jpg", "sigma.jpg", "epiphone.jpg", "washburn.jpg", "epiphoneLPS.jpg"]  # Add more filenames here

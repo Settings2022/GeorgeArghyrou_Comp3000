@@ -22,6 +22,7 @@ def create_tooltip(parent_frame, x, y, text):
 
     def show_instruction(event):
         instruction_label.place(x=x + 50, y=y)  # Show tooltip near the question mark
+        instruction_label.lift()  # Ensure it is displayed on top
 
     def hide_instruction(event):
         instruction_label.place_forget()  # Hide tooltip when moving away
@@ -158,9 +159,10 @@ def low_pass_filter_main(parent_frame):
     # Adding instructional text to the right side of the screen
     instruction_text = (
         "This page allows you to see a low pass filter graph of a recording saved to the recordings folder.\n"
-        "Select a .wav file from the drop-down menu.\n"
-        "Click the Apply Low-Pass Filter button to display the graph.\n"
+        "Useful for removing unwanted high frequency noise or interference, producing a smoother waveform.\n"
+        "Demonstrates how filtering affects sound quality and timbre.\n"
         "This shows a graph with the original signal in blue and the low-pass filtered signal in red.\n"
+        "Used in audio systems like amplifiers and mixers, allowing users to control the frequency range of the output.\n"
         "The cutoff frequency in the code is currently set to 250 Hz."
     )
     # Add tooltip for instructional text
@@ -179,7 +181,7 @@ def low_pass_filter_main(parent_frame):
     selected_file.set(wav_files[0])
 
     # Dropdown to select .wav file
-    tk.Label(parent_frame, text="Select .wav file:", font=("Helvetica", 30, "bold")).pack(pady=5)
+    tk.Label(parent_frame, text="Select .wav file:", font=("Helvetica", 30, "bold"), bg="black", fg="yellow").pack(pady=5)
     file_dropdown = tk.OptionMenu(parent_frame, selected_file, *wav_files)
     menu = parent_frame.nametowidget(file_dropdown.menuname)
     menu.config(font=("Helvetica", 30, "bold"))

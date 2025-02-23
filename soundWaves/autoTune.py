@@ -115,7 +115,7 @@ class GuitarTunerApp:
         self.active_string = None  # Active string being tuned
 
         # GUI Setup
-        label = tk.Label(root, text="Click a button to start tuning.", font=("Helvetica", 40, "bold"))
+        label = tk.Label(root, text="Click a button to start tuning.", font=("Helvetica", 40, "bold"), bg="black", fg="yellow")
         label.pack(pady=10)
 
         # Define button style

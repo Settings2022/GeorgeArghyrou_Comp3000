@@ -96,7 +96,7 @@ def add_images(parent_frame):
 # Function to initialize the waveform plotting GUI
 def gui3_plot_main(parent_frame):
     # Create a label for instructions
-    label = tk.Label(parent_frame, text="Select a WAV file to plot the waveform", font=("Helvetica", 30, "bold"))
+    label = tk.Label(parent_frame, text="Select a WAV file to plot the waveform", font=("Helvetica", 30, "bold"), bg="black", fg="yellow")
     label.pack(pady=5)
 
     # Adding instructional text to the right side of the screen

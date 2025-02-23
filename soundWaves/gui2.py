@@ -173,7 +173,7 @@ def gui2_main(parent_frame):
     add_images(parent_frame) 
 
     # Dropdown to select .wav file
-    tk.Label(parent_frame, text="Select .wav file:", font=("Helvetica", 25, "bold")).pack(pady=5)
+    tk.Label(parent_frame, text="Select .wav file:", font=("Helvetica", 25, "bold"), bg="black", fg="yellow").pack(pady=5)
     file_dropdown = tk.OptionMenu(parent_frame, selected_file, *wav_files)
     file_dropdown.config(width=20, height=2, font=("Helvetica", 25, "bold"))
     file_dropdown.pack(pady=5)

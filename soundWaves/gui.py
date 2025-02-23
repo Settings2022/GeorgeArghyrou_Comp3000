@@ -151,12 +151,12 @@ def gui_main(parent_frame):
     create_tooltip(parent_frame)
 
     # Create and place the input fields for duration and frequency
-    tk.Label(parent_frame, text="Enter duration (s):", font=("Helvetica", 30)).pack(pady=5)
+    tk.Label(parent_frame, text="Enter duration (s):", font=("Helvetica", 30), bg="black", fg="yellow").pack(pady=5)
     duration_entry = tk.Entry(parent_frame, font=("Helvetica", 20), width=10)
     duration_entry.pack(pady=5)
     duration_entry.insert(0, "5")  # Default value is 5 seconds
 
-    tk.Label(parent_frame, text="Enter frequency (Hz):", font=("Helvetica", 30)).pack(pady=5)
+    tk.Label(parent_frame, text="Enter frequency (Hz):", font=("Helvetica", 30), bg="black", fg="yellow").pack(pady=5)
     frequency_entry = tk.Entry(parent_frame, font=("Helvetica", 16), width=10)
     frequency_entry.pack(pady=5)
 

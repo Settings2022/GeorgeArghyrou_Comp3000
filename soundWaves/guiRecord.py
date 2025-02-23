@@ -117,7 +117,7 @@ def guiRecord_main(parent_frame):
     add_images(parent_frame)
 
     # Create a label and entry field for the user to input the recording time
-    time_label = tk.Label(parent_frame, text="Enter recording duration in seconds:", font=("Helvetica", 30, "bold"))
+    time_label = tk.Label(parent_frame, text="Enter recording duration in seconds:", font=("Helvetica", 30, "bold"), bg="black", fg="yellow")
     time_label.pack(pady=10)
 
     time_entry = tk.Entry(parent_frame, font=("Helvetica", 30, "bold"))
@@ -125,7 +125,7 @@ def guiRecord_main(parent_frame):
     time_entry.insert(0, "5")  # Default value is 5 seconds
 
     # Create a label and entry field for the user to input the filename
-    filename_label = tk.Label(parent_frame, text="Enter alphanumeric filename to store your recording as a .wav file:", font=("Helvetica", 30, "bold"))
+    filename_label = tk.Label(parent_frame, text="Enter alphanumeric filename to store your recording as a .wav file:", font=("Helvetica", 30, "bold"), bg="black", fg="yellow")
     filename_label.pack(pady=10)
 
     filename_entry = tk.Entry(parent_frame, font=("Helvetica", 30, "bold"))

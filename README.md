@@ -116,4 +116,9 @@ Image heading labels font yellow, bg black, all tabs.
 
 Play sound function added to low pass filter page.
 
+All page headings/titles yellow font, bg black.
+
+Tool tip in low pass filter brought to foreground:
+instruction_label.lift()
+
 
