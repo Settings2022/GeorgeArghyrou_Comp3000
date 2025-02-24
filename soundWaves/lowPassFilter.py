@@ -19,7 +19,6 @@ def create_tooltip(parent_frame, x, y, text):
     """
     Creates a tooltip effect for a given question mark (hover to reveal text).
     """
-
     def show_instruction(event):
         instruction_label.place(x=x + 50, y=y)  # Show tooltip near the question mark
         instruction_label.lift()  # Ensure it is displayed on top
@@ -42,7 +41,7 @@ def create_tooltip(parent_frame, x, y, text):
 
 # Function to add multiple images
 def add_images(parent_frame):
-    image_files = ["gibson.jpg", "strat.jpg", "ukulele.jpg", "lowPassWave.jpg", "epiphoneLPS.jpg"]  # Add more filenames here
+    image_files = ["gibson.jpg", "strat.jpg", "ukulele.jpg", "lowPassLowE.jpg", "epiphoneLPS.jpg"]  # Add more filenames here
     image_positions = [(200, 100), (2050, 1600), (200, 1100), (1000, 1600), (3200, 700)]  # position co-ordinates for images
 
     image_labels = []  # Store references to avoid garbage collection
@@ -68,8 +67,8 @@ def add_images(parent_frame):
                 heading_label = tk.Label(parent_frame, text="A Ukulele:", font=("Arial", 24, "bold"), bg="black", fg="yellow")
                 heading_label.place(x=310, y=1050)
             
-            if filename == "lowPassWave.jpg":
-                heading_label = tk.Label(parent_frame, text="Example of orinigal wave in blue vs low pass wave in red:", font=("Arial", 24, "bold"), bg="black", fg="yellow")
+            if filename == "lowPassLowE.jpg":
+                heading_label = tk.Label(parent_frame, text="Low pass filter applied to the low E guitar string sound:", font=("Arial", 24, "bold"), bg="black", fg="yellow")
                 heading_label.place(x=1005, y=1550)  # Position the heading above the image
                 img = img.resize((900, 400), resample=Image.Resampling.LANCZOS)
 
@@ -147,7 +146,7 @@ def display_filtered_waveform():
         ax.set_ylabel("Amplitude", fontsize=16)
         ax.set_title(f"Original (blue) vs Low-Pass Filtered (red) Signal from file named: {file_path}", fontsize=18, fontweight='bold')
 
-        ax.legend()
+        ax.legend(fontsize=15)
         ax.grid()
         canvas.draw()
     except Exception as e:
@@ -159,10 +158,15 @@ def low_pass_filter_main(parent_frame):
     # Adding instructional text to the right side of the screen
     instruction_text = (
         "This page allows you to see a low pass filter graph of a recording saved to the recordings folder.\n"
+        "\n"
         "Useful for removing unwanted high frequency noise or interference, producing a smoother waveform.\n"
+        "\n"
         "Demonstrates how filtering affects sound quality and timbre.\n"
+        "\n"
         "This shows a graph with the original signal in blue and the low-pass filtered signal in red.\n"
+        "\n"
         "Used in audio systems like amplifiers and mixers, allowing users to control the frequency range of the output.\n"
+        "\n"
         "The cutoff frequency in the code is currently set to 250 Hz."
     )
     # Add tooltip for instructional text

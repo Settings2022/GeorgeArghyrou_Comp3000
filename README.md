@@ -121,4 +121,7 @@ All page headings/titles yellow font, bg black.
 Tool tip in low pass filter brought to foreground:
 instruction_label.lift()
 
+tune by ear and tuner app headstock image UI enhancements applied.
+instrument container bg black
+button bg black.
 

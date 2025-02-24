@@ -21,9 +21,9 @@ def create_tooltip(parent_frame, x, y, text):
     """
     Creates a tooltip effect for a given question mark (hover to reveal text).
     """
-
     def show_instruction(event):
         instruction_label.place(x=x + 250, y=y)  # Show tooltip near the question mark
+        instruction_label.lift() 
 
     def hide_instruction(event):
         instruction_label.place_forget()  # Hide tooltip when moving away

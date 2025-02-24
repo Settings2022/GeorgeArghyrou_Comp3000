@@ -34,9 +34,9 @@ def create_tooltip(parent_frame, x, y, text):
     """
     Creates a tooltip effect for a given question mark (hover to reveal text).
     """
-
     def show_instruction(event):
         instruction_label.place(x=x + 50, y=y)  # Show tooltip near the question mark
+        instruction_label.lift() 
 
     def hide_instruction(event):
         instruction_label.place_forget()  # Hide tooltip when moving away
@@ -159,16 +159,22 @@ def build_instrument_tab(parent_frame):
         "Listen carefully to the sound and compare it to the sound of your instrument.\n"
         "\n"
         "Tune your instrument up or down to match that sound.\n"
+        "\n"
+        "Achieve better tuning stability by tuning up to pitch rather than down.\n"
     )
     # Add tooltip for instructional text
-    create_tooltip(parent_frame, x=2480, y=160, text=instruction_text)
+    create_tooltip(parent_frame, x=2480, y=50, text=instruction_text)
 
     add_images(parent_frame)
 
     feedback_label = tk.Label(parent_frame, text="", font=("Arial", 20), fg="black")
     feedback_label.pack(pady=10)
     
-    instrument_container = ttk.Frame(parent_frame)
+    instrument_container = ttk.Frame(parent_frame, style="Black.TFrame")
+    
+    # Define the style for the black background
+    style = ttk.Style()
+    style.configure("Black.TFrame", background="black")
     instrument_container.pack(pady=10)
     
     # Outer frame to create the shadow effect
@@ -176,7 +182,7 @@ def build_instrument_tab(parent_frame):
     guitar_shadow.grid(row=0, column=0, padx=50, pady=20)
 
     # Inner frame to contain the actual guitar section
-    guitar_frame = ttk.Frame(guitar_shadow, padding=10, relief="raised", borderwidth=2)
+    guitar_frame = ttk.Frame(guitar_shadow, padding=5, relief="raised", style="Black.TFrame")
     guitar_frame.pack()
 
     
@@ -186,11 +192,11 @@ def build_instrument_tab(parent_frame):
     guitar_tuner_img_tk = ImageTk.PhotoImage(guitar_tuner_img)
     guitar_tuner_label = tk.Label(guitar_frame, image=guitar_tuner_img_tk)
     guitar_tuner_label.image = guitar_tuner_img_tk
-    guitar_label = tk.Label(guitar_frame, text="Guitar Headstock", font=("Arial", 20, "bold"))
+    guitar_label = tk.Label(guitar_frame, text="Guitar Headstock", font=("Arial", 20, "bold"), bg="black", fg="yellow")
     guitar_label.pack()
     guitar_tuner_label.pack()
     
-    button_frame = ttk.Frame(guitar_frame)
+    button_frame = ttk.Frame(guitar_frame, style="Black.TFrame")
     button_frame.pack()
     
     guitar_positions = [["D", "G"], ["A", "B"], ["E2", "E"]]
@@ -198,17 +204,16 @@ def build_instrument_tab(parent_frame):
         for col, string_name in enumerate(pair):
             def on_click(sn=string_name):
                 play_sound_file(GUITAR_SOUNDS[sn], sn, feedback_label)
-            # ttk.Button(button_frame, text=string_name, width=20, padding=15, command=on_click).grid(row=row, column=col, padx=10, pady=5)
             style = ttk.Style()
             style.configure("Large.TButton", font=("Arial", 20), padding=15)
             ttk.Button(button_frame, text=string_name, width=10, style="Large.TButton", command=on_click).grid(row=row, column=col, padx=10, pady=5)
     
-    # Outer frame to create the shadow effect
+    # # Outer frame to create the shadow effect
     ukulele_shadow = ttk.Frame(instrument_container, padding=5, style="Shadow.TFrame")
     ukulele_shadow.grid(row=0, column=1, padx=50, pady=20)
 
     # Inner frame to contain the actual ukulele section
-    ukulele_frame = ttk.Frame(ukulele_shadow, padding=10, relief="raised", borderwidth=2)
+    ukulele_frame = ttk.Frame(ukulele_shadow, padding=5, relief="raised", style="Black.TFrame")
     ukulele_frame.pack()
     
     ukulele_tuner_path = os.path.join(os.getcwd(), 'images', 'ukulelePegs.jpg')
@@ -217,11 +222,11 @@ def build_instrument_tab(parent_frame):
     ukulele_tuner_img_tk = ImageTk.PhotoImage(ukulele_tuner_img)
     ukulele_tuner_label = tk.Label(ukulele_frame, image=ukulele_tuner_img_tk)
     ukulele_tuner_label.image = ukulele_tuner_img_tk
-    ukulele_label = tk.Label(ukulele_frame, text="Ukulele Headstock", font=("Arial", 20, "bold"))
+    ukulele_label = tk.Label(ukulele_frame, text="Ukulele Headstock", font=("Arial", 20, "bold"), bg="black", fg="yellow")
     ukulele_label.pack()
     ukulele_tuner_label.pack()
     
-    ukulele_button_frame = ttk.Frame(ukulele_frame)
+    ukulele_button_frame = ttk.Frame(ukulele_frame, style="Black.TFrame")
     ukulele_button_frame.pack()
     
     ukulele_positions = [["C", "E"], ["G", "A"]]

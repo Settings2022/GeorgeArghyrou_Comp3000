@@ -83,9 +83,9 @@ def create_tooltip(parent_frame, x, y, text):
     """
     Creates a tooltip effect for a given question mark (hover to reveal text).
     """
-
     def show_instruction(event):
         instruction_label.place(x=x + 50, y=y)  # Show tooltip near the question mark
+        instruction_label.lift() 
 
     def hide_instruction(event):
         instruction_label.place_forget()  # Hide tooltip when moving away
@@ -161,9 +161,13 @@ def gui2_main(parent_frame):
     # Adding instructional text to the right side of the screen
     instruction_text = (
         "First select a .wav file from the dropdown.\n"
+        "\n"
         "Then click the 'Play Sound' button to play the sound.\n"
+        "\n"
         "The waveform loads as the sound plays.\n"
+        "\n"
         "All the listed files are saved in the 'recordings' folder.\n"
+        "\n"
         "To make a recording go to the Record Tab.\n"
     )
 

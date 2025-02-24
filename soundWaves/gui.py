@@ -72,6 +72,7 @@ def create_tooltip(parent_frame):
     # Define the function to show/hide tooltip
     def show_instruction(event):
         instruction_label.place(x=2280, y=50)  # Show tooltip when hovering
+        instruction_label.lift() # Bring the tooltip to the front
 
     def hide_instruction(event):
         instruction_label.place_forget()  # Hide tooltip when moving away
@@ -87,8 +88,11 @@ def create_tooltip(parent_frame):
 # Adding instructional text to the right side of the screen
     instruction_text = (
         "This page allows you to generate and play a sound with a specified frequency and duration.\n"
+        "\n"
         "You can visualize the waveform of the sound as it plays.\n"
+        "\n"
         "Enter the frequency (in Hz), set the duration (in seconds).\n"
+        "\n"
         "Click 'Play Sound' to generate the sound wave & play the sound.\n"
     )
     instruction_label = tk.Label(parent_frame, text=instruction_text, font=("Helvetica", 30, "bold"), wraplength=1500, justify="left", bg="black", fg="yellow", relief="solid", padx=5, pady=5)

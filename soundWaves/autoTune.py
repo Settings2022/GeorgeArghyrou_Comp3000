@@ -144,15 +144,22 @@ class GuitarTunerApp:
         add_images(parent_frame=root)
 
         # Create a frame to hold both guitar and ukulele sections
-        instrument_container = ttk.Frame(root)
+        # instrument_container = ttk.Frame(root)
+        # instrument_container.pack(pady=10)
+
+        instrument_container = ttk.Frame(root, style="Black.TFrame")
+    
+        # Define the style for the black background
+        style = ttk.Style()
+        style.configure("Black.TFrame", background="black")
         instrument_container.pack(pady=10)
 
         # Guitar Section
-        guitar_frame = ttk.Frame(instrument_container)
+        guitar_frame = ttk.Frame(instrument_container, style="Black.TFrame")
         guitar_frame.grid(row=0, column=0, padx=100)
 
         # Guitar Headstock Label
-        guitar_label = tk.Label(guitar_frame, text="Guitar Headstock", font=("Arial", 20, "bold"))
+        guitar_label = tk.Label(guitar_frame, text="Guitar Headstock", font=("Arial", 20, "bold"), bg="black", fg="yellow")
         guitar_label.pack()
 
         # Load and display guitar headstock image
@@ -165,11 +172,11 @@ class GuitarTunerApp:
         guitar_tuner_label.pack()
 
         # Ukulele Section
-        ukulele_frame = ttk.Frame(instrument_container)
+        ukulele_frame = ttk.Frame(instrument_container, style="Black.TFrame")
         ukulele_frame.grid(row=0, column=1, padx=100)
 
         # Ukulele Headstock Label
-        ukulele_label = tk.Label(ukulele_frame, text="Ukulele Headstock", font=("Arial", 20, "bold"))
+        ukulele_label = tk.Label(ukulele_frame, text="Ukulele Headstock", font=("Arial", 20, "bold"), bg="black", fg="yellow")
         ukulele_label.pack()
 
         # Load and display ukulele headstock image
@@ -190,7 +197,7 @@ class GuitarTunerApp:
         button_frame.pack()
 
         # Guitar Buttons
-        guitar_button_frame = ttk.Frame(guitar_frame)
+        guitar_button_frame = ttk.Frame(guitar_frame, style="Black.TFrame")
         guitar_button_frame.pack()
 
         # Map button labels to actual file names
@@ -209,7 +216,7 @@ class GuitarTunerApp:
                 self.buttons[string_name] = button
 
         # Ukulele Buttons
-        ukulele_button_frame = ttk.Frame(ukulele_frame)
+        ukulele_button_frame = ttk.Frame(ukulele_frame, style="Black.TFrame")
         ukulele_button_frame.pack()
 
         ukulele_positions = [["C", "E"], ["G", "A"]]

@@ -19,9 +19,9 @@ def create_tooltip(parent_frame, x, y, text):
     """
     Creates a tooltip effect for a given question mark (hover to reveal text).
     """
-
     def show_instruction(event):
         instruction_label.place(x=x + 50, y=y)  # Show tooltip near the question mark
+        instruction_label.lift() # Ensure it is displayed on top
 
     def hide_instruction(event):
         instruction_label.place_forget()  # Hide tooltip when moving away
@@ -101,7 +101,6 @@ def add_images(parent_frame):
 def gui3_main(parent_frame):
     # Adding instructional text to the right side of the screen
     instruction_text = (
-        "\n"
         "Here you can view statistical information about recordings you have made.\n"
         "\n"
         "Select a .wav file from the drop-down menu.\n"
