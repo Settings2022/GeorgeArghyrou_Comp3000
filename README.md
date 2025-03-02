@@ -125,3 +125,4 @@ tune by ear and tuner app headstock image UI enhancements applied.
 instrument container bg black
 button bg black.
 
+Low pass filter applied to play_sound function in lowPassFilter.py

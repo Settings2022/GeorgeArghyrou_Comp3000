@@ -4,11 +4,13 @@ from scipy.signal import butter, filtfilt
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import tkinter as tk
+from tkinter import messagebox
 import wave
 import os
 import winsound
 import threading
-import tkinter.messagebox
+import tempfile
+import time
 from PIL import Image, ImageTk
 
 # Path to the sounds folder
@@ -102,16 +104,53 @@ def low_pass_filter(data, cutoff_freq, sampling_rate):
     filtered_data = filtfilt(b, a, data)
     return filtered_data
 
-# play sound function
-def play_sound():
+# play filtered sound function
+def play_filtered_sound():
+    """ Loads a .wav file, applies a low-pass filter, and plays the filtered sound. """
     file_path = selected_file.get()
+
+    if not os.path.exists(file_path):
+        messagebox.showerror("Error", "Selected file does not exist.")
+        return
+
     try:
-        threading.Thread(
-            target=lambda: winsound.PlaySound(file_path, winsound.SND_FILENAME),
-            daemon=True
-        ).start()
+        # Load the waveform data
+        with wave.open(file_path, 'rb') as wav_file:
+            sample_rate = wav_file.getframerate()
+            num_frames = wav_file.getnframes()
+            num_channels = wav_file.getnchannels()
+            sample_width = wav_file.getsampwidth()
+            audio_data = wav_file.readframes(num_frames)
+
+        # Convert audio bytes to NumPy array
+        audio_array = np.frombuffer(audio_data, dtype=np.int16)
+
+        # Apply the low-pass filter
+        cutoff_freq = 250  # Cutoff frequency in Hz
+        filtered_audio = low_pass_filter(audio_array, cutoff_freq, sample_rate)
+
+        # Save the filtered audio as a temporary file
+        temp_wav = tempfile.NamedTemporaryFile(delete=False, suffix=".wav")
+        temp_wav_path = temp_wav.name
+        temp_wav.close()  # Close to allow writing
+
+        with wave.open(temp_wav_path, 'wb') as wav_out:
+            wav_out.setnchannels(num_channels)
+            wav_out.setsampwidth(sample_width)
+            wav_out.setframerate(sample_rate)
+            wav_out.writeframes(filtered_audio.astype(np.int16).tobytes())
+
+        # Play the filtered sound in a separate thread
+        threading.Thread(target=play_and_cleanup, args=(temp_wav_path,), daemon=True).start()
+
     except Exception as e:
-        tk.messagebox.showerror("Error", f"An error occurred while playing sound: {e}")
+        messagebox.showerror("Error", f"Failed to process the file: {e}")
+
+def play_and_cleanup(temp_wav_path):
+    """ Plays the filtered sound and deletes the temp file after playback. """
+    winsound.PlaySound(temp_wav_path, winsound.SND_FILENAME)
+    time.sleep(1)  # Ensure sound has finished playing
+    os.remove(temp_wav_path)  # Safely delete the temp file
 
 
 # Function to load the WAV file
@@ -197,7 +236,7 @@ def low_pass_filter_main(parent_frame):
     filter_button.pack(pady=20)
 
     # Button to play the selected sound
-    play_button = tk.Button(parent_frame, text="Play Sound", command=play_sound, width=25, height=2, font=("Helvetica", 25, "bold"))
+    play_button = tk.Button(parent_frame, text="Play Sound", command=play_filtered_sound, width=25, height=2, font=("Helvetica", 25, "bold"))
     play_button.pack(pady=5)
 
     # Plot frame and matplotlib figure
