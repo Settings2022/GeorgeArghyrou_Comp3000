@@ -126,3 +126,6 @@ instrument container bg black
 button bg black.
 
 Low pass filter applied to play_sound function in lowPassFilter.py
+
+gui3_plot.py, increased plt.figure from (6, 3) to (8, 4).
+

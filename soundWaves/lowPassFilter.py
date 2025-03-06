@@ -245,9 +245,9 @@ def low_pass_filter_main(parent_frame):
     fig, ax = plt.subplots(figsize=(20, 10))
 
     # **Updated: Set axis labels and title when initializing the figure**
-    ax.set_xlabel("Time (seconds)", fontsize=20)
-    ax.set_ylabel("Amplitude", fontsize=20)
-    ax.set_title("Original (blue) vs Low-Pass Filtered (red) Signal", fontsize=20, fontweight='bold')
+    ax.set_xlabel("Time (seconds)", fontsize=15)
+    ax.set_ylabel("Amplitude", fontsize=15)
+    ax.set_title("Original (blue) vs Low-Pass Filtered (red) Signal", fontsize=15, fontweight='bold')
 
     # Embed the figure in the Tkinter canvas
     canvas = FigureCanvasTkAgg(fig, master=plot_frame)

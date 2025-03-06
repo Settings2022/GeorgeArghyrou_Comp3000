@@ -161,7 +161,7 @@ def plot_waveform(selected_file):
         times = np.linspace(0, t_audio, len(signal_array))
 
         # Create the plot for the waveform
-        plt.figure(figsize=(6, 3))
+        plt.figure(figsize=(8, 4))
         plt.plot(times, signal_array, color='blue')
         plt.xlabel('Time (s)')
         plt.ylabel('Amplitude')
