@@ -44,7 +44,7 @@ def create_tooltip(parent_frame, x, y, text):
 # Function to add multiple images
 def add_images(parent_frame):
     image_files = ["gibson.jpg", "strat.jpg", "ukulele.jpg", "lowPassLowE.jpg", "epiphoneLPS.jpg"]  # Add more filenames here
-    image_positions = [(200, 100), (2050, 1600), (200, 1100), (1000, 1600), (3200, 700)]  # position co-ordinates for images
+    image_positions = [(200, 100), (1450, 1600), (200, 1100), (1000, 1600), (3200, 700)]  # position co-ordinates for images
 
     image_labels = []  # Store references to avoid garbage collection
 
@@ -62,7 +62,7 @@ def add_images(parent_frame):
             
             if filename == "strat.jpg":
                 heading_label = tk.Label(parent_frame, text="A Fender Startocaster:", font=("Arial", 24, "bold"), bg="black", fg="yellow")
-                heading_label.place(x=2300, y=1550)
+                heading_label.place(x=1750, y=1550)
                 img = img.resize((900, 400), resample=Image.Resampling.LANCZOS)
             
             if filename == "ukulele.jpg":
@@ -177,13 +177,13 @@ def display_filtered_waveform():
         times = np.linspace(0, num_samples / sample_rate, num_samples)
 
         ax.clear()
-        ax.plot(times, signal, label='Original Signal', alpha=0.7, color="blue")
-        ax.plot(times, filtered_signal, label='Filtered Signal (Low-Pass)', alpha=0.7, color="red")
+        ax.plot(times, signal, label='Original Signal', alpha=0.8, color="blue")
+        ax.plot(times, filtered_signal, label='Filtered Signal (Low-Pass)', alpha=0.8, color="red")
 
         # **Updated: Add axis labels and title**
-        ax.set_xlabel("Time (seconds)", fontsize=16)
-        ax.set_ylabel("Amplitude", fontsize=16)
-        ax.set_title(f"Original (blue) vs Low-Pass Filtered (red) Signal from file named: {file_path}", fontsize=18, fontweight='bold')
+        ax.set_xlabel("Time (seconds)", fontsize=20)
+        ax.set_ylabel("Amplitude", fontsize=20)
+        ax.set_title(f"Original (blue) vs Low-Pass Filtered (red) Signal from file named: {file_path}", fontsize=20, fontweight='bold')
 
         ax.legend(fontsize=15)
         ax.grid()
@@ -245,9 +245,9 @@ def low_pass_filter_main(parent_frame):
     fig, ax = plt.subplots(figsize=(20, 10))
 
     # **Updated: Set axis labels and title when initializing the figure**
-    ax.set_xlabel("Time (seconds)", fontsize=15)
-    ax.set_ylabel("Amplitude", fontsize=15)
-    ax.set_title("Original (blue) vs Low-Pass Filtered (red) Signal", fontsize=15, fontweight='bold')
+    ax.set_xlabel("Time (seconds)", fontsize=20)
+    ax.set_ylabel("Amplitude", fontsize=20)
+    ax.set_title("Original (blue) vs Low-Pass Filtered (red) Signal", fontsize=20, fontweight='bold')
 
     # Embed the figure in the Tkinter canvas
     canvas = FigureCanvasTkAgg(fig, master=plot_frame)
